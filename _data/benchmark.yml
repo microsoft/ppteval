@@ -1,7 +1,10 @@
 affiliations:
   "1": "Carnegie Mellon University"
   "2": "Microsoft"
-  "3": "University of Massachusetts Amherst"
+  "3": "UMass Amherst"
+  "4": "Work done at Microsoft internship"
+  "5": "Work done at Microsoft; now at Google"
+  "6": "Work done at Microsoft; now at Snowflake"
 
 results:
   # Extended schema: provider, avg_score, avg_steps, difficulty breakdown (easy/medium/hard).

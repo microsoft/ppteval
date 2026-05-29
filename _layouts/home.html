@@ -13,19 +13,14 @@ layout: default
       <div class="authors">
         {% for author in site.data.authors %}
           <span class="author">
-            {% if author.url %}
+            {% if author.url and author.url != "" %}
               <a href="{{ author.url }}" target="_blank">{{ author.name }}</a>
             {% else %}
               {{ author.name }}
             {% endif %}
+            {% if author.equal_contribution %}*{% endif %}
             <sup>
-              {% case author.affiliation %}
-                {% when '1' %}†
-                {% when '2' %}‡
-                {% when '3' %}§
-                {% when '4' %}¶
-                {% else %}{{ author.affiliation }}
-              {% endcase %}
+              {{ author.affiliation }}
             </sup>
           </span>
           {% unless forloop.last %}, {% endunless %}
@@ -34,17 +29,10 @@ layout: default
       
       <!-- Affiliation Information -->
       <div class="affiliations">
+        <p>* Equal contribution</p>
         {% for affiliation in site.data.benchmark.affiliations %}
           <span class="affiliation">
-            <sup>
-              {% case affiliation[0] %}
-                {% when '1' %}†
-                {% when '2' %}‡
-                {% when '3' %}§
-                {% when '4' %}¶
-                {% else %}{{ affiliation[0] }}
-              {% endcase %}
-            </sup>{{ affiliation[1] }}
+            <sup>{{ affiliation[0] }}</sup>{{ affiliation[1] }}
           </span>
         {% endfor %}
       </div>

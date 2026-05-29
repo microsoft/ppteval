@@ -1,4 +1,4 @@
-# PPTArena - Manual Local Setup Guide
+# PPTEval - Manual Local Setup Guide
 
 ## Prerequisites
 - Ruby 3.1+ with DevKit
@@ -29,7 +29,7 @@ gem install bundler
 
 ### 5. Navigate to Project
 ```powershell
-cd c:\repos\PPTArena
+cd c:\repos\ppteval
 ```
 
 ### 6. Install Dependencies

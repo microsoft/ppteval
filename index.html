@@ -1,6 +1,6 @@
 ---
 layout: home
-title: PPTArena
+title: PPT-Eval
 ---
 
 <!-- Screenshots Section -->
@@ -15,29 +15,24 @@ title: PPTArena
   <h2 class="section-title">Abstract</h2>
   <div class="abstract-content">
     <p>
-      PPTArena is a benchmark for assessing <em>computer-use agents</em> inside a realistic, sandboxed
-      instance of PowerPoint Online. Agents operate through the full GUI (click, type, drag,
-      navigation) rather than a restricted API, exposing rich features: layouts, themes, images,
-      charts, tables, transitions, animations, shapes, layers and diagram editing tools.
+      Creating and editing slides is a rich, multimodal activity that is ubiquitous in professional and
+      educational settings, making it an ideal testbed for real-world computer-use agents. Microsoft PowerPoint
+      is among the most widely adopted and feature-rich environments for presentation creation. We introduce
+      PPT-Eval, a benchmark of 120 PowerPoint tasks across 12 files that cover both content creation and
+      presentation editing scenarios, organized by difficulty.
     </p>
     <p>
-      The release contains <strong>120 diverse slide editing and creation tasks across 12 files</strong>,
-      organized by difficulty. Tasks emphasize iterative revision and nuanced modifications
-      (e.g. adjusting multi-object diagrams, styling, layout refinement) where multiple valid
-      solutions exist—making binary pass/fail insufficient.
+      A central challenge in this domain is evaluation: tasks are complex, multimodal, and often admit many
+      valid solutions. Moreover, today’s agents frequently make only partial progress, which binary success
+      metrics fail to capture. To address this, we design a robust evaluation framework to help create
+      task-specific rubrics for PowerPoint tasks. These rubrics award partial credit for intermediate steps,
+      penalize unnecessary changes and poor aesthetics, and provide natural language feedback.
     </p>
     <p>
-      PPTArena introduces a rubric-driven evaluation framework awarding partial credit for
-      meaningful intermediate progress, penalizing destructive/off-target edits, and generating
-      natural-language feedback. Rubric scores correlate strongly with human judgments
-      (≈0.77 Kendall’s τ<sub>b</sub>), enabling reliable comparison of agent capabilities.
-    </p>
-    <p>
-      Frontier agents still struggle: proprietary models achieve moderate success and partial
-      scores; smaller open-weight baselines often fail to make substantive progress—highlighting
-      substantial headroom for future research. We release benchmark artifacts, the evaluation
-      framework, and analyses of common failure modes to spur advances in realistic GUI-level
-      automation.
+      This nuanced approach proves highly effective, achieving a Kendall’s τ<sub>b</sub> correlation of
+      0.77 with human judgments. We find that existing frontier agents still struggle with solving PowerPoint
+      tasks, with strong models like Claude-4.5-Opus achieving only a 45% success rate and an average partial
+      score of 57%.
     </p>
   </div>
 </section>
@@ -53,13 +48,12 @@ title: PPTArena
           <i class="fas fa-copy"></i>
         </button>
       </div>
-      <pre class="bibtex-code" id="bibtex-code">@inproceedings{pptarena2026,
-  title={PPTArena: A Benchmark for Computer-Use Agents on PowerPoint Tasks},
-  author={Apurva Gandhi and Vishwas Suryanarayanan and Firoz Shaik and Raja Hasnain Anwar and Shubhang Desai and Thong Q. Nguyen and Muhammad Taqi Raza and Vishal Chowdhary and Graham Neubig},
-  booktitle={Proceedings of the International Conference on Learning Representations},
+      <pre class="bibtex-code" id="bibtex-code">@inproceedings{ppteval2026,
+  title={PPT-Eval: A Benchmark for Computer-Use Agents on PowerPoint Tasks},
+  author={Apurva Gandhi and Vishwas Suryanarayanan and Raja Hasnain Anwar and Firoz Shaik and Shubhang Desai and Thong Q. Nguyen and Muhammad Taqi Raza and Vishal Chowdhary and Graham Neubig},
+  booktitle={Proceedings of the 43rd International Conference on Machine Learning},
   year={2026},
-  note={Under review},
-  url={https://microsoft.github.io/PPTArena}
+  url={https://github.com/microsoft/ppteval}
 }</pre>
     </div>
     

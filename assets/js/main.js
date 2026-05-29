@@ -1,4 +1,4 @@
-// Main JavaScript functionality for PPTArena website
+// Main JavaScript functionality for PPTEval website
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all interactive features

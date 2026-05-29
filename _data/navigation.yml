@@ -10,7 +10,7 @@ main:
     url: "{{ site.social_links.paper }}"
     icon: "file-pdf"
   - title: "Code"
-    url: "https://github.com/microsoft/PPTArena"
+    url: "https://github.com/microsoft/PPTEval"
     icon: "code"
   - title: "Leaderboard"
     url: "/leaderboard/"

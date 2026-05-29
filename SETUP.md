@@ -1,4 +1,4 @@
-# PPTArena - Jekyll Setup Instructions
+# PPTEval - Jekyll Setup Instructions
 
 ## Local Development Setup
 
@@ -11,8 +11,8 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/microsoft/PPTArena.git
-   cd PPTArena
+   git clone https://github.com/microsoft/PPTEval.git
+   cd PPTEval
    ```
 
 2. **Install dependencies:**

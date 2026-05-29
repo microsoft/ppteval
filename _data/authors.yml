@@ -1,28 +1,37 @@
-## Author list for PPTArena paper
-## Affiliation codes: 1 = Carnegie Mellon University, 2 = Microsoft, 3 = University of Massachusetts Amherst
+## Author list for PPTEval paper (ICML 2026)
+## Affiliation codes:
+##   1 = Carnegie Mellon University
+##   2 = Microsoft
+##   3 = UMass Amherst
+##   4 = Work done at Microsoft internship
+##   5 = Work done at Microsoft; now at Google
+##   6 = Work done at Microsoft; now at Snowflake
+## * = Equal contribution
 
 - name: "Apurva Gandhi"
   affiliation: "1"
+  equal_contribution: true
   url: ""
 
 - name: "Vishwas Suryanarayanan"
   affiliation: "2"
+  equal_contribution: true
+  url: ""
+
+- name: "Raja Hasnain Anwar"
+  affiliation: "3,4"
   url: ""
 
 - name: "Firoz Shaik"
   affiliation: "2"
   url: ""
 
-- name: "Raja Hasnain Anwar"
-  affiliation: "3"
-  url: ""
-
 - name: "Shubhang Desai"
-  affiliation: "2"
+  affiliation: "5"
   url: ""
 
 - name: "Thong Q. Nguyen"
-  affiliation: "2"
+  affiliation: "6"
   url: ""
 
 - name: "Muhammad Taqi Raza"
@@ -33,6 +42,6 @@
   affiliation: "2"
   url: ""
 
-- name: "Graham Neubig "
+- name: "Graham Neubig"
   affiliation: "1"
   url: ""

@@ -1,7 +1,7 @@
 #!/usr/bin/env powershell
 
-# PPTArena Local Development Setup Script
-Write-Host "Setting up PPTArena local development environment..." -ForegroundColor Green
+# PPTEval Local Development Setup Script
+Write-Host "Setting up PPTEval local development environment..." -ForegroundColor Green
 
 # Check if Ruby is installed
 try {

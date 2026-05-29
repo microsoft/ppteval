@@ -1,14 +1,14 @@
 # Site settings
-title: "PPTArena"
+title: "PPT-Eval"
 description: "A Benchmark for Computer-Use Agents on PowerPoint Tasks"
-# For a GitHub Pages project site under https://microsoft.github.io/PPTArena
+# For a GitHub Pages project site under https://microsoft.github.io/PPTEval
 # baseurl must be the repository name prefixed with a slash. The site.url should be the org/user root only.
 # This was previously misconfigured (baseurl empty and url pointing to the project path), causing asset URLs
-# like /assets/css/main.css to resolve against https://microsoft.github.io/ instead of https://microsoft.github.io/PPTArena/.
+# like /assets/css/main.css to resolve against https://microsoft.github.io/ instead of https://microsoft.github.io/PPTEval/.
 # That resulted in 404s for CSS/JS and the page rendering unstyled.
 # GitHub Actions workflow overrides baseurl via --baseurl flag from actions/configure-pages.
 # For local development, baseurl "" works fine with `bundle exec jekyll serve`.
-baseurl: "" # overridden by CI; set to repo name (e.g. "/PPTArena") if deploying as project site
+baseurl: "" # overridden by CI; set to repo name (e.g. "/PPTEval") if deploying as project site
 url: "https://silver-fortnight-3evlg1k.pages.github.io" # your GitHub Pages domain
 
 
@@ -51,7 +51,7 @@ defaults:
 
 # Site metadata
 author: "Microsoft"
-email: "contact@pptarena.com"
+email: "contact@ppteval.com"
 twitter_username: microsoft
 github_username: microsoft
 
@@ -81,7 +81,7 @@ navigation:
 # Social links
 social_links:
   paper: "#"
-  code: "https://github.com/microsoft/PPTArena"
+  code: "https://github.com/microsoft/PPTEval"
   data: "#"
   documentation: "#"
 

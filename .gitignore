@@ -1,6 +1,7 @@
 _site/
 .sass-cache/
 *.gem
+*.pdf
 vendor/
 node_modules/
 ## Ignore Visual Studio temporary files, build results, and

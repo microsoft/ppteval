@@ -1,4 +1,4 @@
-# PPTArena Assets
+# PPTEval Assets
 
 This directory contains placeholder files for images and other assets.
 
