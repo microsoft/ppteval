@@ -1,0 +1,78 @@
+{
+  "root": {
+    "name": "Slide 10: Add bullet point explaining 'Objects include CSS files, JavaScript files, images, videos'",
+    "description": "Evaluate whether Slide 10 has a new bullet point added at an appropriate location with the required explanation, and that no extraneous changes were made.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Bullet point with correct content is added on Slide 10",
+        "description": "Verify that a bullet point explaining 'Objects include CSS files, JavaScript files, images, videos' was added to Slide 10, with sufficiently correct content.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    \n    # Load the modified presentation\n    prs = Presentation(modified_ppt_path)\n    \n    # Find slide 10 (1-based index)\n    if len(prs.slides) < 10:\n        return (\"Modified presentation has fewer than 10 slides.\", 0.0)\n    slide = prs.slides[9]\n\n    # Extract all text from placeholders and shapes\n    bullet_texts = []\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for para in shape.text_frame.paragraphs:\n            text = para.text.strip()\n            if not text:\n                continue\n            bullet_texts.append(text)\n    \n    # Check for the required bullet point (flexible match)\n    required_keywords = ['css file', 'javascript file', 'image', 'video']\n    found = False\n    for text in bullet_texts:\n        lower = text.lower()\n        if all(any(kw in lower for kw in key_group.split(',')) for key_group in [\n            'css file,css files', 'javascript file,javascript files', 'image,images', 'video,videos']):\n            found = True\n            break\n    if found:\n        return (\"Bullet point with correct content found on Slide 10.\", 1.0)\n    # Try more forgiving match: check if at least 3 of the 4 types are present\n    for text in bullet_texts:\n        lower = text.lower()\n        count = sum(any(kw in lower for kw in key_group.split(',')) for key_group in [\n            'css file,css files', 'javascript file,javascript files', 'image,images', 'video,videos'])\n        if count >= 3:\n            return (\"Bullet point mostly correct (at least 3/4 object types present).\", 0.7)\n    return (\"No bullet point with the required explanation found on Slide 10.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Bullet point is at an appropriate place",
+        "description": "Verify that the new bullet point was added in a location that is semantically and visually appropriate (i.e., within the main content, not in an unrelated area or outside a bullet list).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    # We'll compare the original and modified slide\n    original = Presentation(original_ppt_path)\n    modified = Presentation(modified_ppt_path)\n    if len(original.slides) < 10 or len(modified.slides) < 10:\n        return (\"One of the presentations has fewer than 10 slides.\", 0.0)\n    orig_slide = original.slides[9]\n    mod_slide = modified.slides[9]\n    # Count text-containing placeholders (main content, title, etc.)\n    orig_texts = []\n    for shape in orig_slide.shapes:\n        if shape.has_text_frame:\n            orig_texts.append(shape.text_frame.text.strip())\n    mod_texts = []\n    for shape in mod_slide.shapes:\n        if shape.has_text_frame:\n            mod_texts.append(shape.text_frame.text.strip())\n    # Find the new text\n    new_texts = [t for t in mod_texts if t not in orig_texts]\n    if not new_texts:\n        return (\"No new text detected on Slide 10.\", 0.0)\n    # Check if the new text appears in a shape that originally contained bullet points (main content)\n    for shape in mod_slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        # Find the corresponding shape in the original slide to check its content\n        original_shape_text = \"\"\n        for o_shape in orig_slide.shapes:\n            # A simple heuristic to match shapes is by shape_id, assuming it's consistent\n            if o_shape.shape_id == shape.shape_id and o_shape.has_text_frame:\n                original_shape_text = o_shape.text_frame.text.strip()\n                break\n        \n        # If this shape had content originally that contained 'object' or 'objects', it's the target box\n        if 'object' in original_shape_text.lower() or 'objects' in original_shape_text.lower():\n            mod_paras = [p.text.strip() for p in shape.text_frame.paragraphs if p.text.strip()]\n            \n            new_bullet_text = \"Objects include CSS files, JavaScript files, images, videos\"\n            \n            try:\n                # Find the 1-based index of the new bullet point\n                position = mod_paras.index(new_bullet_text) + 1\n                \n                if position == 4:\n                    return (\"New bullet point is in the 4th position.\", 1.0)\n                elif position in [2, 3]:\n                    return (f\"New bullet point is in position {position}, not 4th.\", 0.7)\n                else:\n                    return (f\"New bullet point is in the main text box but at the wrong position ({position}).\", 0.5)\n            except ValueError:\n                # The new bullet point text is not found as a whole paragraph.\n                # This can happen if it's merged with another, or not added correctly.\n                # We can check if any of the new text is present.\n                orig_paras_text = [p.text.strip() for p in o_shape.text_frame.paragraphs if p.text.strip()]\n                added_paras = [p for p in mod_paras if p not in orig_paras_text]\n                if added_paras:\n                     return (\"New content added to the main text box, but not as the specified bullet point or in the correct format.\", 0.5)\n\n    return (\"Bullet point not placed in a semantically appropriate location.\", 0.0)\n"
+        },
+        "score": 0.7
+      },
+      {
+        "name": "No extraneous changes on Slide 10",
+        "description": "Check that no unrelated or extraneous changes (text, layout, images, animations, transitions) were made to Slide 10, except for the bullet point addition.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No extraneous text or element changes on Slide 10",
+            "description": "Ensure that only the bullet point was added and no unrelated text or element changes were made on Slide 10.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # We'll compare the PPTDiff for Slide 10\n    slide_num = 10\n    slide_id = None\n    # Try to find slide_id for slide 10 in original, if needed\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        # Slide structure changed, penalize\n        return (\"Slides added or removed; structure changed.\", 0.0)\n    # Check for text changes, images, etc. Only allow one text addition\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    orig_slide = orig.slides[slide_num - 1]\n    mod_slide = mod.slides[slide_num - 1]\n    # Count total text paragraphs in original and modified\n    orig_texts = []\n    for shape in orig_slide.shapes:\n        if shape.has_text_frame:\n            orig_texts.extend([p.text.strip() for p in shape.text_frame.paragraphs if p.text.strip()])\n    mod_texts = []\n    for shape in mod_slide.shapes:\n        if shape.has_text_frame:\n            mod_texts.extend([p.text.strip() for p in shape.text_frame.paragraphs if p.text.strip()])\n    # Only one new text (the bullet point) should be present\n    extra = [t for t in mod_texts if t not in orig_texts]\n    if len(extra) > 1:\n        return (f\"{len(extra)} new text entries on Slide 10 (expected 1).\", 0.0)\n    # Check for removed or changed text\n    removed = [t for t in orig_texts if t not in mod_texts]\n    if removed:\n        return (\"Text was removed from Slide 10.\", 0.0)\n    # Check for new images or shapes\n    orig_shapes = [s for s in orig_slide.shapes]\n    mod_shapes = [s for s in mod_slide.shapes]\n    if len(mod_shapes) > len(orig_shapes) + 1:\n        return (\"More than one new shape was added to Slide 10.\", 0.0)\n    return (\"No extraneous text or elements added to Slide 10.\", 1.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No extraneous animations/transitions on Slide 10",
+            "description": "Ensure that no new or removed animations or transitions were introduced to Slide 10.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    slide_num = 10\n    # Find the slide_id for slide 10 in the original PPT if possible\n    from pptx import Presentation\n    prs = Presentation(original_ppt_path)\n    if len(prs.slides) < slide_num:\n        return (\"Original presentation has fewer than 10 slides.\", 0.0)\n    orig_slide = prs.slides[slide_num-1]\n    slide_id = getattr(orig_slide, 'slide_id', None)\n    # Check for animations\n    anims = [a for a in ppt_diff.added_animations if (not slide_id or a.slide_id == slide_id)]\n    if anims:\n        return (\"Animation(s) added to Slide 10.\", 0.0)\n    anims = [a for a in ppt_diff.removed_animations if (not slide_id or a.slide_id == slide_id)]\n    if anims:\n        return (\"Animation(s) removed from Slide 10.\", 0.0)\n    # Check transitions\n    trans = [t for t in ppt_diff.added_transitions if (not slide_id or t.slide_id == slide_id)]\n    if trans:\n        return (\"Transition(s) added to Slide 10.\", 0.0)\n    trans = [t for t in ppt_diff.removed_transitions if (not slide_id or t.slide_id == slide_id)]\n    if trans:\n        return (\"Transition(s) removed from Slide 10.\", 0.0)\n    return (\"No extraneous animations or transitions on Slide 10.\", 1.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes to other slides",
+        "description": "Verify that no changes (text, layout, slides, images, animations, transitions) were made to slides other than Slide 10.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    n = min(len(orig.slides), len(mod.slides))\n    # Check for slide additions/removals\n    if len(orig.slides) != len(mod.slides):\n        return (\"Number of slides changed.\", 0.0)\n    # Check each non-10 slide for changes\n    for i in range(n):\n        if i == 9:\n            continue  # skip slide 10\n        orig_slide = orig.slides[i]\n        mod_slide = mod.slides[i]\n        # Check text differences\n        orig_texts = []\n        for shape in orig_slide.shapes:\n            if shape.has_text_frame:\n                orig_texts.extend([p.text.strip() for p in shape.text_frame.paragraphs if p.text.strip()])\n        mod_texts = []\n        for shape in mod_slide.shapes:\n            if shape.has_text_frame:\n                mod_texts.extend([p.text.strip() for p in shape.text_frame.paragraphs if p.text.strip()])\n        if set(orig_texts) != set(mod_texts):\n            return (f\"Text changed on slide {i+1}.\", 0.0)\n        # Check for shapes/images\n        if len(orig_slide.shapes) != len(mod_slide.shapes):\n            return (f\"Shapes/images changed on slide {i+1}.\", 0.0)\n    # Also check for animations/transitions globally except on slide 10\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if anim.slide_id and anim.slide_id != orig.slides[9].slide_id:\n            return (f\"Animation change on slide not 10.\", 0.0)\n    for t in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if t.slide_id and t.slide_id != orig.slides[9].slide_id:\n            return (f\"Transition change on slide not 10.\", 0.0)\n    return (\"No extraneous changes to other slides.\", 1.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 0.97
+  },
+  "metadata": {
+    "task": "Slide 10: Add a bullet point explaining 'Objects include CSS files, JavaScript files, images, videos' at an appropriate place"
+  }
+}

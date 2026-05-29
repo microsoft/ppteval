@@ -1,0 +1,33 @@
+{
+  "root": {
+    "name": "Change yellow highlighting to blue on slide 11",
+    "description": "Evaluates whether the task of changing yellow highlighted text to blue highlighting on slide 11 was completed successfully",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "At least some yellow text changed to blue",
+        "description": "Critical check to ensure that at least some yellow highlighted text has been changed to blue highlighting",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Compare slide 11 screenshots to detect color changes from yellow to blue\n    original_slide_11 = None\n    modified_slide_11 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 11:\n            original_slide_11 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 11:\n            modified_slide_11 = screenshot\n            break\n    \n    if not original_slide_11 or not modified_slide_11:\n        return \"Could not find slide 11 screenshots for comparison\", 0.0\n    \n    prompt = \"\"\"Compare these two PowerPoint slide images (before and after). \n    \n    Look specifically for:\n    1. Yellow color text in the original image\n    2. Whether any of that yellow color text has been highlighted with blue highlighting in the modified image\n    \n    Respond with:\n    - 'YES' if you can identify at least some yellow color text that has been changed to blue highlighting\n    - 'NO' if no yellow color text has been changed to blue highlighting\n    - 'UNCLEAR' if you cannot clearly determine the highlighting colors or changes\n    \n    Focus only on highlighting colors (background colors behind text), not text colors themselves.\"\"\"\n    \n    response = vlm_call(prompt, [original_slide_11.image_path, modified_slide_11.image_path], temperature=0.1)\n    \n    if 'YES' in response:\n        return \"At least some yellow colored text has been changed to blue highlighting\", 1.0\n    elif 'NO' in response:\n        return \"No yellow colored text has been changed to blue highlighting\", 0.0\n    else:\n        return f\"Unclear result from visual analysis: {response}\", 0.5\n"
+        }
+      },
+      {
+        "name": "All yellow text changed to blue",
+        "description": "Non-critical check to verify that all yellow highlighted text has been changed to blue highlighting",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Compare slide 11 screenshots to check if all yellow text was changed\n    original_slide_11 = None\n    modified_slide_11 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 11:\n            original_slide_11 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 11:\n            modified_slide_11 = screenshot\n            break\n    \n    if not original_slide_11 or not modified_slide_11:\n        return \"Could not find slide 11 screenshots for comparison\", 0.0\n    \n    prompt = \"\"\"Compare these two PowerPoint slide images (before and after).\n    \n    Analyze:\n    1. Identify ALL yellow colored text in the original image\n    2. Check if ALL of that yellow colored text has been highlighted with blue highlighting in the modified image\n    3. Also check if there is any remaining yellow colored text in the modified image\n\n    Respond with:\n    - 'ALL_CHANGED' if all yellow colored text has been highlighted with blue highlighting and no yellow colored text remains\n    - 'PARTIAL_CHANGED' if some but not all yellow colored text has been changed to blue highlighting\n    - 'NONE_CHANGED' if no yellow colored text has been changed to blue highlighting\n    - 'NO_YELLOW_ORIGINAL' if there was no yellow colored text in the original image\n    - 'UNCLEAR' if you cannot clearly determine the highlighting colors or changes\n    \n    Focus only on highlighting colors (background colors behind text), not text colors themselves.\"\"\"\n    \n    response = vlm_call(prompt, [original_slide_11.image_path, modified_slide_11.image_path], temperature=0.1)\n    \n    if 'ALL_CHANGED' in response:\n        return \"All yellow highlighted text has been successfully changed to blue highlighting\", 1.0\n    elif 'PARTIAL_CHANGED' in response:\n        return \"Only some yellow highlighted text has been changed to blue highlighting\", 0.5\n    elif 'NO_YELLOW_ORIGINAL' in response:\n        return \"No yellow highlighted text was found in the original slide\", 1.0\n    elif 'NONE_CHANGED' in response:\n        return \"No yellow highlighted text has been changed to blue highlighting\", 0.0\n    else:\n        return f\"Unclear result from visual analysis: {response}\", 0.3\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 11, change the yellow highlighted text to use blue highlighting instead. Include a critical node to check if any yellow text has been changed to blue. Add a non-critical node to check if all yellow text has been changed to blue."
+  }
+}

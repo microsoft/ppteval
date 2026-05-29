@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Convert all bullet points on slide 19 to numbered list format",
+    "description": "Evaluates whether all bullet points on slide 19 have been converted to a numbered list format, with no extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "All bullet points are converted to numbered lists on slide 19",
+        "description": "Checks that every bullet list shape on slide 19 is now a numbered list, preserving the text content.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    A_NS_URI = 'http://schemas.openxmlformats.org/drawingml/2006/main'\n\n    # The four exact items we expect to be converted to numbered list\n    TARGET_TEXTS = [\n        'Have students complete 1-2 questions on unseen texts per week rather than completing an entire paper.',\n        'Students need to submit these responses to their teacher and have them marked.',\n        'You need to build upon your knowledge and see as many unseen texts between now and the Trial and then again in preparation for the HSC.',\n        'If you give yourself the opportunity to see and complete a range of short answer responses, the benefits will be clear.'\n    ]\n\n    def normalize_text(text: str) -> str:\n        if text is None:\n            return ''\n        return ' '.join(text.strip().split())\n\n    def strip_leading_list_token(text: str) -> str:\n        if not text:\n            return ''\n        pattern = r'^\\s*(?:\\(\\d+\\)|\\d+[\\.\\-)]|[A-Za-z][\\.\\-)]|[ivxlcdmIVXLCDM]+[\\.\\-)])\\s*'\n        return re.sub(pattern, '', text)\n\n    def looks_manually_numbered(text: str) -> bool:\n        if not text:\n            return False\n        return re.match(r'^\\s*(?:\\(\\d+\\)|\\d+[\\.\\-)]|[A-Za-z][\\.\\-)]|[ivxlcdmIVXLCDM]+[\\.\\-)])\\s+', text) is not None\n\n    def is_numbered(paragraph) -> bool:\n        # True numbered list when a:buAutoNum is set at paragraph level or inherited\n        p = paragraph._p\n        pPr = getattr(p, 'pPr', None)\n        if pPr is not None and pPr.find(f'{{{A_NS_URI}}}buAutoNum') is not None:\n            return True\n        txBody = p.getparent()\n        if txBody is None:\n            return False\n        lstStyle = txBody.find(f'{{{A_NS_URI}}}lstStyle')\n        if lstStyle is None:\n            return False\n        level = getattr(paragraph, 'level', 0) or 0\n        lvl_idx = min(level + 1, 9)\n        lvl_pPr = lstStyle.find(f'{{{A_NS_URI}}}lvl{lvl_idx}pPr')\n        if lvl_pPr is not None and lvl_pPr.find(f'{{{A_NS_URI}}}buAutoNum') is not None:\n            return True\n        defPPr = lstStyle.find(f'{{{A_NS_URI}}}defPPr')\n        if defPPr is not None and defPPr.find(f'{{{A_NS_URI}}}buAutoNum') is not None:\n            return True\n        return False\n\n    # Open the modified presentation only; we just need to verify conversion\n    mod = Presentation(modified_ppt_path)\n\n    # Map normalized target text -> original text and converted flag\n    norm_to_original = {normalize_text(t): t for t in TARGET_TEXTS}\n    converted = {t: False for t in TARGET_TEXTS}\n\n    for slide in mod.slides:\n        for shape in slide.shapes:\n            if not getattr(shape, 'has_text_frame', False):\n                continue\n            for para in shape.text_frame.paragraphs:\n                raw = para.text or ''\n                norm = normalize_text(strip_leading_list_token(raw))\n                if norm in norm_to_original:\n                    if is_numbered(para) or looks_manually_numbered(raw):\n                        converted[norm_to_original[norm]] = True\n\n    num_converted = sum(1 for v in converted.values() if v)\n    score = num_converted / 4.0\n\n    if num_converted == 4:\n        return (\"All 4 items converted to numbered list.\", 1.0)\n    else:\n        missing = [t for t, ok in converted.items() if not ok]\n        return (f\"{num_converted}/4 items converted to numbered list. Missing: {missing}\", score)\n"
+        }
+      },
+      {
+        "name": "No extraneous changes on slide 19",
+        "description": "Checks that no additional non-list changes (e.g., to non-bullet elements or slide layout) were made on slide 19.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for slide 19\n    slide_id_19 = None\n    for s in ppt_diff.added_slides + ppt_diff.removed_slides:\n        # Defensive: don't allow slide 19 to be added/removed\n        if s.slide_number == 19:\n            return (\"Slide 19 was added or removed, which is extraneous.\", 0.0)\n    for s1, s2 in ppt_diff.modified_slides:\n        # Find slide 19\n        if s1.slide_number == 19:\n            slide_id_19 = s1.slide_id\n            # If notes, title, layout, or element count changed, that's extraneous\n            if (s1.title != s2.title) or (s1.layout_type != s2.layout_type) or (s1.notes != s2.notes):\n                return (\"Title, layout, or notes of slide 19 modified, which is extraneous.\", 0.0)\n            # If element_count differs by more than the plausible change for list conversion, penalize\n            if abs(s1.element_count - s2.element_count) > 2:\n                return (\"Element count on slide 19 changed in an unexpected way.\", 0.0)\n    # Check for new/removed animations or transitions on slide 19\n    for ae in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if ae.slide_id == slide_id_19:\n            return (\"Animations were added or removed on slide 19.\", 0.0)\n    for (ae1, ae2) in ppt_diff.modified_animations:\n        if ae1.slide_id == slide_id_19:\n            return (\"Animations were modified on slide 19.\", 0.0)\n    for tr in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if tr.slide_id == slide_id_19:\n            return (\"Transitions were added or removed on slide 19.\", 0.0)\n    for (tr1, tr2) in ppt_diff.modified_transitions:\n        if tr1.slide_id == slide_id_19:\n            return (\"Transitions were modified on slide 19.\", 0.0)\n    return (\"No extraneous changes detected on slide 19.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No changes to other slides",
+        "description": "Checks that slides other than slide 19 have not been modified in any way, including added/removed/modified slides, shapes, text, animations, or transitions.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Slides are 1-indexed\n    bad_changes = []\n    # Check slides added/removed/modified\n    for s in ppt_diff.added_slides:\n        if s.slide_number != 19:\n            bad_changes.append(f\"Added slide {s.slide_number}\")\n    for s in ppt_diff.removed_slides:\n        if s.slide_number != 19:\n            bad_changes.append(f\"Removed slide {s.slide_number}\")\n    for s1, s2 in ppt_diff.modified_slides:\n        if s1.slide_number != 19:\n            bad_changes.append(f\"Modified slide {s1.slide_number}\")\n    # Animations\n    for ae in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if ae.slide_id is not None:\n            # Try to get slide number from slide_id\n            # We'll be conservative: if slide_id doesn't match slide 19, penalize\n            if not (hasattr(ae, 'slide_number') and ae.slide_number == 19):\n                bad_changes.append(\"Animation added/removed on non-target slide\")\n    for (ae1, ae2) in ppt_diff.modified_animations:\n        if hasattr(ae1, 'slide_number') and ae1.slide_number != 19:\n            bad_changes.append(\"Animation modified on non-target slide\")\n    # Transitions\n    for tr in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if hasattr(tr, 'slide_number') and tr.slide_number != 19:\n            bad_changes.append(\"Transition added/removed on non-target slide\")\n    for (tr1, tr2) in ppt_diff.modified_transitions:\n        if hasattr(tr1, 'slide_number') and tr1.slide_number != 19:\n            bad_changes.append(\"Transition modified on non-target slide\")\n    if bad_changes:\n        return (\"Extraneous changes to other slides: \" + \", \".join(bad_changes), 0.0)\n    return (\"No changes to slides other than 19.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Convert all the bullet points into a numbered list format on slide 19"
+  }
+}

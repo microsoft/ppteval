@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add new text box on slide 1 below author name with required text",
+    "description": "Evaluates whether the agent added a new text box on slide 1, placed it below the author name, and ensured the text inside exactly matches 'An Introduction to Flight Dynamics'.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "A new text box is present on slide 1",
+        "description": "Checks that a new text box was added to slide 1.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find new shapes on slide 1 in ppt_diff\n    from pptx import Presentation\n    from collections import Counter\n\n    # Load presentations\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    # Get slide numbers mapping to ids\n    def get_slide_by_id(prs):\n        return {str(slide.slide_id): slide for slide in prs.slides}\n    \n    # Find added shapes\n    # ppt_diff.added_slides: check slide_number==1\n    # But for added shapes, need to compare element_count, or better: use PPTX\n    orig_slide = orig_prs.slides[0]\n    mod_slide = mod_prs.slides[0]\n    orig_ids = set(shape.shape_id for shape in orig_slide.shapes)\n    mod_ids = set(shape.shape_id for shape in mod_slide.shapes)\n    added_ids = mod_ids - orig_ids\n    added_shapes = [shape for shape in mod_slide.shapes if shape.shape_id in added_ids]\n    # Filter for text boxes only (type == 'TEXT_BOX' or shape.has_text_frame)\n    added_textboxes = [shape for shape in added_shapes if shape.has_text_frame]\n    if added_textboxes:\n        return \"A new text box was added to slide 1.\", 1.0\n    else:\n        return \"No new text box found on slide 1.\", 0.0\n"
+        }
+      },
+      {
+        "name": "The text in the new text box matches 'An Introduction to Flight Dynamics'",
+        "description": "Checks that the text in the new text box exactly matches 'An Introduction to Flight Dynamics'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find new text boxes as before\n    from pptx import Presentation\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[0]\n    mod_slide = mod_prs.slides[0]\n    orig_ids = set(shape.shape_id for shape in orig_slide.shapes)\n    mod_ids = set(shape.shape_id for shape in mod_slide.shapes)\n    added_ids = mod_ids - orig_ids\n    added_shapes = [shape for shape in mod_slide.shapes if shape.shape_id in added_ids]\n    # Filter text boxes\n    correct_text = 'An Introduction to Flight Dynamics'\n    for shape in added_shapes:\n        if shape.has_text_frame:\n            shape_text = shape.text.strip()\n            if shape_text == correct_text:\n                return \"New text box contains the required text.\", 1.0\n    return \"No new text box contains the required text.\", 0.0\n"
+        }
+      },
+      {
+        "name": "The new text box is located below the author name",
+        "description": "Checks that the new text box is positioned below the existing author name on slide 1 (vertical coordinate or visual layout).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use spatial relation if possible from pptx\n    from pptx import Presentation\n    correct_text = 'An Introduction to Flight Dynamics'\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[0]\n    mod_slide = mod_prs.slides[0]\n    orig_textboxes = [shape for shape in orig_slide.shapes if shape.has_text_frame]\n    mod_textboxes = [shape for shape in mod_slide.shapes if shape.has_text_frame]\n    orig_ids = set(shape.shape_id for shape in orig_slide.shapes)\n    mod_ids = set(shape.shape_id for shape in mod_slide.shapes)\n    added_ids = mod_ids - orig_ids\n    # Find author name text box (assume contains 'Sachin Karbari' or is the textbox just above added one)\n    author_shape = None\n    for shape in orig_textboxes:\n        text = shape.text.strip().lower()\n        if 'sachin karbari' in text:\n            author_shape = shape\n            break\n    # Find new text box\n    new_shape = None\n    for shape in mod_textboxes:\n        if shape.shape_id in added_ids:\n            if shape.text.strip() == correct_text:\n                new_shape = shape\n                break\n    if not author_shape or not new_shape:\n        return \"Could not reliably identify author textbox or new textbox.\", 0.0\n    # Check if new_shape is below author_shape\n    if new_shape.top > author_shape.top:\n        return \"New text box is located below author name.\", 1.0\n    else:\n        return \"New text box is not located below author name.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous modifications were made",
+        "description": "Checks that no unrelated/unnecessary changes (added slides, extra text boxes, removal or modification of other content, etc.) were made.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for unnecessary changes\n    extraneous = []\n    # Only added 1 textbox (with the correct text)\n    from pptx import Presentation\n    mod_prs = Presentation(modified_ppt_path)\n    mod_slide = mod_prs.slides[0]\n    mod_ids = set(shape.shape_id for shape in mod_slide.shapes if shape.has_text_frame)\n    added_texts = [a.element_text for a in ppt_diff.added_slides if a.slide_id == 1]\n    # Check added slides\n    if ppt_diff.added_slides:\n        extraneous.append(\"Slides were added.\")\n    # Check removed slides\n    if ppt_diff.removed_slides:\n        extraneous.append(\"Slides were removed.\")\n    # Check added/removed animations/transitions\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.added_transitions or ppt_diff.removed_transitions:\n        extraneous.append(\"Animations or transitions were changed.\")\n    # Check removed or modified shapes on slide 1\n    # It's hard to check modifications with ppt_diff reliably for shapes, so focus on additions/removals for this node\n    # Did the agent add more than one text box to slide 1?\n    orig_prs = Presentation(original_ppt_path)\n    orig_slide = orig_prs.slides[0]\n    orig_ids = set(shape.shape_id for shape in orig_slide.shapes if shape.has_text_frame)\n    added_textboxes = mod_ids - orig_ids\n    # Now count only those with the correct text\n    from pptx import Presentation\n    correct_text = 'An Introduction to Flight Dynamics'\n    mod_prs = Presentation(modified_ppt_path)\n    mod_slide = mod_prs.slides[0]\n    correct_added = []\n    for shape in mod_slide.shapes:\n        if shape.shape_id in added_textboxes and shape.has_text_frame:\n            if shape.text.strip() == correct_text:\n                correct_added.append(shape)\n    # If more than one added text box (with or without correct text), consider extraneous\n    if len(added_textboxes) > len(correct_added):\n        extraneous.append(\"Multiple text boxes were added.\")\n    # If no extraneous, score = 1\n    if not extraneous:\n        return \"No extraneous modifications.\", 1.0\n    else:\n        return f\"Extraneous modifications found: {', '.join(extraneous)}\", 0.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 1, Add a new text box below the author name that says 'An Introduction to Flight Dynamics'"
+  }
+}

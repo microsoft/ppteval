@@ -1,0 +1,31 @@
+<footer class="site-footer">
+  <div class="wrapper">
+    <div class="footer-content">
+      <!-- Footer Info -->
+      <div class="footer-info">
+        <h3>{{ site.title }}</h3>
+        <p>{{ site.description }}</p>
+      </div>
+
+      <!-- Footer Navigation reflecting hero buttons + Home -->
+      <div class="footer-links">
+        <div class="link-group merged-group">
+          <h4>Navigation</h4>
+          <ul class="nav-resources compact-columns">
+            <li><a href="{{ site.baseurl }}/#home">Home</a></li>
+            <li><a href="{{ site.baseurl }}/task-explorer/">Task Explorer</a></li>
+            <li><a href="{{ site.social_links.paper }}" target="_blank">Paper</a></li>
+            <li><a href="{{ site.social_links.code }}" target="_blank">Code</a></li>
+            <li><a href="{{ site.baseurl }}/leaderboard/">Leaderboard</a></li>
+            <li><a href="{{ site.baseurl }}/faq/">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}. Licensed under <a href="{{ '/LICENSE' | relative_url }}">MIT License</a>.</p>
+    </div>
+  </div>
+</footer>

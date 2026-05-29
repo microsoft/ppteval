@@ -1,0 +1,97 @@
+{
+  "root": {
+    "name": "Overall Task Success: Add bullet and resize image (Slide 2)",
+    "description": "Evaluates whether the agent successfully added the requested bullet point at the end of the list on slide 2, and resized the image to prevent overlap as requested.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Addition of the Required Bullet Point (Slide 2)",
+        "description": "Checks if, on slide 2, a new bullet point with the exact required text was added at the end of the bulleted list.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Bullet Point Exists with Correct Text",
+            "description": "Verifies that there is a bullet point with the exact text 'All three axes intersect at the aircraft's center of gravity' on slide 2.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    \n    target_text = \"All three axes intersect at the aircraft's center of gravity\"\n\n    prs = Presentation(modified_ppt_path)\n    slides = list(prs.slides)\n    if len(slides) < 2:\n        return (\"Slide 2 not found in presentation.\", 0.0)\n    slide = slides[1]  # Slide 2 is at index 1\n    \n    # Loop through all shapes, look for placeholders or text frames\n    found = False\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        text = shape.text\n        # Check for exact match in any paragraph\n        for para in shape.text_frame.paragraphs:\n            if para.text.strip() == target_text:\n                found = True\n                break\n        if found:\n            break\n    if found:\n        return (\"Bullet point with required text present on slide 2.\", 1.0)\n    else:\n        return (\"Bullet point with required text NOT found on slide 2.\", 0.0)\n"
+            }
+          },
+          {
+            "name": "Bullet Point is at List End",
+            "description": "Checks that the new bullet point appears as the last item in the bulleted list on slide 2.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n\n    target_text = \"All three axes intersect at the aircraft's center of gravity\"\n    prs = Presentation(modified_ppt_path)\n    slides = list(prs.slides)\n    if len(slides) < 2:\n        return (\"Slide 2 not found.\", 0.0)\n    \n    slide = slides[1]  # Slide 2 is at index 1\n    \n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        paras = [para.text.strip() for para in shape.text_frame.paragraphs]\n        if not paras:\n            continue\n        # Check if terminal para matches\n        if paras[-1] == target_text:\n            return (\"Required bullet is at the end of the list.\", 1.0)\n        elif target_text in paras:\n            return (\"Required bullet is present, but not at the list end.\", 0.0)\n    return (\"Could not find list containing the required bullet.\", 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Resizing of Image to Avoid Overlap (Slide 2)",
+        "description": "Checks that the relevant image on slide 2 has been resized as needed, and that the bullet text and image no longer overlap.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Image Was Resized Compared to Original",
+            "description": "Verifies that at least one image on slide 2 has been resized compared to the original presentation.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import math\n    THRESH = 0.01  # 1% change threshold to avoid floating point issues\n    \n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    slide_orig = prs_orig.slides[1]  # slide_number is 2, index 1-based\n    slide_mod = prs_mod.slides[1]\n    # Get all pictures on both slides\n    orig_pics = [(shape.left, shape.top, shape.width, shape.height) for shape in slide_orig.shapes if shape.shape_type == 13]\n    mod_pics = [(shape.left, shape.top, shape.width, shape.height) for shape in slide_mod.shapes if shape.shape_type == 13]\n    # Assume images relate by order\n    changed = False\n    min_pics = min(len(orig_pics), len(mod_pics))\n    for i in range(min_pics):\n        l0, t0, w0, h0 = orig_pics[i]\n        l1, t1, w1, h1 = mod_pics[i]\n        if abs(w0 - w1) > w0 * THRESH or abs(h0 - h1) > h0 * THRESH:\n            changed = True\n            break\n    if changed:\n        return (\"An image on slide 2 was resized.\", 1.0)\n    else:\n        if len(orig_pics) == 0 and len(mod_pics) == 0:\n            return (\"No images on slide 2 to resize.\", 1.0)\n        return (\"No image on slide 2 was resized compared to original.\", 0.0)\n"
+            }
+          },
+          {
+            "name": "Bullet and Image No Longer Overlap Visually (Screenshot)",
+            "description": "Using VLM, ensures that after modifications, the new bullet and the image do not overlap on slide 2.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    slide_num = 2\n    mod_img = None\n    for ss in modified_ppt_screenshots:\n        if ss.slide_number == slide_num:\n            mod_img = ss.image_path\n            break\n    if not mod_img:\n        return (\"No screenshot for modified slide 2.\", 0.0)\n    \n    prompt = (\"In this slide, does any part of the bullet point 'All three axes intersect at the aircraft's center of gravity' visually overlap with any image or photo? Respond only YES or NO.\")\n    \n    resp = vlm_call(prompt, [mod_img]).strip().upper()\n    if resp.startswith(\"NO\"):\n        return (\"No overlap present between bullet and image.\", 1.0)\n    elif resp.startswith(\"YES\"):\n        return (\"There is still overlap between bullet and image.\", 0.0)\n    else:\n        return (f\"VLM response not clear: {resp}\", 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Extraneous Changes Check",
+        "description": "Checks that no significant, unwarranted changes were made to slide 2 or elsewhere in the presentation aside from those requested.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Extraneous Content Added or Removed (Slide 2)",
+            "description": "Check that, on slide 2, only the expected bullet and resizing were performed; no extra elements or major changes were added/removed.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check that we didn't add extraneous content to slide 2 aside from the required bullet point\n    \n    target_bullet = \"All three axes intersect at the aircraft's center of gravity\"\n    \n    # Compare slide content, allowing for the added bullet point\n    original_slide = None\n    modified_slide = None\n    \n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    \n    if len(list(prs_orig.slides)) < 2 or len(list(prs_mod.slides)) < 2:\n        return (\"Slide 2 not found in one of the presentations.\", 0.0)\n    \n    original_slide = list(prs_orig.slides)[1]  # Slide 2\n    modified_slide = list(prs_mod.slides)[1]   # Slide 2\n    \n    # Get text content from both slides\n    orig_texts = []\n    mod_texts = []\n    \n    for shape in original_slide.shapes:\n        if shape.has_text_frame:\n            for para in shape.text_frame.paragraphs:\n                text = para.text.strip()\n                if text:\n                    orig_texts.append(text)\n    \n    for shape in modified_slide.shapes:\n        if shape.has_text_frame:\n            for para in shape.text_frame.paragraphs:\n                text = para.text.strip()\n                if text:\n                    mod_texts.append(text)\n    \n    # Remove the target bullet from modified texts for comparison\n    mod_texts_cleaned = [t for t in mod_texts if t != target_bullet]\n    \n    # Check if all original texts are still present\n    missing_texts = []\n    for orig_text in orig_texts:\n        if orig_text not in mod_texts_cleaned:\n            missing_texts.append(orig_text)\n    \n    # Check for unexpected additions (beyond the target bullet)\n    extra_texts = []\n    for mod_text in mod_texts_cleaned:\n        if mod_text not in orig_texts:\n            extra_texts.append(mod_text)\n    \n    if missing_texts or extra_texts:\n        return (f\"Extraneous changes detected. Missing: {missing_texts}, Extra: {extra_texts}\", 0.0)\n    else:\n        return (\"No extraneous content changes on slide 2.\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No Unwarranted Changes Elsewhere in Presentation",
+            "description": "Checks that no major extraneous edits (slides, shapes, text, images, animations, transitions) were made to other slides in the deck.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check that no unwarranted changes were made elsewhere in the presentation\n    \n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    \n    orig_slides = list(prs_orig.slides)\n    mod_slides = list(prs_mod.slides)\n    \n    if len(orig_slides) != len(mod_slides):\n        return (\"Number of slides changed unexpectedly.\", 0.0)\n    \n    # Check all slides except slide 2 (index 1)\n    for i, (orig_slide, mod_slide) in enumerate(zip(orig_slides, mod_slides)):\n        if i == 1:  # Skip slide 2 (index 1) as it should have changes\n            continue\n            \n        # Get text content from both slides\n        orig_texts = []\n        mod_texts = []\n        \n        for shape in orig_slide.shapes:\n            if shape.has_text_frame:\n                for para in shape.text_frame.paragraphs:\n                    text = para.text.strip()\n                    if text:\n                        orig_texts.append(text)\n        \n        for shape in mod_slide.shapes:\n            if shape.has_text_frame:\n                for para in shape.text_frame.paragraphs:\n                    text = para.text.strip()\n                    if text:\n                        mod_texts.append(text)\n        \n        if set(orig_texts) != set(mod_texts):\n            return (f\"Unexpected changes found on slide {i+1}.\", 0.0)\n    \n    return (\"No unwarranted changes elsewhere in presentation.\", 1.0)\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 2, Add a new bullet point at the end of the list that says 'All three axes intersect at the aircraft's center of gravity'. Resize the image to avoid overlap."
+  }
+}

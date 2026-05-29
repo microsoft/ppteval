@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Slide 5 Chart Resizing and Prominence",
+    "description": "Evaluates whether the main chart on slide 5 has been resized to be larger and more prominent, and that other images do not unnecessarily crowd it.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Main Chart Resized Larger",
+        "description": "Checks that the main chart on slide 5 has been resized to be significantly larger than before.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find Slide 5 in the original and modified deck screenshots\n    slide_number = 5\n    orig_img = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n\n    if not (orig_img and mod_img):\n        return (\"Slide 5 screenshots missing for before or after.\", 0.0)\n\n    prompt = (\n        \"You are given two images: a 'before' and 'after' screenshot of a PowerPoint slide containing a main chart.\\n\"\n        \"Compare the size of the main chart in the 'after' image to the 'before' image.\\n\"\n        \"Has the chart been made larger?.\\n\"\n        \"Or has the chart's size not increased?.\\n\"\n        \"Respond only with YES or NO.\"\n    )\n\n    response = vlm_call(prompt, images=[orig_img, mod_img], temperature=0.0, max_tokens=5)\n    response_lower = response.lower()\n\n    if 'yes' in response_lower:\n        return (\"Main chart was enlarged.\", 1.0)\n    elif 'no' in response_lower:\n        return (\"Main chart was not enlarged.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Verify that only slide 5 has been modified, and no other slides have been added or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 5 (slide_number=5) should be altered\n    problematic_mods = []\n    for (old, new) in ppt_diff.modified_slides:\n        if old.slide_number != 5:\n            # Check if nontrivial changes happened\n            major = False\n            # Check notes, title, number of elements (as proxy)\n            if old.title != new.title or (old.notes or \"\") != (new.notes or \"\") or old.element_count != new.element_count:\n                major = True\n            if major:\n                problematic_mods.append(old.slide_number)\n    # Check for added/removed slides\n    added = [s.slide_number for s in ppt_diff.added_slides if s.slide_number != 5]\n    removed = [s.slide_number for s in ppt_diff.removed_slides if s.slide_number != 5]\n    if problematic_mods or added or removed:\n        return f\"Slides other than 5 changed: modified={problematic_mods}, added={added}, removed={removed}.\", 0.0\n    return \"No extraneous changes to other slides.\", 1.0\n"
+        }
+      },
+      {
+        "name": "Other Images Do Not Crowd Chart",
+        "description": "Checks that other images on slide 5 do not overlap with or crowd the main chart after resizing, maintaining clarity and focus.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare before/after slide 5 prominence\n    orig_img = None\n    mod_img = None\n    for s in original_ppt_screenshots:\n        if s.slide_number == 5:\n            orig_img = s.image_path\n            break\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 5:\n            mod_img = s.image_path\n            break\n    if not orig_img or not mod_img:\n        return \"Slide 5 screenshot missing.\", 0.0\n    prompt = (\n        \"Given these two screenshots of the same PowerPoint slide before and after image resizing operation, do the smaller images crowd out the main chart?\\n\" \n        \"Answer YES or NO and explain.\"\n    )\n    result = vlm_call(prompt, [orig_img, mod_img], temperature=0.0, max_tokens=5)\n    if 'YES' in result.upper():\n        return f\"VLM confirms smaller images crowd out the main chart.\", 0.0\n    elif 'NO' in result.upper():\n        return f\"VLM confirms smaller images do not crowd out the main chart.\", 1.0\n    else:\n        return f\"Ambiguous VLM result: {result}\", 0.5\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Slide 5: Resize the images to make the main chart larger and more prominent on the slide"
+  }
+}

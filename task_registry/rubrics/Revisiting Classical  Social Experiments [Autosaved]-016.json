@@ -1,0 +1,69 @@
+{
+  "root": {
+    "name": "Create slide after slide 3 with a table listing each experiment from slide 3 with columns for Researcher, Year, and Key Finding",
+    "description": "Evaluates whether the agent created a slide after slide 3 with a table listing each experiment from slide 3, including required columns, table completeness, and extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "New slide contains a table",
+        "description": "Checks that the new slide contains a table element.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slides = list(pres.slides)\n    if len(slides) < 4:\n        return (\"Not enough slides in presentation.\", 0.0)\n    slide = slides[3]  # 0-based index: after slide 3\n    for shape in slide.shapes:\n        if shape.has_table:\n            return (\"Slide contains a table.\", 1.0)\n    return (\"Slide does not contain a table.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Table has correct columns: Researcher, Year, and Key Finding",
+        "description": "Checks that the table on the new slide has columns with the required headers.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slides = list(pres.slides)\n    if len(slides) < 4:\n        return (\"Not enough slides in presentation.\", 0.0)\n    slide = slides[3]\n    for shape in slide.shapes:\n        if shape.has_table:\n            table = shape.table\n            headers = [cell.text_frame.text.strip().lower() for cell in table.rows[0].cells]\n            required = ['researcher', 'year', 'key finding']\n            found = [any(req in header for header in headers) for req in required]\n            if all(found):\n                return (\"Table has all required columns.\", 1.0)\n            else:\n                missing = [req for req, f in zip(required, found) if not f]\n                return (f\"Missing columns: {', '.join(missing)}.\", 0.0)\n    return (\"No table found on the slide.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Table correctly lists each experiment from slide 3",
+        "description": "Checks that each experiment listed on slide 3 appears as a row in the table on the new slide.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres_mod = Presentation(modified_ppt_path)\n    mod_slides = list(pres_mod.slides)\n    if len(mod_slides) < 4:\n        return (\"Modified presentation does not have enough slides.\", 0.0)\n    new_slide = mod_slides[3]\n    table = None\n    for shape in new_slide.shapes:\n        if shape.has_table:\n            table = shape.table\n            break\n    if not table:\n        return (\"No table found on new slide.\", 0.0)\n\n    researcher_names = set(['Leon Festinger', 'Norman Triplett', 'Richard T. LaPiere', 'Stanley Milgram', 'David Hamilton', 'Robert Gifford'])\n    # Extract first column (assuming it is researcher/experiment)\n    # Or try to find which column matches experiment names best\n    ncols = table.columns.__len__()\n    nrows = table.rows.__len__()\n    num_found = 0\n    for col_idx in range(ncols):\n        col_texts = set(table.cell(row_idx, col_idx).text_frame.text.strip().lower() for row_idx in range(1, nrows))\n        col_text = ', '.join(col_texts)\n        for name in researcher_names:\n            if name.lower() in col_text:\n                num_found += 1\n\n    return (f\"{num_found} out of {len(researcher_names)} experiments found in table\", min(1.0, num_found / len(researcher_names)))"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Table is filled (no empty required cells)",
+        "description": "Checks that all required cells in the table (excluding header row) are filled with non-empty text.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slides = list(pres.slides)\n    if len(slides) < 4:\n        return (\"Not enough slides in presentation.\", 0.0)\n    slide = slides[3]\n    table = None\n    for shape in slide.shapes:\n        if shape.has_table:\n            table = shape.table\n            break\n    if not table:\n        return (\"No table found on new slide.\", 0.0)\n    nrows = table.rows.__len__()\n    ncols = table.columns.__len__()\n    if nrows <= 1:\n        return (\"Table has no data rows.\", 0.0)\n    empty_cells = 0\n    total_cells = (nrows-1)*ncols\n    for i in range(1, nrows):\n        for j in range(ncols):\n            text = table.cell(i, j).text_frame.text.strip()\n            if not text:\n                empty_cells += 1\n    if total_cells == 0:\n        return (\"No data cells.\", 0.0)\n    frac_filled = 1.0 - (empty_cells / total_cells)\n    if frac_filled < 1.0:\n        return (f\"{empty_cells} empty cells out of {total_cells}.\", frac_filled)\n    return (\"All data cells are filled.\", 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes to other slides",
+        "description": "Checks that only the intended new slide was added and no other slides were added, removed, or modified.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return f\"Expected exactly 1 slide added, found {len(added_slides)}.\", 0.0\n    \n    different_slides = []\n    for i, s in enumerate(original_ppt_screenshots):\n        j = i\n        if i >= 3:\n            j += 1\n\n        orig_img = s.image_path\n        mod_img = modified_ppt_screenshots[j].image_path\n\n        if not orig_img or not mod_img:\n            return (f\"Screenshot for slide {i} in original or slide {j} in modified missing.\", 0.0)\n        \n        prompt = (\n            \"Compare these two images of the same PowerPoint slide. There should be virtually no difference between these slides. \"\n            \"Are there *any* visible changes to the slide's content, layout, or appearance (such as text, images, shapes, or formatting)? \"\n            \"If there are no visible changes, answer NO. Otherwise, answer YES and briefly describe the differences. Take your time, analyze the slides, and compare them carefully.\"\n        )\n\n        vlm_resp = vlm_call(prompt, [orig_img, mod_img], temperature=0.0, max_tokens=128).strip().lower()\n        if vlm_resp.startswith('yes'):\n            different_slides.append(f\"Visual difference(s) detected on Slide {i} (Slide {j} in modified): {vlm_resp}\")\n\n    if len(different_slides) > 0:\n        return ('\\n'.join(different_slides), 0.0)\n    \n    return ('No differences found', 1.0)\n"
+        },
+        "score": 0.0
+      }
+    ],
+    "score": 0.85
+  },
+  "metadata": {
+    "task": "Create slide after slide 3 with a table listing each experiment from slide 3 with columns for Researcher, Year, and Key Finding"
+  }
+}

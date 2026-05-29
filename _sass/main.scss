@@ -1,0 +1,12 @@
+// Base styles
+@import "base";
+
+// Layout styles  
+@import "layout";
+
+// Component styles
+@import "components";
+
+// Page-specific styles
+@import "pages/home";
+@import "pages/faq";

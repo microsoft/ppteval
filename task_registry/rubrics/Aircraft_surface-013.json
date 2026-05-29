@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "Replace 'Click to add text' placeholder on slide 8 with 'Elevator movement controls aircraft pitch attitude'",
+    "description": "Evaluates whether the agent correctly replaced the specified placeholder text on slide 8 with the target text, and did not introduce extraneous or destructive changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Replacement of Placeholder Text",
+        "description": "Checks that the 'Click to add text' placeholder was present and was replaced with the target text on slide 8.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Slide 8 Content Verification",
+            "description": "Verifies that slide 8 contains the new text 'Elevator movement controls aircraft pitch attitude' and that the placeholder text is no longer present.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    target_slide_no = 8\n    target_text = 'Elevator movement controls aircraft pitch attitude'\n    placeholder_text = 'Click to add text'\n    \n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) < target_slide_no:\n        return f\"Presentation only has {len(prs.slides)} slides.\", 0.0\n    slide = prs.slides[target_slide_no-1]\n    all_texts = '\\n'.join([shape.text.strip() for shape in slide.shapes if hasattr(shape, 'text')])\n    replaced = target_text in all_texts\n    placeholder_gone = placeholder_text not in all_texts\n    if replaced and placeholder_gone:\n        return \"Target text present, placeholder removed.\", 1.0\n    elif replaced:\n        return \"Target text present, but placeholder still present.\", 0.5\n    elif placeholder_gone:\n        return \"Placeholder removed, but target text not present.\", 0.5\n    else:\n        return \"Target text not present, placeholder still present.\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Ensures no slides other than slide 8 were modified, added, or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    modified_nums = [s[1].slide_number for s in ppt_diff.modified_slides]\n    added_nums = [s.slide_number for s in ppt_diff.added_slides]\n    removed_nums = [s.slide_number for s in ppt_diff.removed_slides]\n    # Only slide 8 may be in the lists\n    extraneous_mod = any(n != 8 for n in modified_nums)\n    extraneous_add = any(True for _ in added_nums)\n    extraneous_rem = any(True for _ in removed_nums)\n    if not extraneous_mod and not extraneous_add and not extraneous_rem:\n        return \"No extraneous changes to other slides.\", 1.0\n    else:\n        issue = []\n        if extraneous_mod:\n            issue.append(f\"Slides modified besides slide 8: {modified_nums}\")\n        if extraneous_add:\n            issue.append(\"Slides were added.\")\n        if extraneous_rem:\n            issue.append(\"Slides were removed.\")\n        return \"; \".join(issue), 0.0\n"
+        }
+      },
+      {
+        "name": "No Extraneous Animations or Transitions",
+        "description": "Ensures no new or removed animations/transitions were added to the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Accept minor edge-case (e.g., placeholder animation removed if replaced)\n    # Here, only score 0 if there are newly added animations/transitions unrelated to this slide\n    if ppt_diff.added_animations or ppt_diff.added_transitions:\n        return \"Extraneous animations or transitions were added.\", 0.0\n    if ppt_diff.removed_animations or ppt_diff.removed_transitions:\n        # Removing old placeholder animation is acceptable if placeholder was replaced\n        return \"Animations or transitions were removed.\", 1.0  # Acceptable if part of placeholder removal\n    return \"No extraneous animations or transitions added.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 8, Replace the 'Click to add text' placeholder with 'Elevator movement controls aircraft pitch attitude'"
+  }
+}

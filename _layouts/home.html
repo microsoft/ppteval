@@ -1,0 +1,78 @@
+---
+layout: default
+---
+
+<div class="home">
+  <!-- Hero Section -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ site.title }}</h1>
+      <p class="hero-subtitle">{{ site.description }}</p>
+      
+      <!-- Author Information -->
+      <div class="authors">
+        {% for author in site.data.authors %}
+          <span class="author">
+            {% if author.url %}
+              <a href="{{ author.url }}" target="_blank">{{ author.name }}</a>
+            {% else %}
+              {{ author.name }}
+            {% endif %}
+            <sup>
+              {% case author.affiliation %}
+                {% when '1' %}†
+                {% when '2' %}‡
+                {% when '3' %}§
+                {% when '4' %}¶
+                {% else %}{{ author.affiliation }}
+              {% endcase %}
+            </sup>
+          </span>
+          {% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </div>
+      
+      <!-- Affiliation Information -->
+      <div class="affiliations">
+        {% for affiliation in site.data.benchmark.affiliations %}
+          <span class="affiliation">
+            <sup>
+              {% case affiliation[0] %}
+                {% when '1' %}†
+                {% when '2' %}‡
+                {% when '3' %}§
+                {% when '4' %}¶
+                {% else %}{{ affiliation[0] }}
+              {% endcase %}
+            </sup>{{ affiliation[1] }}
+          </span>
+        {% endfor %}
+      </div>
+      
+      <!-- Main Navigation Menu -->
+      <div class="main-menu">
+        <!-- Reordered: Task Explorer first; removed Infra & Stats -->
+        <a href="{{ site.baseurl }}/task-explorer/" class="btn btn-primary menu-btn">
+          <i class="fas fa-tasks"></i> Task Explorer
+        </a>
+        <a href="{{ site.social_links.paper }}" class="btn btn-primary menu-btn" target="_blank">
+          <i class="fas fa-file-pdf"></i> Paper
+        </a>
+        <a href="{{ site.social_links.code }}" class="btn btn-primary menu-btn" target="_blank">
+          <i class="fab fa-github"></i> Code
+        </a>
+        <a href="{{ site.baseurl }}/leaderboard/" class="btn btn-primary menu-btn">
+          <i class="fas fa-trophy"></i> Leaderboard
+        </a>
+        <a href="{{ site.baseurl }}/faq/" class="btn btn-primary menu-btn">
+          <i class="fas fa-question-circle"></i> FAQ
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    {{ content }}
+  </div>
+</div>

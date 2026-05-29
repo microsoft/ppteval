@@ -1,0 +1,45 @@
+{
+  "root": {
+    "name": "Change background color of slide 1 to light blue",
+    "description": "Evaluates whether the agent successfully changed the background color of the first slide to light blue, without making unnecessary changes to the presentation.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Background color of slide 1 is changed to light blue",
+        "description": "Checks if the background color of the first slide is set to a shade of light blue after the agent's action.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 1\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (\"Slide 1 screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"Is the background color of this slide light blue?\"\n        \"Start the answer with YES or NO. If NO, explain what color do you see.\"\n    )\n    result = vlm_call(prompt, images=[after], temperature=0.2, max_tokens=20)\n    if 'yes' in result.lower():\n        return (\"VLM says background color is light blue.\", 1.0)\n    else:\n        return (f\"VLM says background color is not light blue: {result}\", 0.0)\n    "
+        }
+      },
+      {
+        "name": "No extraneous changes to other slides",
+        "description": "Checks that slides other than slide 1 have not had their backgrounds altered.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        return f\"Slides were added or removed: added={[s.slide_number for s in ppt_diff.added_slides]}, removed={[s.slide_number for s in ppt_diff.removed_slides]}.\", 0.0\n    if len(ppt_diff.modified_slides) > 1:\n        return \"More than one slide was modified.\", 0.0\n\n    orig_pr = Presentation(original_ppt_path)\n    mod_pr = Presentation(modified_ppt_path)\n    num_slides = min(len(orig_pr.slides), len(mod_pr.slides))\n    errors = []\n    for idx in range(1, num_slides):  # skip slide 0 (slide 1)\n        orig_slide = orig_pr.slides[idx]\n        mod_slide = mod_pr.slides[idx]\n        orig_fill = orig_slide.background.fill\n        mod_fill = mod_slide.background.fill\n        def get_rgb(fill):\n            if fill.type == 1 and fill.fore_color.rgb:\n                return tuple(fill.fore_color.rgb)\n            return None\n        orig_rgb = get_rgb(orig_fill)\n        mod_rgb = get_rgb(mod_fill)\n        if orig_rgb != mod_rgb:\n            errors.append(\n                f\"Slide {idx+1} background changed from {orig_rgb} to {mod_rgb}.\"\n            )\n    if errors:\n        return (\"; \".join(errors), 0.0)\n    else:\n        return (\"No extraneous background changes detected on other slides.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No extraneous non-background changes to slide 1",
+        "description": "Checks that no other properties (content, layout, notes, transitions, animations) of slide 1 were modified except the background color.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    errors = []\n    # Check ppt_diff for slide 1 changes (other than background)\n    sid = None\n    for slide in ppt_diff.modified_slides:\n        orig, mod = slide\n        if orig.slide_number == 1:\n            sid = orig.slide_id\n            # Check if only background changed\n            # If more than just background changed, penalize\n            orig_dict = orig.to_dict()\n            mod_dict = mod.to_dict()\n            # Remove background keys\n            orig_bg = orig_dict.get('background', None)\n            mod_bg = mod_dict.get('background', None)\n            orig_dict.pop('background', None)\n            mod_dict.pop('background', None)\n            # Remove content hashes\n            orig_dict.pop('content_hash', None)\n            mod_dict.pop('content_hash', None)\n            if orig_dict != mod_dict:\n                errors.append(f\"Slide 1 has other modified properties besides background: {orig_dict} vs {mod_dict}.\")\n    # Check for animations/transitions/notes/layout changes for slide 1\n    # Animations\n    changed_anim = [a for a in (ppt_diff.added_animations + ppt_diff.removed_animations) if a.slide_id == sid]\n    if changed_anim:\n        errors.append(\"Animations on slide 1 were added or removed.\")\n    changed_anim_mod = [m for m in ppt_diff.modified_animations if m[0].slide_id == sid or m[1].slide_id == sid]\n    if changed_anim_mod:\n        errors.append(\"Animations on slide 1 were modified.\")\n    # Transitions\n    changed_trans = [t for t in (ppt_diff.added_transitions + ppt_diff.removed_transitions) if t.slide_id == sid]\n    if changed_trans:\n        errors.append(\"Transitions on slide 1 were added or removed.\")\n    changed_trans_mod = [m for m in ppt_diff.modified_transitions if m[0].slide_id == sid or m[1].slide_id == sid]\n    if changed_trans_mod:\n        errors.append(\"Transitions on slide 1 were modified.\")\n    # Notes\n    orig_notes = None\n    mod_notes = None\n    for slide in ppt_diff.modified_slides:\n        orig, mod = slide\n        if orig.slide_number == 1:\n            orig_notes = orig.notes\n            mod_notes = mod.notes\n            if orig_notes != mod_notes:\n                errors.append(\"Notes on slide 1 were changed.\")\n    # Layout\n    for slide in ppt_diff.modified_slides:\n        orig, mod = slide\n        if orig.slide_number == 1:\n            if orig.layout_type != mod.layout_type:\n                errors.append(\"Layout of slide 1 was changed.\")\n    if errors:\n        return (\"; \".join(errors), 0.0)\n    else:\n        return (\"No extraneous non-background changes detected on slide 1.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the background color of the slide 1 to light blue.",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

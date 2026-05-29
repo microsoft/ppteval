@@ -1,0 +1,100 @@
+affiliations:
+  "1": "Carnegie Mellon University"
+  "2": "Microsoft"
+  "3": "University of Massachusetts Amherst"
+
+results:
+  # Extended schema: provider, avg_score, avg_steps, difficulty breakdown (easy/medium/hard).
+  # Replace placeholder provider names and metric values with real data as needed.
+  - model: "computer-use-preview"
+    provider: "OpenAI"
+    # Overall (percent values): 35 / 51 / 19.84
+    success_rate: 35
+    avg_score: 51
+    avg_steps: 19.84
+    max_steps: 30
+    difficulty:
+      easy:    # 50 / 49 / 16.88
+        success_rate: 50
+        avg_score: 49
+        avg_steps: 16.88
+      medium:  # 31 / 55 / 20.26
+        success_rate: 31
+        avg_score: 55
+        avg_steps: 20.26
+      hard:    # 17 / 34 / 24.33
+        success_rate: 17
+        avg_score: 34
+        avg_steps: 24.33
+
+  - model: "Claude-4-Sonnet"
+    provider: "Anthropic"
+    # Overall (percent values): 38 / 58 / 15.05
+    success_rate: 38
+    avg_score: 58
+    avg_steps: 15.05
+    max_steps: 30
+    difficulty:
+      easy:    # 47 / 56 / 11.53
+        success_rate: 47
+        avg_score: 56
+        avg_steps: 11.53
+      medium:  # 41 / 68 / 14.72
+        success_rate: 41
+        avg_score: 68
+        avg_steps: 14.72
+      hard:    # 10 / 34 / 21.53
+        success_rate: 10
+        avg_score: 34
+        avg_steps: 21.53
+
+  - model: "UI-TARS-1.5-7B"
+    provider: "ByteDance"
+    # Overall (percent values): 0 / 7 / 29.62
+    success_rate: 0
+    avg_score: 7
+    avg_steps: 29.62
+    max_steps: 30
+    difficulty:
+      easy:    # 0 / 5 / 29.10
+        success_rate: 0
+        avg_score: 5
+        avg_steps: 29.10
+      medium:  # 0 / 6 / 30.00
+        success_rate: 0
+        avg_score: 6
+        avg_steps: 30.00
+      hard:    # 0 / 12 / 30.00
+        success_rate: 0
+        avg_score: 12
+        avg_steps: 30.00
+
+statistics:
+  total_tasks: 450
+  task_categories:
+    - name: "Slide Creation"
+      count: 150
+      percentage: 33.3
+    - name: "Content Analysis" 
+      count: 120
+      percentage: 26.7
+    - name: "Format Conversion"
+      count: 90
+      percentage: 20.0
+    - name: "Template Design"
+      count: 60
+      percentage: 13.3
+    - name: "Collaboration"
+      count: 30
+      percentage: 6.7
+
+  difficulty_levels:
+    - name: "Basic"
+      count: 180
+      percentage: 40.0
+    - name: "Intermediate"
+      count: 180
+      percentage: 40.0
+    - name: "Advanced"
+      count: 90
+      percentage: 20.0

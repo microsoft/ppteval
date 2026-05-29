@@ -1,0 +1,59 @@
+{
+  "root": {
+    "name": "Change red border around OS box to blue on slide 8",
+    "description": "Evaluates whether the agent successfully changed the red border around the OS box to blue on slide 8, without making any unintended changes",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Target change correctly implemented",
+        "description": "Verifies that the red border around the OS box on slide 8 has been changed to blue",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "OS box border color changed to blue",
+            "description": "Verifies that the border around the OS box on slide 8 has been changed from red to blue",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 8 screenshots\n    original_slide_8 = None\n    modified_slide_8 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            original_slide_8 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            modified_slide_8 = screenshot\n            break\n    \n    if not original_slide_8 or not modified_slide_8:\n        return \"Could not find slide 8 screenshots\", 0.0\n    \n    prompt = '''Compare these two PowerPoint slides. The task was to change the red border around the OS box to blue on slide 8.\n    \n    Look at both images and determine:\n    1. Is there an OS box visible in both images?\n    2. In the first image (original), does the OS box have a red border?\n    3. In the second image (modified), does the OS box now have a blue border?\n    \n    Respond with either \"SUCCESS\" if the red border was successfully changed to blue, or \"FAILURE\" followed by a brief explanation of what you observe.'''\n    \n    try:\n        result = vlm_call(prompt, [original_slide_8.image_path, modified_slide_8.image_path], temperature=0.1)\n        \n        if \"SUCCESS\" in result:\n            return result, 1.0\n        else:\n            return f\"Border color change not detected: {result}\", 0.0\n    except Exception as e:\n        return f\"Error analyzing slide images: {str(e)}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No unintended changes made",
+        "description": "Ensures that only the intended change was made and no other modifications occurred",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to other slides",
+            "description": "Verifies that slides other than slide 8 remain unchanged",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        # Check slide count\n        if len(original_prs.slides) != len(modified_prs.slides):\n            return f\"Slide count changed from {len(original_prs.slides)} to {len(modified_prs.slides)}\", 0.0\n        \n        # Check for changes in animations/transitions on other slides\n        other_slide_changes = 0\n        \n        # Check animations on slides other than slide 8\n        for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n            # Get slide number from slide_id (assuming format like 'slide_N')\n            try:\n                slide_num = int(anim.slide_id.split('_')[-1]) if '_' in anim.slide_id else int(anim.slide_id)\n                if slide_num != 8:\n                    other_slide_changes += 1\n            except:\n                other_slide_changes += 1\n        \n        for old_anim, new_anim in ppt_diff.modified_animations:\n            try:\n                slide_num = int(old_anim.slide_id.split('_')[-1]) if '_' in old_anim.slide_id else int(old_anim.slide_id)\n                if slide_num != 8:\n                    other_slide_changes += 1\n            except:\n                other_slide_changes += 1\n        \n        # Check transitions on slides other than slide 8\n        for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n            try:\n                slide_num = int(trans.slide_id.split('_')[-1]) if '_' in trans.slide_id else int(trans.slide_id)\n                if slide_num != 8:\n                    other_slide_changes += 1\n            except:\n                other_slide_changes += 1\n        \n        for old_trans, new_trans in ppt_diff.modified_transitions:\n            try:\n                slide_num = int(old_trans.slide_id.split('_')[-1]) if '_' in old_trans.slide_id else int(old_trans.slide_id)\n                if slide_num != 8:\n                    other_slide_changes += 1\n            except:\n                other_slide_changes += 1\n        \n        # Check for added/removed slides\n        if ppt_diff.added_slides or ppt_diff.removed_slides:\n            return f\"Slides were added or removed: {len(ppt_diff.added_slides)} added, {len(ppt_diff.removed_slides)} removed\", 0.0\n        \n        # Check for modified slides other than slide 8\n        for old_slide, new_slide in ppt_diff.modified_slides:\n            if old_slide.slide_number != 8:\n                other_slide_changes += 1\n        \n        if other_slide_changes > 0:\n            return f\"Found {other_slide_changes} unintended changes to slides other than slide 8\", 0.5\n        \n        return \"No unintended changes detected on other slides\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking for unintended changes: {str(e)}\", 0.0\n"
+            }
+          },
+          {
+            "name": "No excessive changes to slide 8",
+            "description": "Ensures that only the border color was changed on slide 8, not other properties of the OS box or other elements",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check if only the border color changed\n    original_slide_8 = None\n    modified_slide_8 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            original_slide_8 = screenshot.image_path\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            modified_slide_8 = screenshot.image_path\n            break\n    \n    if not original_slide_8 or not modified_slide_8:\n        return \"Could not find slide 8 screenshots for comparison\", 0.0\n    \n    prompt = \"\"\"Compare these two PowerPoint slides carefully. The intended change was to change only the red border around the OS box to blue.\n    \n    Analyze if there are any unintended changes:\n    1. Has anything other than the OS box border color changed?\n    2. Has the fill color, size, position, or text of the OS box changed?\n    3. Have any other elements on the slide been modified?\n    4. Has the layout or positioning of other elements changed?\n    \n    Respond with:\n    - 'MINIMAL_CHANGE' if only the border color of the OS box changed as intended\n    - 'EXCESSIVE_CHANGE' followed by a description if other unintended modifications were made\n    - 'NO_CHANGE' if no changes are visible\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [original_slide_8, modified_slide_8], temperature=0.3)\n        \n        response_upper = response.strip().upper()\n        if response_upper.startswith('MINIMAL_CHANGE'):\n            return \"Only the intended border color change was made\", 1.0\n        elif response_upper.startswith('NO_CHANGE'):\n            return \"No changes detected on slide 8\", 0.0\n        else:\n            return f\"Excessive changes detected: {response}\", 0.3\n    except Exception as e:\n        return f\"Error analyzing slide changes: {str(e)}\", 0.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 8, change the red border around the OS box to blue"
+  }
+}

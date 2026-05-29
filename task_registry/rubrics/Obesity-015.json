@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "insert_bmi_table_task",
+    "description": "Evaluates whether a small table with correct BMI ranges by sex was inserted on slide 3, formatted as specified.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "table_inserted_on_slide_3",
+        "description": "Checks if a table was inserted on slide 3.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    from pptx import Presentation\n    import os\n    if not os.path.exists(modified_ppt_path):\n        return \"Modified PPT not found.\", 0.0\n    prs = Presentation(modified_ppt_path)\n    try:\n        slide = prs.slides[2]  # slide 3 (0-indexed)\n    except IndexError:\n        return \"Slide 3 does not exist in modified PPT.\", 0.0\n    table_found = False\n    for shape in slide.shapes:\n        if shape.has_table:\n            table_found = True\n            break\n    if table_found:\n        return \"Table found on slide 3.\", 1.0\n    else:\n        return \"No table found on slide 3.\", 0.0\n"
+        }
+      },
+      {
+        "name": "table_content_bmi_ranges_by_sex",
+        "description": "Checks if the table includes 'Male' and 'Female' with correct BMI ranges and formatting (<, >, -).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    from pptx import Presentation\n    import os\n    import re\n    if not os.path.exists(modified_ppt_path):\n        return \"Modified PPT not found.\", 0.0\n    prs = Presentation(modified_ppt_path)\n    try:\n        slide = prs.slides[2]\n    except IndexError:\n        return \"Slide 3 does not exist in modified PPT.\", 0.0\n    for shape in slide.shapes:\n        if shape.has_table:\n            table = shape.table\n            text_cells = [[cell.text.strip() for cell in row.cells] for row in table.rows]\n            # Flatten for easier searching\n            flat = [cell.lower() for row in text_cells for cell in row]\n            has_male = any('male' in cell for cell in flat)\n            has_female = any('female' in cell for cell in flat)\n            # Check for at least one cell with a BMI range using <, >, or -\n            has_range = any(re.search(r'\\b[<>-–]\\b', cell) or re.search(r'\\d+\\s*(?:-|–)\\s*\\d+', cell) for cell in flat)\n            if has_male and has_female and has_range:\n                return \"Table contains Male, Female, and BMI ranges formatted with <, >, or -.\", 1.0\n            else:\n                missing = []\n                if not has_male:\n                    missing.append('Male')\n                if not has_female:\n                    missing.append('Female')\n                if not has_range:\n                    missing.append('BMI range formatting')\n                return f\"Table missing: {', '.join(missing)}.\", 0.0\n    return \"No table found on slide 3 to check content.\", 0.0\n"
+        }
+      },
+      {
+        "name": "table_is_small_and_not_obtrusive",
+        "description": "Checks if the inserted table is reasonably small (not covering most of the slide).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Use VLM to compare original and modified slide 3 screenshot for table size\n    slide_num = 3\n    img_mod = None\n    for s in modified_ppt_screenshots:\n        if s.slide_number == slide_num:\n            img_mod = s.image_path\n            break\n    if not img_mod:\n        return \"No modified screenshot for slide 3.\", 1.0  # Can't penalize\n    prompt = \"Is there a table on this slide, and if so, is it small enough to not be obtrusive/overlap with other content? Answer 'YES' if it is small enough, 'NO' if it is not or does not exist, followed with a brief explanation.\"\n    answer = vlm_call(images=[img_mod], prompt=prompt).strip()\n    if 'YES' in answer:\n        return answer, 1.0\n    elif 'NO' in answer:\n        return answer, 0.0\n    else:\n        return f\"Unclear response from VLM: {answer}\", 0.0\n"
+        }
+      },
+      {
+        "name": "no_unnecessary_extra_changes",
+        "description": "Checks that no unrelated slides were added, removed, or significantly altered.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Only allow slide 3 modification, no other slides added/removed/modified\n    # Ignore notes changes\n    unrelated_changes = False\n    for s in ppt_diff.added_slides:\n        return \"Additional slides were added.\", 0.0\n    for s in ppt_diff.removed_slides:\n        return \"Slides were removed.\", 0.0\n    for old, new in ppt_diff.modified_slides:\n        if old.slide_number != 3:\n            return f\"Slide {old.slide_number} was modified.\", 0.0\n    return \"No unnecessary extra changes detected.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Insert a small table on slide 3 showing BMI ranges by sex (Male, Female), using <,> and – to denote ranges."
+  }
+}

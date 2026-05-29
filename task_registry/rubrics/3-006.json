@@ -1,0 +1,71 @@
+{
+  "root": {
+    "name": "Change vCPU1 color from magenta to green on slide 3",
+    "description": "Evaluates whether the agent successfully changed the color of the vCPU1 element from magenta to green specifically on slide 3, without making unintended changes to other elements or slides",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "vCPU1 element color is green",
+        "description": "Verifies that the vCPU1 element on slide 3 now has a green color",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check the color of vCPU1 element on slide 3\n    if len(modified_ppt_screenshots) < 3:\n        return \"Slide 3 screenshot not available\", 0.0\n    \n    slide_3_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 3:\n            slide_3_screenshot = screenshot\n            break\n    \n    if not slide_3_screenshot:\n        return \"Slide 3 screenshot not found\", 0.0\n    \n    prompt = \"\"\"Look at this PowerPoint slide and identify any element labeled 'vCPU1'. \n    What color is the vCPU1 element? Is it green? \n    Please respond with 'YES' if at least one vCPU1 element is green, 'NO' if it exists but is not green, or 'NOT_FOUND' if no vCPU1 element is visible.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [slide_3_screenshot.image_path], temperature=0.1)\n        response = response.strip().upper()\n        \n        if 'YES' in response:\n            return \"vCPU1 element is green on slide 3\", 1.0\n        elif 'NO' in response:\n            return \"vCPU1 element found but is not green on slide 3\", 0.0\n        elif 'NOT_FOUND' in response:\n            return \"vCPU1 element not found on slide 3\", 0.0\n        else:\n            return f\"Unclear response from VLM: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking vCPU1 color: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No unintended changes",
+        "description": "Ensures that no other elements or slides were modified unintentionally",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to other slides",
+            "description": "Verifies that slides other than slide 3 were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_ppt = Presentation(original_ppt_path)\n        modified_ppt = Presentation(modified_ppt_path)\n        \n        # Check if number of slides changed\n        if len(original_ppt.slides) != len(modified_ppt.slides):\n            return \"Number of slides changed unexpectedly\", 0.0\n        \n        # Check for slide additions/removals in diff\n        if ppt_diff.added_slides or ppt_diff.removed_slides:\n            return \"Slides were added or removed unexpectedly\", 0.0\n        \n        # Check for modifications to slides other than slide 3\n        unintended_slide_changes = []\n        for old_slide, new_slide in ppt_diff.modified_slides:\n            if new_slide.slide_number != 3:  # Slide numbers are 1-indexed in the diff\n                unintended_slide_changes.append(new_slide.slide_number)\n        \n        if unintended_slide_changes:\n            return f\"Unintended changes detected on slides: {unintended_slide_changes}\", 0.0\n        \n        return \"No unintended changes to other slides detected\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking for unintended slide changes: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "No changes to animations or transitions",
+            "description": "Verifies that no animations or transitions were modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        # Check for any animation changes\n        animation_changes = (\n            len(ppt_diff.added_animations) + \n            len(ppt_diff.removed_animations) + \n            len(ppt_diff.modified_animations)\n        )\n        \n        # Check for any transition changes\n        transition_changes = (\n            len(ppt_diff.added_transitions) + \n            len(ppt_diff.removed_transitions) + \n            len(ppt_diff.modified_transitions)\n        )\n        \n        total_changes = animation_changes + transition_changes\n        \n        if total_changes == 0:\n            return \"No unintended animation or transition changes detected\", 1.0\n        else:\n            return f\"Detected {animation_changes} animation changes and {transition_changes} transition changes\", 0.0\n        \n    except Exception as e:\n        return f\"Error checking for animation/transition changes: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "No changes to other elements on slide 3",
+            "description": "Verifies that only the vCPU1 element was modified on slide 3, not other elements",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare original and modified slide 3 to check if only vCPU1 changed\n    if len(original_ppt_screenshots) < 3 or len(modified_ppt_screenshots) < 3:\n        return \"Screenshots not available for comparison\", 0.5\n    \n    original_slide_3 = None\n    modified_slide_3 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 3:\n            original_slide_3 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 3:\n            modified_slide_3 = screenshot\n            break\n    \n    if not original_slide_3 or not modified_slide_3:\n        return \"Slide 3 screenshots not found for comparison\", 0.5\n    \n    prompt = \"\"\"Compare these two PowerPoint slides (before and after). \n    The only intended changes should be the color of any elements labeled 'vCPU1' from magenta to green.\n    \n    Are there any other visible changes besides the vCPU1 color change? \n    Please respond with 'NO_OTHER_CHANGES' if only the vCPU1 color changed, or 'OTHER_CHANGES_DETECTED' if you notice any other differences.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [original_slide_3.image_path, modified_slide_3.image_path], temperature=0.1)\n        response = response.strip().upper()\n        \n        if 'NO_OTHER_CHANGES' in response:\n            return \"Only vCPU1 color was changed on slide 3\", 1.0\n        elif 'OTHER_CHANGES_DETECTED' in response:\n            return \"Other unintended changes detected on slide 3\", 0.0\n        else:\n            return f\"Unclear response from VLM: {response}\", 0.5\n            \n    except Exception as e:\n        return f\"Error comparing slide 3 changes: {str(e)}\", 0.5\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "All vCPU1 elements are green",
+        "description": "Verifies that all vCPU1 elements on slide 3 are green",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check the color of vCPU1 element on slide 3\n    if len(modified_ppt_screenshots) < 3:\n        return \"Slide 3 screenshot not available\", 0.0\n    \n    slide_3_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 3:\n            slide_3_screenshot = screenshot\n            break\n    \n    if not slide_3_screenshot:\n        return \"Slide 3 screenshot not found\", 0.0\n    \n    prompt = \"\"\"Look at this PowerPoint slide and identify all elements labeled 'vCPU1'. \n    What color is the vCPU1 element? Is it green? \n    Please respond with 'YES' if all vCPU1 elements are green, 'PARTIAL' if some vCPU1 elements are green, or 'NONE' if no vCPU1 elements are green.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [slide_3_screenshot.image_path], temperature=0.1)\n        response = response.strip().upper()\n        \n        if 'YES' in response:\n            return \"All vCPU1 elements are green on slide 3\", 1.0\n        elif 'PARTIAL' in response:\n            return \"Only some vCPU1 elements are green on slide 3\", 0.5\n        elif 'NONE' in response:\n            return \"No vCPU1 elements are green on slide 3\", 0.0\n        else:\n            return f\"Unclear response from VLM: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking vCPU1 color: {str(e)}\", 0.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the vCPU1 color from magenta to green on slide 3"
+  }
+}

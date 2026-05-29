@@ -1,0 +1,81 @@
+{
+  "root": {
+    "name": "Subtitle Text Edit Success",
+    "description": "Evaluates whether the agent successfully edited the subtitle text box to say 'Philippine History: An Educational Overview' without making unwanted changes",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Subtitle Text Content",
+        "description": "Verifies that the subtitle text box contains exactly the required text: 'Philippine History: An Educational Overview'",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        prs = Presentation(modified_ppt_path)\n        \n        # Look for subtitle text in all slides\n        target_text = \"Philippine History: An Educational Overview\"\n        found_correct_subtitle = False\n        \n        for slide in prs.slides:\n            for shape in slide.shapes:\n                if hasattr(shape, 'text') and shape.text.strip():\n                    # Check if this text matches our target\n                    if shape.text.strip() == target_text:\n                        found_correct_subtitle = True\n                        break\n            if found_correct_subtitle:\n                break\n        \n        if found_correct_subtitle:\n            return \"Found the correct subtitle text 'Philippine History: An Educational Overview'\", 1.0\n        else:\n            return \"Could not find the required subtitle text 'Philippine History: An Educational Overview'\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking subtitle text: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Subtitle Location and Context",
+        "description": "Verifies that the subtitle text is in the appropriate location (below main title) and maintains proper formatting",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        prs = Presentation(modified_ppt_path)\n        \n        target_text = \"Philippine History: An Educational Overview\"\n        found_in_subtitle_position = False\n        \n        # Check first slide (most likely location for title/subtitle)\n        if len(prs.slides) > 0:\n            slide = prs.slides[0]\n            \n            # Look for title and subtitle layout\n            title_shape = None\n            subtitle_shape = None\n            \n            for shape in slide.shapes:\n                if hasattr(shape, 'text') and shape.text.strip():\n                    # Check if this could be a title (typically larger, higher on slide)\n                    if shape.top < slide.shapes[0].height // 3:  # Upper third of slide\n                        if len(shape.text.strip()) > 5:  # Reasonable title length\n                            title_shape = shape\n                    # Check if this is our target subtitle text\n                    elif shape.text.strip() == target_text:\n                        subtitle_shape = shape\n            \n            # Verify subtitle is positioned below title\n            if subtitle_shape and title_shape:\n                if subtitle_shape.top > title_shape.top:\n                    found_in_subtitle_position = True\n            elif subtitle_shape:  # Found subtitle but no clear title\n                found_in_subtitle_position = True\n        \n        if found_in_subtitle_position:\n            return \"Subtitle text found in appropriate position below title\", 1.0\n        else:\n            return \"Subtitle text not found in expected position or context\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking subtitle position: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Unwanted Changes",
+        "description": "Ensures that only the subtitle was modified and no other slide content, animations, or transitions were altered",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Animation Changes",
+            "description": "Verifies that no animations were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    total_animation_changes = (\n        len(ppt_diff.added_animations) + \n        len(ppt_diff.removed_animations) + \n        len(ppt_diff.modified_animations)\n    )\n    \n    if total_animation_changes == 0:\n        return \"No unwanted animation changes detected\", 1.0\n    else:\n        return f\"Detected {total_animation_changes} unwanted animation changes\", 0.0\n"
+            }
+          },
+          {
+            "name": "No Transition Changes",
+            "description": "Verifies that no slide transitions were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    total_transition_changes = (\n        len(ppt_diff.added_transitions) + \n        len(ppt_diff.removed_transitions) + \n        len(ppt_diff.modified_transitions)\n    )\n    \n    if total_transition_changes == 0:\n        return \"No unwanted transition changes detected\", 1.0\n    else:\n        return f\"Detected {total_transition_changes} unwanted transition changes\", 0.0\n"
+            }
+          },
+          {
+            "name": "No Slide Structure Changes",
+            "description": "Verifies that no slides were added or removed, and slide structure remains intact",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    slides_added = len(ppt_diff.added_slides)\n    slides_removed = len(ppt_diff.removed_slides)\n    \n    if slides_added == 0 and slides_removed == 0:\n        return \"No unwanted slide structure changes detected\", 1.0\n    else:\n        return f\"Detected unwanted slide changes: {slides_added} added, {slides_removed} removed\", 0.0\n"
+            }
+          },
+          {
+            "name": "Minimal Content Changes",
+            "description": "Verifies that content changes are limited to the subtitle text modification only",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        target_text = \"Philippine History: An Educational Overview\"\n        excessive_changes = False\n        changes_count = 0\n        \n        # Compare slide by slide\n        min_slides = min(len(original_prs.slides), len(modified_prs.slides))\n        \n        for i in range(min_slides):\n            orig_slide = original_prs.slides[i]\n            mod_slide = modified_prs.slides[i]\n            \n            # Get all text from both slides\n            orig_texts = []\n            mod_texts = []\n            \n            for shape in orig_slide.shapes:\n                if hasattr(shape, 'text'):\n                    orig_texts.append(shape.text.strip())\n            \n            for shape in mod_slide.shapes:\n                if hasattr(shape, 'text'):\n                    mod_texts.append(shape.text.strip())\n            \n            # Count text differences\n            for orig_text in orig_texts:\n                if orig_text and orig_text not in mod_texts:\n                    # Check if this was replaced by our target text\n                    if target_text not in mod_texts:\n                        changes_count += 1\n            \n            for mod_text in mod_texts:\n                if mod_text and mod_text not in orig_texts:\n                    # This is a new text, acceptable if it's our target\n                    if mod_text != target_text:\n                        changes_count += 1\n        \n        # Allow for 1-2 changes (original subtitle removal + new subtitle addition)\n        if changes_count <= 2:\n            return f\"Minimal content changes detected ({changes_count} changes), appropriate for subtitle edit\", 1.0\n        else:\n            return f\"Excessive content changes detected ({changes_count} changes), more than expected for subtitle edit\", 0.3\n            \n    except Exception as e:\n        return f\"Error checking content changes: {str(e)}\", 0.5\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Edit the subtitle text box below the main title so that it says: \"Philippine History: An Educational Overview\""
+  }
+}

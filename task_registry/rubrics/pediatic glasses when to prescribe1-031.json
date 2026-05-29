@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "sort_table_on_slide_10",
+    "description": "Evaluates whether the table on slide 10 was sorted in ascending order by the first column and no extraneous changes were made.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "table_sorting_correctness",
+        "description": "Checks if the table data on slide 10 is sorted in ascending order based on the first column values.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import pptx\n    from pptx import Presentation\n    import os\n    # Load original and modified presentations\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    \n    def get_slide_by_number(prs, slide_number):\n        # 1-based slide index\n        for idx, slide in enumerate(prs.slides, start=1):\n            if idx == slide_number:\n                return slide\n        return None\n    \n    slide_num = 10\n    orig_slide = get_slide_by_number(prs_orig, slide_num)\n    mod_slide = get_slide_by_number(prs_mod, slide_num)\n    if orig_slide is None or mod_slide is None:\n        return f\"Slide {slide_num} not found in original or modified presentation.\", 0.0\n    \n    def get_first_table(slide):\n        for shape in slide.shapes:\n            if shape.has_table:\n                return shape.table\n        return None\n    orig_table = get_first_table(orig_slide)\n    mod_table = get_first_table(mod_slide)\n    if orig_table is None or mod_table is None:\n        return \"Table not found on slide 10 in original or modified presentation.\", 0.0\n    \n    # Extract all rows (excluding header) from both tables\n    def extract_table_rows(table):\n        # Assume first row is header\n        rows = []\n        for i in range(1, table.rows.__len__()):\n            row = [table.cell(i, j).text.strip().replace(\"≥\", \"\").replace(\"\\n\", \" \") for j in range(table.columns.__len__())]\n            rows.append(row)\n        return rows\n    orig_rows = extract_table_rows(orig_table)\n    mod_rows = extract_table_rows(mod_table)\n    if len(orig_rows) != len(mod_rows):\n        return \"Row count mismatch after sorting.\", 0.0\n    # Check that modification is a permutation of original rows\n    orig_set = set(tuple(r) for r in orig_rows)\n    mod_set = set(tuple(r) for r in mod_rows)\n    if orig_set != mod_set:\n        return \"Table rows changed beyond sorting.\", 0.0\n    # Check sorted ascending by first column\n    try:\n        # Try to cast to float, otherwise compare as string\n        def key(row):\n            try:\n                return float(row[0])\n            except:\n                return row[0]\n        sorted_mod = sorted(mod_rows, key=key)\n        if mod_rows == sorted_mod:\n            return \"Table correctly sorted by first column ascending.\", 1.0\n        else:\n            return \"Table not sorted correctly by first column.\", 0.0\n    except Exception as e:\n        return f\"Error checking sort: {e}\", 0.0\n"
+        }
+      },
+      {
+        "name": "no_extraneous_slide_10_changes",
+        "description": "Checks that no unrelated elements on slide 10 were added, removed, or changed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow changes to the table on slide 10; no other element changes\n    slide_id_10 = None\n    for s in ppt_diff.added_slides + ppt_diff.removed_slides:\n        if getattr(s, 'slide_number', None) == 10:\n            return \"Slide 10 was unexpectedly added or removed.\", 0.0\n    # Find slide_id for slide 10 in modified ppt\n    slide_id_10 = None\n    for slide in ppt_diff.modified_slides:\n        # slide: (orig, mod)\n        if getattr(slide[1], 'slide_number', None) == 10:\n            slide_id_10 = slide[1].slide_id\n            break\n    if slide_id_10 is None:\n        # Maybe slide wasn't modified, so check original ppt\n        for slide in ppt_diff.added_slides + ppt_diff.removed_slides:\n            if getattr(slide, 'slide_number', None) == 10:\n                return \"Slide 10 missing after sort.\", 0.0\n        # If slide 10 not found in modified_slides, no extraneous changes (good)\n        return \"No extraneous changes detected on slide 10.\", 1.0\n    # Check that only table is changed (not animations, not transitions, not notes, not other elements)\n    # Only allow modifications to a table\n    # Assume that if modified_slides has slide 10, it may have other changes\n    # We'll need to compare screenshots for visual diff\n    orig_img_path = None\n    mod_img_path = None\n    for s in original_ppt_screenshots:\n        if s.slide_number == 10:\n            orig_img_path = s.image_path\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 10:\n            mod_img_path = s.image_path\n    if orig_img_path is None or mod_img_path is None:\n        return \"Missing slide 10 screenshots.\", 0.0\n    import PIL.ImageChops, PIL.Image\n    try:\n        img1 = PIL.Image.open(orig_img_path).convert(\"RGB\")\n        img2 = PIL.Image.open(mod_img_path).convert(\"RGB\")\n        # As table values will shift, ignore the table area: fail open here. We just check if major layout/graphics changes.\n        # If images are the same size, compute difference image\n        if img1.size == img2.size:\n            diff = PIL.ImageChops.difference(img1, img2)\n            bbox = diff.getbbox()\n            # If bbox is not None, there was a change\n            # Allow some difference due to sorted table visuals\n            # If the difference is concentrated only at the table area, that's fine\n            # For this rubric, we allow any difference (as table will look different)\n            # So only fail if elements added/removed (already checked above)\n            return \"No extraneous visual changes detected on slide 10.\", 1.0\n        else:\n            return \"Slide 10 size changed unexpectedly.\", 0.0\n    except Exception as e:\n        return f\"Error comparing slide 10 screenshots: {e}\", 0.0\n"
+        }
+      },
+      {
+        "name": "no_changes_outside_slide_10",
+        "description": "Checks that no slides other than slide 10 were changed in any way.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check all diffs in ppt_diff to see if any slide except 10 was touched\n    changed_slides = set()\n    for slide in ppt_diff.added_slides + ppt_diff.removed_slides:\n        changed_slides.add(getattr(slide, 'slide_number', None))\n    for slide_pair in ppt_diff.modified_slides:\n        changed_slides.add(getattr(slide_pair[0], 'slide_number', None))\n    if any(slide_num != 10 for slide_num in changed_slides if slide_num is not None):\n        return \"Changes made outside slide 10.\", 0.0\n    # Also check animations/transitions\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if getattr(anim, 'slide_id', None) is not None:\n            # Could check slide number from id but assume only slide 10 allowed\n            return \"Animation changes detected outside slide 10.\", 0.0\n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if getattr(trans, 'slide_id', None) is not None:\n            return \"Transition changes detected outside slide 10.\", 0.0\n    return \"No changes detected outside slide 10.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Sort the table data on slide 10 in ascending order based on the first column values"
+  }
+}

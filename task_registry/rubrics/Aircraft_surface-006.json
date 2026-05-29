@@ -1,0 +1,33 @@
+{
+  "root": {
+    "name": "Change slide 4 title to 'Longitudinal Axis - Roll Movement (2 of 3)'",
+    "description": "Evaluates whether the agent successfully identified slide 4, changed its title from 'Longitudinal Axis (2 of 3)' to 'Longitudinal Axis - Roll Movement (2 of 3)', and did so without undesired modifications to other slides or contents.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct slide identified and title replaced",
+        "description": "Checks that the agent performed the title change on slide 4, replacing 'Longitudinal Axis (2 of 3)' with 'Longitudinal Axis - Roll Movement (2 of 3)', and only on that slide/title element.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"Score whether slide 4's title was updated correctly.\n\n    We expect the original title to be exactly:\n        \"Longitudinal Axis (2 of 3)\"\n    And the modified title to match the target text ignoring the specific dash character used\n    between the two phrases (it could be hyphen, en dash, em dash, or any single character).\n    Accepted pattern (any single character between the phrases, with surrounding whitespace):\n        Longitudinal Axis <any_char> Roll Movement (2 of 3)\n    \"\"\"\n    import re\n\n    # Regex: match exact phrases, allow any single character (including various dash types)\n    # between them, with flexible whitespace around it.\n    pattern = re.compile(r\"^Longitudinal Axis\\s+.\\s+Roll Movement \\(2 of 3\\)$\")\n\n    for orig_slide, mod_slide in ppt_diff.modified_slides:\n        if orig_slide.slide_number == 4:\n            if orig_slide.title == \"Longitudinal Axis (2 of 3)\":\n                if pattern.match(mod_slide.title):\n                    reason = \"Slide 4 title successfully changed (dash-insensitive match).\"\n                    return reason, 1.0\n                else:\n                    reason = (\n                        \"Slide 4 title modification found but does not match expected pattern. \"\n                        f\"Found: '{mod_slide.title}'.\"\n                    )\n                    return reason, 0.0\n            else:\n                reason = (\n                    \"Original title of slide 4 does not match expected: \"\n                    f\"'{orig_slide.title}'.\"\n                )\n                return reason, 0.0\n    return \"No title modification found for slide 4.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous changes to other slides or PowerPoint elements",
+        "description": "Checks that no slides other than slide 4 were modified, added, or removed, and no non-title elements or features (animations, transitions, notes) were changed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 4's title should be changed\n    # Check that no other slides are modified, added, or removed\n    slide_mods = [s for (o, m) in ppt_diff.modified_slides if o.slide_number != 4]\n    added = ppt_diff.added_slides\n    removed = ppt_diff.removed_slides\n    non_title_changes = False\n    # Check for element/animation/transition/notes changes\n    for (orig_slide, mod_slide) in ppt_diff.modified_slides:\n        if orig_slide.slide_number == 4:\n            # If other slide properties (layout, element_count, notes) change, mark extraneous change\n            if (orig_slide.layout_type != mod_slide.layout_type or\n                orig_slide.element_count != mod_slide.element_count or\n                orig_slide.notes != mod_slide.notes):\n                non_title_changes = True\n    if slide_mods or added or removed or non_title_changes:\n        reason = \"Found extraneous changes: \"\n        details = []\n        if slide_mods:\n            details.append(f\"Modified slides other than 4: {[s.slide_number for s in slide_mods]}\")\n        if added:\n            details.append(f\"Added slides: {[s.slide_number for s in added]}\")\n        if removed:\n            details.append(f\"Removed slides: {[s.slide_number for s in removed]}\")\n        if non_title_changes:\n            details.append(f\"Other properties of slide 4 changed.\")\n        reason += \", \".join(details)\n        return reason, 0.0\n    # Check no modifications in animation/transitions\n    extraneous = False\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        extraneous = True\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        extraneous = True\n    if extraneous:\n        return \"Found extraneous changes to animations or transitions.\", 0.0\n    return \"No extraneous changes detected.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 4, Change the title from \"Longitudinal Axis (2 of 3)\" to \"Longitudinal Axis - Roll Movement (2 of 3)\""
+  }
+}

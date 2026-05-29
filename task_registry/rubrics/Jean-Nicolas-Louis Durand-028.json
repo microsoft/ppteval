@@ -1,0 +1,89 @@
+{
+  "root": {
+    "name": "Create a new slide after slide 8 with the title 'Building Analysis Methods'",
+    "description": "Evaluates whether the agent successfully created a new slide after slide 8, ensured the slide title is correct, and avoided extraneous changes elsewhere in the presentation.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Slide creation and position",
+        "description": "Checks that a new slide was created and placed immediately after slide 8.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "New slide exists",
+            "description": "Verifies that exactly one new slide was added to the presentation.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return f\"Expected 1 new slide, found {len(added_slides)}.\", 0.0\n    return \"Exactly one new slide added.\", 1.0\n"
+            }
+          },
+          {
+            "name": "New slide is after slide 8",
+            "description": "Checks that the new slide was inserted immediately after slide 8 (i.e., it is now slide 9).",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return \"Can't check position: not exactly one new slide.\", 0.0\n    new_slide = added_slides[0]\n    # Find the original slide 8\n    orig_slide_8 = next((s for s in ppt_diff.removed_slides if s.slide_number == 8), None)\n    # If slide numbers shifted, check the new slide is numbered 9\n    if new_slide.slide_number != 9:\n        return f\"New slide is at position {new_slide.slide_number}, expected position 9.\", 0.0\n    return \"New slide correctly positioned after slide 8.\", 1.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Slide title correctness",
+        "description": "Checks that the new slide has the correct title: 'Building Analysis Methods'.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Title matches expected text",
+            "description": "Verifies that the new slide's title matches 'Building Analysis Methods' (case-insensitive, ignoring extra whitespace).",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    expected_title = 'building analysis methods'.strip().lower()\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return \"Can't check title: not exactly one new slide.\", 0.0\n    title = (added_slides[0].title or '').strip().lower()\n    if title == expected_title:\n        return \"Title matches exactly.\", 1.0\n    if expected_title in title:\n        return \"Title contains expected text, but has extra content.\", 0.7\n    return f\"Title '{title}' does not match expected '{expected_title}'.\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No extraneous changes",
+        "description": "Checks that no other modifications were made to slides, transitions, or animations, except for the single new slide addition.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No other slides changed",
+            "description": "Verifies that no slides other than the new one were added, removed, or modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Only one slide should be added, no slides removed or modified\n    slide_changes = len(ppt_diff.added_slides) == 1 and len(ppt_diff.removed_slides) == 0 and len(ppt_diff.modified_slides) == 0\n    if slide_changes:\n        return \"No extraneous slide changes.\", 1.0\n    return \"There are extraneous slide additions, removals, or modifications.\", 0.0\n"
+            }
+          },
+          {
+            "name": "No extraneous transitions or animations",
+            "description": "Verifies that no transitions or animations were added, removed, or modified anywhere in the presentation.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # All lists should be empty\n    if (\n        not ppt_diff.added_animations and\n        not ppt_diff.removed_animations and\n        not ppt_diff.modified_animations and\n        not ppt_diff.added_transitions and\n        not ppt_diff.removed_transitions and\n        not ppt_diff.modified_transitions\n    ):\n        return \"No extraneous transitions or animations.\", 1.0\n    return \"Extraneous transitions or animations detected.\", 0.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Create a new slide after slide 8 with the title 'Building Analysis Methods'",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

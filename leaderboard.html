@@ -1,0 +1,86 @@
+---
+layout: page
+title: Leaderboard
+permalink: /leaderboard/
+---
+<section class="section" id="leaderboard">
+  <div class="filters benchmark-sort-controls">
+    <div class="filter-group">
+      <label for="sort-tier">Tier:</label>
+      <select id="sort-tier">
+        <option value="overall" selected>Overall</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sort-metric">Metric:</label>
+      <select id="sort-metric">
+        <option value="avg_score" selected>Average Score (desc)</option>
+        <option value="success_rate">Success Rate (desc)</option>
+        <option value="avg_steps">Average Steps (asc)</option>
+      </select>
+    </div>
+    <div class="filter-actions">
+      <button class="btn btn-primary" onclick="applySort()">Sort</button>
+    </div>
+  </div>
+  <div class="table-container">
+    <table class="benchmark-table" id="leaderboard-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Model</th>
+          <th>Provider</th>
+          <th>Success Rate (%)</th>
+          <th>Average Score (%)</th>
+          <th>Average Steps</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in site.data.benchmark.results %}
+          {% assign slug = result.model | slugify %}
+          <tr class="model-row" data-slug="{{ slug }}"
+              data-success-rate="{{ result.success_rate }}" data-avg-score="{{ result.avg_score }}" data-avg-steps="{{ result.avg_steps }}"
+              data-easy-success="{{ result.difficulty.easy.success_rate }}" data-easy-score="{{ result.difficulty.easy.avg_score }}" data-easy-steps="{{ result.difficulty.easy.avg_steps }}"
+              data-medium-success="{{ result.difficulty.medium.success_rate }}" data-medium-score="{{ result.difficulty.medium.avg_score }}" data-medium-steps="{{ result.difficulty.medium.avg_steps }}"
+              data-hard-success="{{ result.difficulty.hard.success_rate }}" data-hard-score="{{ result.difficulty.hard.avg_score }}" data-hard-steps="{{ result.difficulty.hard.avg_steps }}">
+            <td class="expand-cell"><button type="button" class="expand-btn" onclick="toggleDetails(this)" aria-expanded="false" aria-label="Show difficulty breakdown">▸</button></td>
+            <td class="model-cell"><span class="model-name">{{ result.model }}</span></td>
+            <td class="provider">{{ result.provider }}</td>
+            <td class="success-rate">{{ result.success_rate }}</td>
+            <td class="avg-score">{{ result.avg_score }}</td>
+            <td class="avg-steps">{{ result.avg_steps }}</td>
+          </tr>
+          {% if result.difficulty %}
+            <tr class="difficulty-row easy" data-parent="{{ slug }}" aria-hidden="true">
+              <td class="indent"></td>
+              <td class="difficulty-label"><span class="diff-dot easy"></span><span class="difficulty-text">Easy</span></td>
+              <td></td>
+              <td class="success-rate">{{ result.difficulty.easy.success_rate }}</td>
+              <td class="avg-score">{{ result.difficulty.easy.avg_score }}</td>
+              <td class="avg-steps">{{ result.difficulty.easy.avg_steps }}</td>
+            </tr>
+            <tr class="difficulty-row medium" data-parent="{{ slug }}" aria-hidden="true">
+              <td class="indent"></td>
+              <td class="difficulty-label"><span class="diff-dot medium"></span><span class="difficulty-text">Medium</span></td>
+              <td></td>
+              <td class="success-rate">{{ result.difficulty.medium.success_rate }}</td>
+              <td class="avg-score">{{ result.difficulty.medium.avg_score }}</td>
+              <td class="avg-steps">{{ result.difficulty.medium.avg_steps }}</td>
+            </tr>
+            <tr class="difficulty-row hard" data-parent="{{ slug }}" aria-hidden="true">
+              <td class="indent"></td>
+              <td class="difficulty-label"><span class="diff-dot hard"></span><span class="difficulty-text">Hard</span></td>
+              <td></td>
+              <td class="success-rate">{{ result.difficulty.hard.success_rate }}</td>
+              <td class="avg-score">{{ result.difficulty.hard.avg_score }}</td>
+              <td class="avg-steps">{{ result.difficulty.hard.avg_steps }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

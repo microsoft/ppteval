@@ -1,0 +1,129 @@
+{
+  "root": {
+    "name": "Add a slide after slide 2 with a table comparing characteristics of all three worm types",
+    "description": "Evaluates whether the agent has correctly added a slide after slide 2 that contains a table comparing characteristics of all three worm types, and that the result is accurate and precise without introducing extraneous or erroneous content.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Exactly one slide added",
+        "description": "Verifies that one and only one slide was inserted.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check exactly one slide is added\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return f\"Expected exactly 1 slide added, found {len(added_slides)}.\", 0.0\n    return \"Exactly one slide inserted.\", 1.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Table Presence and Structure",
+        "description": "Checks that the inserted slide contains a table and that the table is formatted to compare all three worm types in a meaningful way.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Table exists on inserted slide",
+            "description": "Verifies that the new slide contains a table element.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    # Slides are 0-indexed in python-pptx\n    slide_idx = 2  # Slide after slide 2 is index 2\n    if slide_idx >= len(pres.slides):\n        return \"Inserted slide not found in the modified presentation.\", 0.0\n    slide = pres.slides[slide_idx]\n    table_found = any(shape.has_table for shape in slide.shapes)\n    if not table_found:\n        return \"No table found on inserted slide.\", 0.0\n    return \"Table found on the inserted slide.\", 1.0\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "Table structure allows comparison of all three worm types",
+            "description": "Verifies that the table has at least three columns or three rows for worm types and is likely structured for comparison.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide_idx = 2\n    slide = pres.slides[slide_idx]\n    for shape in slide.shapes:\n        if shape.has_table:\n            tbl = shape.table\n            # Table should have at least 3 columns or 3 rows for worm types comparison\n            if tbl.columns.__len__() >= 3 or tbl.rows.__len__() >= 3:\n                return \"Table has sufficient structure for comparing three worm types.\", 1.0\n            else:\n                return \"Table does not have enough columns or rows for three worm types.\", 0.0\n    return \"No table found to check structure.\", 0.0\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "Table Content Quality",
+        "description": "Checks that the table is indeed comparing characteristics of all three worm types, and not some other content. Also checks if the comparison is reasonably accurate.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Comparison of all three worm types present",
+            "description": "Checks that all three worm types are listed as headers or row/column titles in the table.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    expected_types = [\"roundworm\", \"flatworm\", \"segmented worm\"]\n    pres = Presentation(modified_ppt_path)\n    slide_idx = 2\n    slide = pres.slides[slide_idx]\n    for shape in slide.shapes:\n        if shape.has_table:\n            tbl = shape.table\n            text_cells = set(cell.text.strip().lower() for row in tbl.rows for cell in row.cells)\n            # Simple matching by substring\n            found = [any(t in cell for cell in text_cells) for t in expected_types]\n            if all(found):\n                return \"All three worm types found as table headers or labels.\", 1.0\n            else:\n                missing = [t for i, t in enumerate(expected_types) if not found[i]]\n                return f\"Missing worm types in table: {', '.join(missing)}.\", 0.0\n    return \"No table found to check worm types.\", 0.0\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "Table compares characteristics (not just lists names)",
+            "description": "Checks that the table contains more than just worm type names, i.e., there are other rows/columns with different characteristics being compared.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide_idx = 2\n    slide = pres.slides[slide_idx]\n    for shape in slide.shapes:\n        if shape.has_table:\n            tbl = shape.table\n            # At least two rows (or columns) required: one for type names, others for characteristics\n            if tbl.rows.__len__() > 1 or tbl.columns.__len__() > 1:\n                # Heuristic: there should be at least one cell whose text is not a worm type\n                expected_types = [\"roundworm\", \"flatworm\", \"segmented worm\"]\n                type_set = set(expected_types)\n                cells = [cell.text.strip().lower() for row in tbl.rows for cell in row.cells]\n                # If there is any cell not containing a worm type name, table is not just listing names\n                others = [cell for cell in cells if all(t not in cell for t in type_set)]\n                if len(others) > 0:\n                    return \"Table contains characteristics beyond worm type names.\", 1.0\n                else:\n                    return \"Table only contains worm type names.\", 0.0\n            else:\n                return \"Table is too small to compare characteristics.\", 0.0\n    return \"No table found to check characteristics.\", 0.0\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "Table content is relevant and not extraneous",
+            "description": "Checks that the table does not contain unrelated or extraneous data (e.g., animals unrelated to worms).",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "\ndef compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide_idx = 2\n    slide = pres.slides[slide_idx]\n    unrelated_words = [\"mammal\", \"bird\", \"fish\", \"reptile\", \"amphibian\", \"insect\", \"spider\", \"dog\", \"cat\", \"elephant\", \"snake\"]\n    for shape in slide.shapes:\n        if shape.has_table:\n            tbl = shape.table\n            all_text = \" \".join(cell.text.lower() for row in tbl.rows for cell in row.cells)\n            if any(w in all_text for w in unrelated_words):\n                return \"Table contains unrelated or extraneous content.\", 0.0\n            return \"No unrelated or extraneous content in table.\", 1.0\n    return \"No table found to check extraneous content.\", 1.0  # N/A, so don't penalize\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "No Unrelated Changes",
+        "description": "Ensures that the agent did not introduce any unrelated or extraneous changes to the presentation, such as modifying or deleting other slides or content.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No unrelated slides added or removed",
+            "description": "Checks that no slides other than the required new slide were added or removed.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Only 1 slide should be added; no slides should be removed\n    if len(ppt_diff.added_slides) != 1:\n        return f\"{len(ppt_diff.added_slides)} slides added, expected 1.\", 0.0\n    if len(ppt_diff.removed_slides) != 0:\n        return f\"{len(ppt_diff.removed_slides)} slides removed, expected 0.\", 0.0\n    return \"No unrelated slides added or removed.\", 1.0\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No unrelated modifications to other slides",
+            "description": "Checks that no slides other than the new slide were modified (apart from possible slide number shifts).",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) != 1:\n        return f\"Expected exactly 1 slide added, found {len(added_slides)}.\", 0.0\n    \n    different_slides = []\n    for i, s in enumerate(original_ppt_screenshots):\n        j = i\n        if i >= 2:\n            j += 1\n\n        orig_img = s.image_path\n        mod_img = modified_ppt_screenshots[j].image_path\n\n        if not orig_img or not mod_img:\n            return (f\"Screenshot for slide {i} in original or slide {j} in modified missing.\", 0.0)\n        \n        prompt = (\n            \"Compare these two images of the same PowerPoint slide. There should be virtually no difference between these slides. \"\n            \"Are there *any* visible changes to the slide's content, layout, or appearance (such as text, images, shapes, or formatting)? \"\n            \"If there are no visible changes, answer NO. Otherwise, answer YES and briefly describe the differences. Take your time, analyze the slides, and compare them carefully.\"\n        )\n\n        vlm_resp = vlm_call(prompt, [orig_img, mod_img], temperature=0.0, max_tokens=128).strip().lower()\n        if vlm_resp.startswith('yes'):\n            different_slides.append(f\"Visual difference(s) detected on Slide {i} (Slide {j} in modified): {vlm_resp}\")\n\n    if len(different_slides) > 0:\n        return ('\\n'.join(different_slides), 0.0)\n    \n    return ('No differences found', 1.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Add a slide after slide 2 with a table comparing characteristics of all three worm types"
+  }
+}

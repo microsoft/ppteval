@@ -1,0 +1,127 @@
+{
+  "root": {
+    "name": "Slide 8 Two-Column Comparison Layout Task",
+    "description": "Evaluates whether slide 8 was successfully changed to a two-column comparison layout with 'Adults' on the left and 'Children' on the right, with appropriate bullet points moved to each column",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Layout Change Implementation",
+        "description": "Verifies that slide 8 was changed to a two-column layout structure",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Slide 8 Layout Type Changed",
+            "description": "Checks if slide 8's layout was changed to a two-column comparison layout",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    # Check if slide 8 exists and was modified\n    slide_8_modified = False\n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number == 8 or new_slide.slide_number == 8:\n            slide_8_modified = True\n            break\n    \n    if not slide_8_modified:\n        return \"Slide 8 was not modified\", 0.0\n    \n    # Load the modified presentation to check layout\n    prs = Presentation(modified_ppt_path)\n    \n    if len(prs.slides) < 8:\n        return \"Slide 8 does not exist in the presentation\", 0.0\n    \n    slide = prs.slides[7]  # 0-indexed\n    layout_name = slide.slide_layout.name.lower()\n    \n    # Check if it's a comparison or two-column layout\n    comparison_keywords = ['comparison', 'two', 'column', 'content']\n    is_comparison_layout = any(keyword in layout_name for keyword in comparison_keywords)\n    \n    if is_comparison_layout:\n        return f\"Slide 8 layout changed to: {slide.slide_layout.name}\", 1.0\n    else:\n        return f\"Slide 8 layout is '{slide.slide_layout.name}' which doesn't appear to be a two-column comparison layout\", 0.3\n"
+            }
+          },
+          {
+            "name": "Visual Two-Column Structure",
+            "description": "Verifies that slide 8 visually displays a two-column structure with content on both sides",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 8 screenshot\n    slide_8_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            slide_8_screenshot = screenshot\n            break\n    \n    if not slide_8_screenshot:\n        return \"No screenshot found for slide 8\", 0.0\n    \n    # Use VLM to check for two-column structure\n    prompt = \"\"\"Analyze this PowerPoint slide image. Does it have a clear two-column layout structure with content in both columns? \n    Look for:\n    1. Content arranged in two distinct vertical columns\n    2. Text or bullet points in both left and right areas\n    3. Clear visual separation between the two columns\n    \n    Answer with 'YES' if it clearly has a two-column structure with content in both columns, or 'NO' if it doesn't.\"\"\"\n    \n    response = vlm_call(prompt, [slide_8_screenshot.image_path])\n    \n    if 'YES' in response:\n        return \"Slide 8 displays a clear two-column structure\", 1.0\n    else:\n        return f\"Slide 8 does not display a clear two-column structure: {response}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Column Headers Implementation",
+        "description": "Verifies that the columns are properly labeled with 'Adults' and 'Children'",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Adults and Children Headers Present",
+            "description": "Checks if 'Adults' and 'Children' headers are present on the slide",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check whether slide 8 contains headers labeled 'Adults' and 'Children'\n    slide_8_image = None\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 8:\n                slide_8_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_8_image:\n        return \"Slide 8 screenshot not found.\", 0.0\n\n    prompt = (\n        \"Look at slide 8. Are there column headers labeled exactly 'Adults' and 'Children'?\\n\"\n        \"Respond YES if both headers are present, PARTIAL if only one is present, or NONE if neither is present.\\n\"\n        \"Ignore case and minor styling differences; focus on the presence of the headers.\"\n    )\n    try:\n        response = vlm_call(images=[slide_8_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().upper()\n        if resp.startswith('YES'):\n            return response, 1.0\n        elif 'PARTIAL' in resp:\n            return response, 0.5\n        elif resp.startswith('NONE') or resp.startswith('NO'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM check: {str(e)}\", 0.0\n"
+            }
+          },
+          {
+            "name": "Correct Column Positioning",
+            "description": "Verifies that 'Adults' is on the left and 'Children' is on the right",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 8 screenshot\n    slide_8_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            slide_8_screenshot = screenshot\n            break\n    \n    if not slide_8_screenshot:\n        return \"No screenshot found for slide 8\", 0.0\n    \n    # Use VLM to check positioning\n    prompt = \"\"\"Look at this PowerPoint slide image. I need to verify the positioning of column headers:\n    \n    1. Is there text that says 'Adults' or similar on the LEFT side of the slide?\n    2. Is there text that says 'Children' or similar on the RIGHT side of the slide?\n    \n    Please answer with:\n    - 'CORRECT' if Adults is on the left and Children is on the right\n    - 'REVERSED' if Children is on the left and Adults is on the right  \n    - 'UNCLEAR' if the positioning is not clear or headers are missing\"\"\"\n    \n    response = vlm_call(prompt, [slide_8_screenshot.image_path])\n    \n    if 'CORRECT' in response:\n        return \"Headers correctly positioned: Adults on left, Children on right\", 1.0\n    elif 'REVERSED' in response:\n        return \"Headers are reversed: Children on left, Adults on right\", 0.0\n    else:\n        return f\"Header positioning unclear or missing: {response}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Content Organization",
+        "description": "Evaluates whether bullet points were appropriately moved to the correct columns based on their content",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Bullet Points Moved to Columns",
+            "description": "Checks if bullet points were moved from the original format to the two columns",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 8 screenshots\n    original_slide_8 = None\n    modified_slide_8 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            original_slide_8 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            modified_slide_8 = screenshot\n            break\n    \n    if not original_slide_8 or not modified_slide_8:\n        return \"Missing screenshots for slide 8 comparison\", 0.0\n    \n    # Use VLM to compare the slides\n    prompt = \"\"\"Compare these two PowerPoint slide images (before and after):\n    \n    Image 1 is the ORIGINAL slide 8\n    Image 2 is the MODIFIED slide 8\n    \n    Please analyze:\n    1. Did the original slide have bullet points or content items?\n    2. Were these bullet points reorganized into two columns in the modified version?\n    3. Is there content now distributed between left and right columns?\n    \n    Answer 'YES' if bullet points were clearly moved/reorganized into columns, 'NO' if not/no changes. Answer with a single YES/NO followed with a brief explanation.\"\"\"\n    \n    response = vlm_call(prompt, [original_slide_8.image_path, modified_slide_8.image_path])\n    \n    if response.startswith('YES'):\n        return response, 1.0\n    else:\n        return response, 0.0\n"
+            }
+          },
+          {
+            "name": "Appropriate Content Categorization",
+            "description": "Verifies that content was logically categorized into Adults vs Children columns",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 8 screenshot\n    slide_8_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 8:\n            slide_8_screenshot = screenshot\n            break\n    \n    if not slide_8_screenshot:\n        return \"No screenshot found for slide 8\", 0.0\n    \n    # Use VLM to evaluate content appropriateness\n    prompt = \"\"\"Analyze this PowerPoint slide with two columns labeled 'Adults' and 'Children'.\n    \n    Look at the bullet points or content under each column header:\n    1. Does the content under 'Adults' seem appropriate for adults?\n    2. Does the content under 'Children' seem appropriate for children?\n    3. Is the categorization logical and sensible?\n    \n    Rate the appropriateness of the content categorization:\n    - EXCELLENT: All content is very well categorized\n    - GOOD: Most content is appropriately categorized\n    - FAIR: Some content is appropriately categorized but there are issues\n    - POOR: Content categorization doesn't make sense\"\"\"\n    \n    response = vlm_call(prompt, [slide_8_screenshot.image_path])\n    \n    response_upper = response.upper()\n    if 'EXCELLENT' in response_upper:\n        return \"Content categorization is excellent\", 1.0\n    elif 'GOOD' in response_upper:\n        return \"Content categorization is good\", 0.8\n    elif 'FAIR' in response_upper:\n        return \"Content categorization is fair\", 0.6\n    elif 'POOR' in response_upper:\n        return \"Content categorization is poor\", 0.2\n    else:\n        return f\"Could not determine content categorization quality: {response}\", 0.5\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Extraneous Changes",
+        "description": "Ensures that no unnecessary changes were made to other slides or elements",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Other Slides Unchanged",
+            "description": "Verifies that slides other than slide 8 were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for modifications to slides other than slide 8\n    other_slides_modified = []\n    \n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number != 8 and new_slide.slide_number != 8:\n            other_slides_modified.append(old_slide.slide_number)\n    \n    # Check for added/removed slides\n    slides_added = len(ppt_diff.added_slides)\n    slides_removed = len(ppt_diff.removed_slides)\n    \n    if not other_slides_modified and slides_added == 0 and slides_removed == 0:\n        return \"No extraneous changes to other slides\", 1.0\n    else:\n        issues = []\n        if other_slides_modified:\n            issues.append(f\"Modified slides: {other_slides_modified}\")\n        if slides_added > 0:\n            issues.append(f\"Added {slides_added} slides\")\n        if slides_removed > 0:\n            issues.append(f\"Removed {slides_removed} slides\")\n        \n        return f\"Extraneous changes detected: {', '.join(issues)}\", 0.0\n"
+            }
+          },
+          {
+            "name": "No Unnecessary Animations or Transitions",
+            "description": "Checks that no animations or transitions were unnecessarily added or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for animation/transition changes\n    animations_added = len(ppt_diff.added_animations)\n    animations_removed = len(ppt_diff.removed_animations)\n    animations_modified = len(ppt_diff.modified_animations)\n    \n    transitions_added = len(ppt_diff.added_transitions)\n    transitions_removed = len(ppt_diff.removed_transitions)\n    transitions_modified = len(ppt_diff.modified_transitions)\n    \n    total_changes = (animations_added + animations_removed + animations_modified + \n                    transitions_added + transitions_removed + transitions_modified)\n    \n    if total_changes == 0:\n        return \"No unnecessary animation or transition changes\", 1.0\n    else:\n        changes = []\n        if animations_added > 0:\n            changes.append(f\"{animations_added} animations added\")\n        if animations_removed > 0:\n            changes.append(f\"{animations_removed} animations removed\")\n        if animations_modified > 0:\n            changes.append(f\"{animations_modified} animations modified\")\n        if transitions_added > 0:\n            changes.append(f\"{transitions_added} transitions added\")\n        if transitions_removed > 0:\n            changes.append(f\"{transitions_removed} transitions removed\")\n        if transitions_modified > 0:\n            changes.append(f\"{transitions_modified} transitions modified\")\n        \n        return f\"Unnecessary animation/transition changes: {', '.join(changes)}\", 0.5\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change slide 8 to a two-column comparison layout with 'Adults' on the left and 'Children' on the right, moving appropriate bullet points to each column'.",
+    "compute_strategy": "default",
+    "non_critical_weight": 0.3
+  }
+}

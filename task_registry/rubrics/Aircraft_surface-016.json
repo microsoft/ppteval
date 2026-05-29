@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Slide 11 Text Placeholder Replacement",
+    "description": "Evaluates whether, on slide 11, the placeholder text 'Click to add text' was replaced correctly with the specified target text, with no extraneous modifications to other slides or content.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct replacement of placeholder text on slide 11",
+        "description": "Checks that the text 'Click to add text' was replaced with the exact target text on slide 11.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    TARGET_TEXT = \"Left rudder causes left yaw, right rudder causes right yaw\"\n    PLACEHOLDER_TEXT = \"Click to add text\"\n\n    prs = Presentation(modified_ppt_path)\n    slide = None\n    # Locate slide 11 (slide_number is 1-based)\n    if len(prs.slides) < 11:\n        return f\"Presentation only has {len(prs.slides)} slides.\", 0.0\n    slide = prs.slides[10]\n    found_placeholder = False\n    replaced_correctly = False\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = shape.text.strip()\n            if text == TARGET_TEXT:\n                replaced_correctly = True\n            if text == PLACEHOLDER_TEXT:\n                found_placeholder = True\n    if replaced_correctly:\n        return \"Correct target text is present on slide 11.\", 1.0\n    if found_placeholder:\n        return \"Placeholder text still present on slide 11.\", 0.0\n    return \"Target text not found, and placeholder not present. Could not verify replacement.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous changes to other slides",
+        "description": "Checks that no slides other than slide 11 had nontrivial modifications (excluding minor metadata changes).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 11 (slide_number=11) should be altered\n    problematic_mods = []\n    for (old, new) in ppt_diff.modified_slides:\n        if old.slide_number != 11:\n            # Check if nontrivial changes happened\n            major = False\n            # Check notes, title, number of elements (as proxy)\n            if old.title != new.title or (old.notes or \"\") != (new.notes or \"\") or old.element_count != new.element_count:\n                major = True\n            if major:\n                problematic_mods.append(old.slide_number)\n    # Check for added/removed slides\n    added = [s.slide_number for s in ppt_diff.added_slides if s.slide_number != 11]\n    removed = [s.slide_number for s in ppt_diff.removed_slides if s.slide_number != 11]\n    if problematic_mods or added or removed:\n        return f\"Slides other than 11 changed: modified={problematic_mods}, added={added}, removed={removed}.\", 0.0\n    return \"No extraneous changes to other slides.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No extraneous added/removed/modified elements on slide 11",
+        "description": "Checks that, besides the replacement of the text placeholder, no other elements (shapes, images, etc.) were added, removed, or significantly altered on slide 11.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only a single text shape should be replaced\n    # We inspect modified elements count and types\n    # We'll allow for one modified element: the original placeholder text shape to the new text shape\n    mods = [pair for pair in ppt_diff.modified_slides if pair[0].slide_number == 11]\n    added = [slide for slide in ppt_diff.added_slides if slide.slide_number == 11]\n    removed = [slide for slide in ppt_diff.removed_slides if slide.slide_number == 11]\n    extraneous = False\n    # Check for additions/removals on slide 11 itself\n    if added or removed:\n        extraneous = True\n    # If more than one shape modified, suspect extraneous modification\n    for (old, new) in mods:\n        if abs(old.element_count - new.element_count) > 0:\n            extraneous = True\n    if extraneous:\n        return \"Extraneous elements added/removed/modified on slide 11.\", 0.0\n    return \"No extraneous elements changed on slide 11; only placeholder replaced.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 11, Replace the \"Click to add text\" placeholder with \"Left rudder causes left yaw, right rudder causes right yaw\""
+  }
+}

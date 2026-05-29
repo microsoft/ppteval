@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "Add text box below image on slide 3 with specified text",
+    "description": "Evaluates whether a new text box with the exact required text was added below the image on slide 3, with no extraneous behavior.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct text box added to slide 3",
+        "description": "Checks that a new text box containing the exact required text ('Ailerons control the roll movement of the aircraft') was added to slide 3.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Text box with specified text exists",
+            "description": "Verifies that the newly added text box on slide 3 contains the exact required text.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Search for added elements on slide 3 that are text boxes with the required text.\n    required_text = \"Ailerons control the roll movement of the aircraft\"\n    added_slide_ids = [slide.slide_id for slide in ppt_diff.added_slides if slide.slide_number == 3]\n    # Only consider modifications to slide 3\n    modified_slide = None\n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number == 3:\n            modified_slide = (old_slide, new_slide)\n            break\n    candidates = []\n    # Look through ppt_diff to find added elements\n    for mod in ppt_diff.modified_slides:\n        old_slide, new_slide = mod\n        if old_slide.slide_number == 3:\n            # Compare element counts, fetch new slide elements\n            from pptx import Presentation\n            pres = Presentation(modified_ppt_path)\n            # Get slide 3\n            slide = pres.slides[2]\n            # Look for shapes with the required text (case-insensitive, trimmed)\n            for shape in slide.shapes:\n                if shape.has_text_frame:\n                    text = shape.text.strip()\n                    if text.lower() == required_text.lower():\n                        candidates.append(shape)\n    if candidates:\n        return (\"Text box with the required text exists on slide 3.\", 1.0)\n    else:\n        return (\"No text box with the required text was found on slide 3.\", 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Text box is positioned below the image",
+        "description": "Verifies that the new text box is spatially below the image on slide 3.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Open the modified presentation and get slide 3\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide = pres.slides[2]\n    required_text = \"Ailerons control the roll movement of the aircraft\"\n    text_shape = None\n    image_shape = None\n    # Find the text box and image\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text.strip().lower() == required_text.lower():\n            text_shape = shape\n        if shape.shape_type == 13: # PICTURE\n            image_shape = shape\n    if text_shape is None:\n        return (\"Required text box not found (shouldn't happen if previous criterion passed)\", 0.0)\n    if image_shape is None:\n        return (\"No image found on slide 3.\", 0.0)\n    # Check position: text box top > image bottom\n    text_top = text_shape.top\n    image_bottom = image_shape.top + image_shape.height\n    if text_top > image_bottom:\n        return (\"Text box is positioned below the image.\", 1.0)\n    else:\n        return (\"Text box is NOT positioned below the image.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No unwanted modifications to slide 3",
+        "description": "Checks that no additional elements (other than the required text box) were added to or removed from slide 3, and the image remains present.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Accept only the addition of the required text box.\n    from pptx import Presentation\n    pres_orig = Presentation(original_ppt_path)\n    pres_mod = Presentation(modified_ppt_path)\n    slide_orig = pres_orig.slides[2]\n    slide_mod = pres_mod.slides[2]\n    orig_names = set(shape.name for shape in slide_orig.shapes)\n    mod_names = set(shape.name for shape in slide_mod.shapes)\n    # Check for removed elements\n    removed = orig_names - mod_names\n    added = mod_names - orig_names\n    # There must be a new text box only, with the required text\n    required_text = \"Ailerons control the roll movement of the aircraft\"\n    extra_added = []\n    found_text_box = False\n    for shape in slide_mod.shapes:\n        if shape.has_text_frame and shape.text.strip().lower() == required_text.lower():\n            if shape.name in added:\n                found_text_box = True\n    added_without_required = [name for name in added if not found_text_box or name != shape.name]\n    if removed:\n        return (f\"Shapes removed from slide 3: {removed}\", 0.0)\n    if added_without_required:\n        return (f\"Additional elements added other than required text box: {added_without_required}\", 0.5)\n    # Check image is still present\n    orig_has_image = any(s.shape_type == 13 for s in slide_orig.shapes)\n    mod_has_image = any(s.shape_type == 13 for s in slide_mod.shapes)\n    if not mod_has_image and orig_has_image:\n        return (\"Image is missing from slide 3.\", 0.0)\n    return (\"No unwanted modifications; only required text box was added.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 3, Add a new text box below the image that says 'Ailerons control the roll movement of the aircraft'"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "root": {
+    "name": "slide_content_modification",
+    "description": "Evaluates if Slide 9's first bullet is split into three bullets and Slide 9's first bullet is changed to a numbered list item '1'.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "slide_9_bullet_split",
+        "description": "Checks if the first bullet in Slide 9's content is split into the specified three bullets.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check whether three specified bullet sentences are present on slide 9\n    slide_9_image = None\n    if len(ppt_diff.modified_slides) == 0:\n        return \"No modifications detected.\", 0.0\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 9:\n                slide_9_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_9_image:\n        return \"Slide 9 screenshot not found.\", 0.0\n\n    prompt = (\n        \"Look at slide 9 and read the bullet points. We expect these three bullet sentences:\\n\"\n        \"1) 'The association may be stronger for obese adolescents than younger children'\\n\"\n        \"2) 'Obese children are also more likely to have increased risk of heart disease'\\n\"\n        \"3) 'Obese children are also more likely to develop asthma'\\n\"\n        \"Do all three of these sentences appear as separate bullet points? Respond YES if all three appear, PARTIAL if only one or two appear, or NONE if none appear. Include a brief justification.\"\n    )\n\n    try:\n        response = vlm_call(images=[slide_9_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().upper()\n        if resp.startswith('YES'):\n            return response, 1.0\n        elif 'PARTIAL' in resp:\n            return response, 0.5\n        elif resp.startswith('NONE') or resp.startswith('NO'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM check: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "slide_9_first_bullet_numbered",
+        "description": "Checks if the first bullet on Slide 9 is converted to a numbered list item '1'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to check whether the first bullet on slide 9 is numbered as '1.'\n    slide_9_image = None\n    if len(ppt_diff.modified_slides) == 0:\n        return \"No modifications detected.\", 0.0\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 9:\n                slide_9_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_9_image:\n        return \"Slide 9 screenshot not found.\", 0.0\n\n    prompt = (\n        \"Look at slide 9. Focus on the main content bullet list (ignore the title).\\n\"\n        \"Is the FIRST bullet explicitly numbered as '1.' (arabic number followed by a period)?\\n\"\n        \"Respond YES or NO and include a brief justification.\"\n    )\n    try:\n        response = vlm_call(images=[slide_9_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().lower()\n        if resp.startswith('yes'):\n            return response, 1.0\n        elif resp.startswith('no'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM check: {str(e)}\", 0.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Convert the first bullet in the content for Slide 9 into three: *. The association may be stronger for obese adolescents than younger children   *. Obese children are also more likely to have increased risk of heart disease    *.  Obese children are also more likely to develop asthma, then Change only the first bullet point to a numbered list item '1' on slide 9."
+  }
+}

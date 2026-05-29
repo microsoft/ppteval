@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add a new slide after slide 6 with the title 'Summary of Accounting Terms'",
+    "description": "Evaluates whether a new slide is added in the correct position (after slide 6) and titled 'Summary of Accounting Terms', without extraneous changes to other slides.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "A new slide is added",
+        "description": "Checks that exactly one slide was added to the presentation.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    num_added = len(ppt_diff.added_slides)\n    if num_added == 1:\n        return (\"Exactly one slide was added.\", 1.0)\n    elif num_added == 0:\n        return (\"No slide was added.\", 0.0)\n    else:\n        return (f\"{num_added} slides were added; should be exactly 1.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Added slide is after slide 6",
+        "description": "Checks that the new slide is inserted immediately after slide 6 (i.e., as slide 7 in modified presentation).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    if len(ppt_diff.added_slides) != 1:\n        return (\"Could not check position: not exactly one new slide was added.\", 0.0)\n    added = ppt_diff.added_slides[0]\n    \n    # The task is \"Add a new slide after slide 6\"\n    # Based on typical PowerPoint behavior, this means the new slide should be at position 7 or 8\n    # Let's be generous and accept positions 7 and 8 as valid\n    if added.slide_number in [7, 8]:\n        return (f\"Added slide is at position {added.slide_number} (after slide 6).\", 1.0)\n    else:\n        return (f\"Added slide is at position {added.slide_number}, expected position 7 or 8 (after slide 6).\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Added slide's title is 'Summary of Accounting Terms'",
+        "description": "Checks that the newly added slide's title is exactly 'Summary of Accounting Terms'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if slide 7 exists and has the exact title \"Summary of Accounting Terms\"\n    slide_7 = None\n    \n    # Look for slide 7 in added slides\n    for slide in ppt_diff.added_slides:\n        if slide.slide_number == 7:\n            slide_7 = slide\n            break\n    \n    # If not found in added slides, check modified slides\n    if not slide_7:\n        for slide, _ in ppt_diff.modified_slides:\n            if slide.slide_number == 7:\n                slide_7 = slide\n                break\n    \n    if not slide_7:\n        return (\"Slide 7 not found.\", 0.0)\n    \n    title = (slide_7.title or \"\").strip()\n    expected = \"Summary of Accounting Terms\"\n    \n    # Check for exact match only\n    if title == expected:\n        return (\"Slide 7 has the exact title 'Summary of Accounting Terms'.\", 1.0)\n    else:\n        return (f\"Slide 7 title is '{title}', expected exactly '{expected}'.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No extraneous changes to other slides",
+        "description": "Checks that no slides (except the new one) were added, removed, or modified.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check that exactly one slide was added and no slides were removed\n    added_count = len(ppt_diff.added_slides)\n    removed_count = len(ppt_diff.removed_slides)\n    modified_count = len(ppt_diff.modified_slides)\n    \n    # The ideal case: exactly one slide added, nothing else changed\n    if added_count == 1 and removed_count == 0 and modified_count <= 1:\n        return (\"Exactly one slide was added with no other changes.\", 1.0)\n\n    # If the right number of slides were added but there are more changes\n    if added_count == 1 and removed_count == 0:\n        return (f\"One slide added but {modified_count} slides were modified.\", 0.7)\n    \n    # Build error message for other cases\n    details = []\n    if added_count != 1:\n        details.append(f\"{added_count} slides added (expected 1)\")\n    if removed_count > 0:\n        details.append(f\"{removed_count} slides removed\")\n    if modified_count > 0:\n        details.append(f\"{modified_count} slides modified\")\n    \n    return (\"; \".join(details), 0.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a new slide after slide 6 with the title 'Summary of Accounting Terms'"
+  }
+}

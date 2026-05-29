@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add textbox and adjust diagram on slide 7 per specification",
+    "description": "Evaluates whether the agent (1) added a new textbox with the correct content positioned below the aircraft diagram, and (2) resized the aircraft image to prevent overlap between the new textbox and the image.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Textbox with correct text is added on slide 7",
+        "description": "Checks that a textbox containing exactly the required text has been added to slide 7.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    required_text = \"Elevators control the pitch attitude of the aircraft\"\n    # Find newly added slides and elements on slide 7\n    slide7 = None\n    for s in ppt_diff.added_slides:\n        if s.slide_number == 7:\n            slide7 = s\n            break\n    # But more likely, the textbox is an added shape to existing slide 7\n    added_texts = []\n    for anim in ppt_diff.added_animations:\n        if int(anim.slide_id) == 7 and anim.element_type == 'text':\n            added_texts.append(anim.element_text)\n    # But added_animations may be empty, so instead, let's look at diff in number of textboxes, and use python-pptx\n    from pptx import Presentation\n    pres_orig = Presentation(original_ppt_path)\n    pres_mod = Presentation(modified_ppt_path)\n    orig_slide = pres_orig.slides[6]  # slide 7 is index 6\n    mod_slide = pres_mod.slides[6]\n    def slide_texts(slide):\n        texts = []\n        for shape in slide.shapes:\n            if not shape.has_text_frame:\n                continue\n            texts.append(shape.text.strip())\n        return texts\n    orig_texts = set(slide_texts(orig_slide))\n    mod_texts = set(slide_texts(mod_slide))\n    added = [t for t in mod_texts if t not in orig_texts]\n    # Look for exact text match\n    found = False\n    for t in added:\n        if t.strip() == required_text:\n            found = True\n            break\n    if found:\n        return (\"Textbox with required text added to slide 7.\", 1.0)\n    else:\n        return (\"Textbox with required text NOT found on slide 7.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Textbox is positioned below aircraft diagram on slide 7",
+        "description": "Verifies that the inserted textbox is below the aircraft diagram on slide 7.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide = pres.slides[6]\n    required_text = \"Elevators control the pitch attitude of the aircraft\"\n    # Find textbox shape and diagram shape\n    textbox_shape = None\n    img_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text.strip() == required_text:\n            textbox_shape = shape\n        if shape.shape_type == 13:  # PICTURE (MSO_SHAPE_TYPE.PICTURE==13)\n            img_shape = shape\n    if textbox_shape is None:\n        return (\"Textbox with required text not found.\", 0.0)\n    if img_shape is None:\n        return (\"No image found on slide 7 to check diagram.\", 0.0)\n    # Check if the textbox is visually below the bottom of the image's coordinates\n    textbox_top = textbox_shape.top\n    textbox_height = textbox_shape.height\n    image_top = img_shape.top\n    image_height = img_shape.height\n    if textbox_top > (image_top + image_height - 0.01*image_height):\n        return (\"Textbox is positioned below the diagram.\", 1.0)\n    else:\n        return (\"Textbox not below diagram (Y position check).\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No overlap between textbox and diagram image",
+        "description": "Verifies that the textbox and the image do not overlap (i.e., the image was resized or moved to avoid overlap).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    slide = pres.slides[6]\n    required_text = \"Elevators control the pitch attitude of the aircraft\"\n    textbox_shape = None\n    img_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text.strip() == required_text:\n            textbox_shape = shape\n        if shape.shape_type == 13:\n            img_shape = shape\n    if textbox_shape is None or img_shape is None:\n        return (\"Textbox or image shape not found for overlap check.\", 0.0)\n    # Get bounding boxes (left, top, right, bottom)\n    def get_bbox(shape):\n        return (shape.left, shape.top, shape.left + shape.width, shape.top + shape.height)\n    tbox = get_bbox(textbox_shape)\n    ibox = get_bbox(img_shape)\n    # Check for overlap\n    overlap = not (tbox[2] < ibox[0] or tbox[0] > ibox[2] or tbox[3] < ibox[1] or tbox[1] > ibox[3])\n    if overlap:\n        return (\"Textbox overlaps with diagram image.\", 0.0)\n    else:\n        return (\"No overlap between textbox and diagram image.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No extraneous changes to slide 7 or other slides",
+        "description": "Checks that only the described textbox and image adjustments were made to slide 7, and no unrelated extraneous modifications made to any slide.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Allowable modifications: adding textbox, resizing/moving aircraft diagram image only on slide 7\n    # No slide additions/removals. No removed shapes. No changes on other slides.\n    # We'll use ppt_diff for this.\n    extraneous = False\n    reasons = []\n    # No slides should be added/removed\n    if ppt_diff.added_slides:\n        extraneous = True\n        reasons.append(\"Slides were added.\")\n    if ppt_diff.removed_slides:\n        extraneous = True\n        reasons.append(\"Slides were removed.\")\n    # Check changes/animations/transitions outside slide 7\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if int(anim.slide_id) != 7:\n            extraneous = True\n            reasons.append(f\"Animation added or removed to slide {anim.slide_id}.\")\n    for pre, post in ppt_diff.modified_animations:\n        if int(pre.slide_id) != 7:\n            extraneous = True\n            reasons.append(f\"Animation modified on slide {pre.slide_id}.\")\n    for st in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if int(st.slide_id) != 7:\n            extraneous = True\n            reasons.append(f\"Transition added or removed on slide {st.slide_id}.\")\n    for pre, post in ppt_diff.modified_transitions:\n        if int(pre.slide_id) != 7:\n            extraneous = True\n            reasons.append(f\"Transition modified on slide {pre.slide_id}.\")\n    # Check that textbox and one image on slide 7 are all that's affected on slide 7\n    # We'll allow added text, modified image (diagram), but not deleted content\n    if ppt_diff.removed_animations:\n        for anim in ppt_diff.removed_animations:\n            if int(anim.slide_id) == 7:\n                extraneous = True\n                reasons.append(\"Content removed from slide 7.\")\n    # Check for extraneous slide-level or notes changes\n    for i, (old_slide, new_slide) in enumerate(ppt_diff.modified_slides):\n        snum = old_slide.slide_number\n        if snum != 7:\n            extraneous = True\n            reasons.append(f\"Unrelated change to slide {snum}.\")\n        # If notes were changed, that's extraneous\n        if (old_slide.notes or '').strip() != (new_slide.notes or '').strip():\n            extraneous = True\n            reasons.append(\"Notes were changed on slide 7.\")\n    if extraneous:\n        return (\"; \".join(reasons), 0.0)\n    else:\n        return (\"No extraneous changes detected.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 7, Add a new text box that says Elevators control the pitch attitude of the aircraft positioned below the aircraft diagram. Resize the image to avoid overlap."
+  }
+}

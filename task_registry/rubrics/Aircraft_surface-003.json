@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Edit slide 2 bullet: 'Lateral Axis' → 'Lateral (Side-to-Side) Axis'",
+    "description": "Evaluates whether the agent correctly changed the bullet point 'Lateral Axis' to 'Lateral (Side-to-Side) Axis' on slide 2, and made no unintended modifications.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Bullet Text Modification on Slide 2",
+        "description": "Checks if bullet point 'Lateral Axis' on slide 2 has been changed to 'Lateral (Side-to-Side) Axis'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import difflib\n    \n    # Load the modified ppt\n    prs = Presentation(modified_ppt_path)\n    # Slide numbers are 1-based\n    try:\n        slide = prs.slides[1]  # slide 2 (0-based index)\n    except IndexError:\n        return \"Slide 2 does not exist in the modified presentation.\", 0.0\n    found_old = False\n    found_new = False\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for para in shape.text_frame.paragraphs:\n            text = para.text.strip()\n            if text == 'Lateral Axis':\n                found_old = True\n            if text == 'Lateral (Side-to-Side) Axis':\n                found_new = True\n    if found_new and not found_old:\n        return \"Bullet text correctly changed to 'Lateral (Side-to-Side) Axis' on slide 2.\", 1.0\n    if found_new and found_old:\n        return \"'Lateral (Side-to-Side) Axis' found but old text 'Lateral Axis' still present.\", 0.5\n    if not found_new and found_old:\n        return \"'Lateral Axis' still present, no sign of correct new text.\", 0.0\n    return \"Correct text not found and old text not found: unclear or wrong modification.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Unintended Changes on Slide 2",
+        "description": "Checks that no text unrelated to the required change was modified on slide 2.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow change from 'Lateral Axis' to 'Lateral (Side-to-Side) Axis', no other changes\n    from pptx import Presentation\n    original = Presentation(original_ppt_path)\n    modified = Presentation(modified_ppt_path)\n    try:\n        orig_slide = original.slides[1]\n    except IndexError:\n        return \"Slide 2 missing in original presentation.\", 0.0\n    try:\n        mod_slide = modified.slides[1]\n    except IndexError:\n        return \"Slide 2 missing in modified presentation.\", 0.0\n    # build list of all para texts per shape in both slides\n    def get_paras(slide):\n        shape_paras = []\n        for shape in slide.shapes:\n            if not shape.has_text_frame:\n                continue\n            paras = [p.text.strip() for p in shape.text_frame.paragraphs]\n            shape_paras.append(paras)\n        return shape_paras\n    orig_texts = get_paras(orig_slide)\n    mod_texts = get_paras(mod_slide)\n    # flatten for comparison, keep index mapping for fine check\n    orig_flat = [t for paras in orig_texts for t in paras]\n    mod_flat = [t for paras in mod_texts for t in paras]\n    # We'll find the minimal difference\n    from difflib import SequenceMatcher\n    sm = SequenceMatcher(None, orig_flat, mod_flat)\n    changes = [(tag, i1, i2, j1, j2) for tag, i1, i2, j1, j2 in sm.get_opcodes() if tag != 'equal']\n    # Accept if the ONLY difference is 'Lateral Axis' => 'Lateral (Side-to-Side) Axis'\n    extraneous_diff = False\n    for tag, i1, i2, j1, j2 in changes:\n        orig_changed = orig_flat[i1:i2]\n        mod_changed = mod_flat[j1:j2]\n        if orig_changed == ['Lateral Axis'] and mod_changed == ['Lateral (Side-to-Side) Axis']:\n            continue  # this is the required change\n        # Any other change is extraneous\n        extraneous_diff = True\n    if extraneous_diff:\n        return \"There are additional unintended text changes on slide 2.\", 0.0\n    return \"No unintended text changes on slide 2 besides the needed bullet edit.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No Changes to Other Slides",
+        "description": "Check that slides other than slide 2 were not modified in content, animation, or transitions.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 2 is allowed to be modified. No added/removed/mod animations, transitions, or slides outside 2.\n    changed_slides = set()\n    # Slides are identified by slide_id, map slide_id to slide_number\n    slide_num_map = {}\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    for s in orig.slides:\n        slide_num_map[s.slide_id] = orig.slides.index(s) + 1\n    # Check modified slides\n    for (s1, s2) in ppt_diff.modified_slides:\n        n = s1.slide_number if hasattr(s1,'slide_number') and s1.slide_number else slide_num_map.get(s1.slide_id,None)\n        if n != 2:\n            return f\"Slide {n} was modified, but only slide 2 should be edited.\", 0.0\n    for s in ppt_diff.added_slides + ppt_diff.removed_slides:\n        n = s.slide_number if hasattr(s,'slide_number') and s.slide_number else slide_num_map.get(s.slide_id,None)\n        if n != 2:\n            return f\"Slide {n} was added/removed, but only slide 2 should be edited.\", 0.0\n    # Animations/transitions\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        num = anim.slide_id if anim.slide_id is not None else ''\n        n = getattr(anim, 'slide_number', None)\n        if n is None and isinstance(anim.slide_id,str) and slide_num_map.get(anim.slide_id):\n            n=slide_num_map[anim.slide_id]\n        if n != 2:\n            return f\"Animation on slide {n} was changed, but only slide 2 should be edited.\", 0.0\n    for t in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        num = t.slide_id if t.slide_id is not None else ''\n        n = getattr(t, 'slide_number', None)\n        if n is None and isinstance(t.slide_id,str) and slide_num_map.get(t.slide_id):\n            n=slide_num_map[t.slide_id]\n        if n != 2:\n            return f\"Transition on slide {n} was changed, but only slide 2 should be edited.\", 0.0\n    for old, new in ppt_diff.modified_animations:\n        n = getattr(old, 'slide_number', None)\n        if n is None and slide_num_map.get(old.slide_id):\n            n = slide_num_map[old.slide_id]\n        if n != 2:\n            return f\"Animation modification on slide {n}, but only slide 2 should be edited.\", 0.0\n    for old, new in ppt_diff.modified_transitions:\n        n = getattr(old, 'slide_number', None)\n        if n is None and slide_num_map.get(old.slide_id):\n            n = slide_num_map[old.slide_id]\n        if n != 2:\n            return f\"Transition modification on slide {n}, but only slide 2 should be edited.\", 0.0\n    return \"No changes detected outside of slide 2.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 2, Change the bullet point 'Lateral Axis' to 'Lateral (Side-to-Side) Axis'"
+  }
+}

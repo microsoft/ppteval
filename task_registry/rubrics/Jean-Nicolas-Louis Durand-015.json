@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Task Completion: Crop the architectural diagram image on slide 8 to show only the top two rows of buildings",
+    "description": "Evaluates whether the agent successfully cropped the architectural diagram image on slide 8 to display only the top two rows of buildings, without introducing extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Cropping of Architectural Diagram",
+        "description": "Checks that the image on slide 8 was cropped to show only the top two rows of buildings.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 8\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (f\"Slide {slide_number} screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"You are shown the before and after images of a PowerPoint slide. \"\n        \"Is the architectural diagram image on this slide cropped in the after image to show only the top two rows of buildings? \"\n        \"Start the answer with YES or NO. If NO, explain what you see.\"\n    )\n    result = vlm_call(prompt, images=[before, after], temperature=0.2, max_tokens=10)\n    if 'yes' in result.lower():\n        return (f\"Architectural diagram image on slide {slide_number} is correctly cropped to the top two rows.\", 1.0)\n    else:\n        return (f\"Architectural diagram image on slide {slide_number} is not correctly cropped: {result}\", 0.0)"
+        }
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Ensures no unintended edits were made to slides other than slide 8.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for added/removed/modified slides that are not slide 8\n    changed_slides = set()\n    for s in ppt_diff.added_slides + ppt_diff.removed_slides:\n        changed_slides.add(s.slide_number)\n    for orig, mod in ppt_diff.modified_slides:\n        changed_slides.add(orig.slide_number)\n    for orig, mod in ppt_diff.added_animations + ppt_diff.removed_animations:\n        changed_slides.add(orig.slide_number)\n    for orig, mod in ppt_diff.modified_animations:\n        changed_slides.add(orig.slide_number)\n    for orig, mod in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        changed_slides.add(orig.slide_number)\n    for orig, mod in ppt_diff.modified_transitions:\n        changed_slides.add(orig.slide_number)\n    extraneous = [s for s in changed_slides if s != 8]\n    if extraneous:\n        return f\"Extraneous changes made to slides: {extraneous}\", 0.0\n    return \"No extraneous changes to slides other than slide 8.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes to Slide 8 (Other Than Cropping)",
+        "description": "Ensures no unintended edits (e.g., text, layout, animations) were made to slide 8 apart from cropping the image.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Unintended Text/Shape/Layout Changes",
+            "description": "Checks that text, shapes, or layout on slide 8 remain unchanged apart from the cropped image.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    slide_num = 8\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[slide_num-1]\n    mod_slide = mod_prs.slides[slide_num-1]\n    # Compare text on both slides\n    orig_text = \" \".join([shp.text for shp in orig_slide.shapes if hasattr(shp, 'text')])\n    mod_text = \" \".join([shp.text for shp in mod_slide.shapes if hasattr(shp, 'text')])\n    # Allow for small differences due to possible cropping\n    if orig_text.strip() != mod_text.strip():\n        return \"Text on slide 8 was changed.\", 0.0\n    # Compare count of shapes (excluding pictures)\n    orig_shapes = [shp for shp in orig_slide.shapes if shp.shape_type != 13]\n    mod_shapes = [shp for shp in mod_slide.shapes if shp.shape_type != 13]\n    if len(orig_shapes) != len(mod_shapes):\n        return \"Non-picture shapes count differs on slide 8.\", 0.0\n    # Compare layout type\n    orig_layout = orig_slide.slide_layout.name\n    mod_layout = mod_slide.slide_layout.name\n    if orig_layout != mod_layout:\n        return \"Slide 8 layout type changed.\", 0.0\n    return \"No unintended text/shape/layout changes on slide 8.\", 1.0\n"
+            }
+          },
+          {
+            "name": "No Unintended Animation/Transition Changes to Slide 8",
+            "description": "Checks that no animation or transition changes were made to slide 8.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for animation/transition changes on slide 8\n    changes = []\n    for anim in ppt_diff.added_animations:\n        if anim.slide_id == '8' or anim.slide_id == 8:\n            changes.append('added animation')\n    for anim in ppt_diff.removed_animations:\n        if anim.slide_id == '8' or anim.slide_id == 8:\n            changes.append('removed animation')\n    for orig, mod in ppt_diff.modified_animations:\n        if orig.slide_id == '8' or orig.slide_id == 8:\n            changes.append('modified animation')\n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if trans.slide_id == '8' or trans.slide_id == 8:\n            changes.append('transition change')\n    for orig, mod in ppt_diff.modified_transitions:\n        if orig.slide_id == '8' or orig.slide_id == 8:\n            changes.append('modified transition')\n    if changes:\n        return f\"Unintended animation/transition changes to slide 8: {changes}\", 0.0\n    return \"No unintended animation/transition changes to slide 8.\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Crop the architectural diagram image on slide 8 to show only the top two rows of buildings.",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

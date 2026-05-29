@@ -1,0 +1,87 @@
+{
+  "root": {
+    "name": "Rotate the diagram on slide 4 clockwise 90 degrees",
+    "description": "Evaluates whether the agent successfully rotates the diagram on slide 4 by 90 degrees clockwise, without introducing unintended changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Diagram rotation accuracy",
+        "description": "Verifies that the diagram on slide 4 is rotated exactly 90 degrees clockwise compared to the original.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n\n    mod = Presentation(modified_ppt_path)\n    try:\n        mod_slide = mod.slides[3]\n    except IndexError:\n        return \"Slide 4 missing in modified file.\", 0.0\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(mod_imgs) != 1:\n        return f\"Expected exactly 1 image, found {len(mod_imgs)}.\", 0.0\n\n    rot = mod_imgs[0].rotation\n    diff = abs(rot - 90)\n    # Full credit\n    if diff <= 5:\n        return \"Image was rotated as expected.\", 1.0\n    # Partial credit for near correct\n    elif 5 < diff < 15:\n        return f\"Image rotation is close to expected (Rotation: {rot}).\", 0.7\n    # Special case: 40-50 degrees\n    elif 40 <= rot <= 50:\n        return f\"Image rotation is between 40 and 50 degrees (Rotation: {rot}).\", 0.5\n    # More than 15 degrees clockwise\n    elif 15 <= rot < 40:\n        return f\"Image rotation is more than 15 degrees clockwise (Rotation: {rot}).\", 0.25\n    elif 0 < rot < 15:\n        return f\"Image rotation is less than 15 degrees clockwise (Rotation: {rot}).\", 0.1\n    # Otherwise, no credit\n    return f\"Image was not rotated properly. Rotation: {rot}\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes on other slides",
+        "description": "Ensures that no unintended edits (rotations or other changes) were made to slides other than slide 4.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No modification of elements on non-target slides",
+            "description": "Checks that elements on slides other than slide 4 were not rotated or otherwise modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Compare element rotation/position for all slides except 4\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    for i, (os, ms) in enumerate(zip(orig.slides, mod.slides), start=1):\n        if i == 4:\n            continue\n        if len(os.shapes) != len(ms.shapes):\n            return (f\"Number of shapes differs on slide {i}.\", 0.0)\n        # Check rotation for each shape\n        for osh, msh in zip(os.shapes, ms.shapes):\n            # Only check if both have .rotation (not all shapes do)\n            rot_o = getattr(osh, 'rotation', None)\n            rot_m = getattr(msh, 'rotation', None)\n            if rot_o is not None and rot_m is not None:\n                # Allow a very tiny difference (1 degree)\n                if abs(rot_o - rot_m) > 1:\n                    return (f\"Shape on slide {i} was rotated/modified.\", 0.0)\n    return (\"No unintended rotation/modification found on non-target slides.\", 1.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No slide structure changes on other slides",
+            "description": "Checks that no slides were added, removed, or reordered except for slide 4.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Compare slide count and order\n    orig_slides = [s.slide_number for s in original_ppt_screenshots]\n    mod_slides = [s.slide_number for s in modified_ppt_screenshots]\n    if len(orig_slides) != len(mod_slides):\n        return (\"Number of slides changed.\", 0.0)\n    for i, (o, m) in enumerate(zip(orig_slides, mod_slides)):\n        if o != m:\n            return (\"Slide order changed.\", 0.0)\n    # Check diff for slides added/removed\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        return (\"Slides were added or removed.\", 0.0)\n    return (\"No extraneous slide changes detected.\", 1.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "No unintended visual or content changes on slide 4",
+        "description": "Checks that, except for the required diagram rotation, there are no other modifications (e.g., text, images, formatting) on slide 4.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No content change (text/images) except rotation on slide 4",
+            "description": "Verifies that no new or removed elements (text, images, etc.) appear on slide 4 aside from the rotated diagram.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use pptx to check for new/removed shapes on slide 4\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    try:\n        os = orig.slides[3]  # 0-indexed\n        ms = mod.slides[3]\n    except IndexError:\n        return (\"Slide 4 missing in one of the files.\", 0.0)\n    if len(os.shapes) != len(ms.shapes):\n        return (\"Number of shapes on slide 4 changed.\", 0.0)\n    # Optionally, check text in shapes\n    orig_texts = [sh.text for sh in os.shapes if hasattr(sh, 'text')]\n    mod_texts = [sh.text for sh in ms.shapes if hasattr(sh, 'text')]\n    if orig_texts != mod_texts:\n        return (\"Text content on slide 4 changed.\", 0.0)\n    return (\"No content changes except diagram rotation on slide 4.\", 1.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No formatting or style changes except for rotation",
+            "description": "Checks that there are no unexpected style or formatting changes (e.g., color, font, effects) on slide 4 except those directly related to the rotation of the diagram.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare for style/formatting changes\n    orig_img = None\n    mod_img = None\n    for s in original_ppt_screenshots:\n        if s.slide_number == 4:\n            orig_img = s.image_path\n            break\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 4:\n            mod_img = s.image_path\n            break\n    if not orig_img or not mod_img:\n        return (\"Could not find screenshots for slide 4.\", 1.0)  # lenient\n    prompt = (\n        \"Compare the two images of slide 4. Aside from the diagram along with its title being rotated, did any other formatting or style (such as color, font, background, or effects) change? \"\n        \"Answer only 'Yes' or 'No', followed by a brief explanation.\"\n    )\n    resp = vlm_call(prompt, images=[orig_img, mod_img], temperature=0)\n    if 'no' in resp.lower():\n        return (\"No style/formatting changes except diagram rotation.\", 1.0)\n    elif 'yes' in resp.lower():\n        return (\"Formatting or style changed unexpectedly on slide 4. \" + resp, 0.0)\n    return (\"Could not determine formatting/style change.\", 0.5)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Rotate the diagram on slide 4 clockwise 90 degrees"
+  }
+}

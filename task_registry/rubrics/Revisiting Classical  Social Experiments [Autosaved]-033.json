@@ -1,0 +1,47 @@
+{
+  "root": {
+    "name": "Create hyperlinks from each experiment name in slide 3 to corresponding Wikipedia pages",
+    "description": "Evaluates whether the agent correctly created hyperlinks from each experiment name in slide 3 to the appropriate Wikipedia pages about the experiment or its researcher(s).",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "All experiment names in slide 3 are hyperlinked",
+        "description": "Checks if every experiment name text element in slide 3 has a hyperlink.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    # Slide 3 is index 2\n    slide = prs.slides[2]\n    # Find all text runs that are experiment names by comparing to original\n    original_names = ['Norman Triplett Experiment', 'Milgram’s Shock Experiment' 'Leon Festinger studies of Cognitive Dissonance', 'David Hamilton and Robert Gifford (1976)', 'Richard T. La Piere’s hospitality Study']\n    # Now check hyperlink presence for each name in modified\n    missing_links = []\n    found_names = set()\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for p in shape.text_frame.paragraphs:\n            for run in p.runs:\n                text = run.text.strip()\n                if text in original_names:\n                    found_names.add(text)\n                    hlink = run.hyperlink.address if hasattr(run, 'hyperlink') else None\n                    if not hlink:\n                        missing_links.append(text)\n    if missing_links:\n        reason = f\"The following experiment names on slide 3 are missing hyperlinks: {missing_links}\" \n        score = 1.0 - len(missing_links)/len(original_names)\n        return (reason, max(0.0, score))\n    reason = \"All experiment names on slide 3 are hyperlinked.\"\n    return (reason, 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Hyperlink destinations are correct Wikipedia pages",
+        "description": "Checks that the hyperlinks point to Wikipedia pages for the experiment or the researcher(s) as appropriate.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import re\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[2]\n    # Collect all hyperlinks for experiment names\n\n    links = []\n    texts = []\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n\n        text = shape.text.strip()\n        if 'Gifford' in text:\n            text += ' Illusory Correlation'\n\n        hlink = None\n        for p in shape.text_frame.paragraphs:\n            for run in p.runs:\n                if hasattr(run, 'hyperlink'):\n                    hlink = run.hyperlink.address\n                    break\n\n        if hlink:\n            texts.append(text)\n            links.append(hlink)\n    if not links:\n        return (\"No hyperlinks found on experiment names in slide 3.\", 0.0)\n    # Check each hyperlink: must be to Wikipedia page for experiment or researcher\n    incorrect = []\n    for text, url in zip(texts, links):\n        if not url.lower().startswith(\"https://en.wikipedia.org/wiki/\"):\n            incorrect.append((text, url))\n            continue\n        # Check if the experiment name or related researcher is in the URL\n        words = re.split(r\"\\s|,|:|\\(|\\)\", text)\n        url_tail = url.rsplit(\"/wiki/\", 1)[-1].replace(\"_\", \" \").lower()\n        relevant = any(word.lower() in url_tail for word in words if word)\n        if not relevant:\n            incorrect.append((text, url))\n    score = 1.0 - len(incorrect)/len(links)\n    if incorrect:\n        reason = f\"The following experiment names have incorrect Wikipedia links: {incorrect}\"\n        return (reason, max(0.0, score))\n    return (\"All hyperlinks point to correct Wikipedia pages.\", 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous hyperlinks on slide 3",
+        "description": "Ensures that there are no hyperlinks on slide 3 except on experiment names.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[2]\n    # Find all experiment names from original\n    original_prs = Presentation(original_ppt_path)\n    original_slide = original_prs.slides[2]\n    experiment_names = set()\n    for shape in original_slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for p in shape.text_frame.paragraphs:\n            for run in p.runs:\n                text = run.text.strip()\n                if text:\n                    experiment_names.add(text)\n    extraneous = []\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for p in shape.text_frame.paragraphs:\n            for run in p.runs:\n                text = run.text.strip()\n                hlink = run.hyperlink.address if hasattr(run, 'hyperlink') else None\n                if hlink and text not in experiment_names:\n                    extraneous.append((text, hlink))\n    if extraneous:\n        reason = f\"Found extraneous hyperlinks on slide 3: {extraneous}\"\n        score = 1.0 - len(extraneous)/(len(extraneous)+len(experiment_names))\n        return (reason, max(0.0, score))\n    return (\"No extraneous hyperlinks found on slide 3.\", 1.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Create hyperlinks from each experiment name in slide 3 to corresponding Wikipedia pages about either the experiment or the researcher(s)"
+  }
+}

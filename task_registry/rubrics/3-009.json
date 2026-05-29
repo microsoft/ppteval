@@ -1,0 +1,59 @@
+{
+  "root": {
+    "name": "Change Color Tone of Figure on Slide 4",
+    "description": "Evaluates whether the agent successfully changed the color tone of a figure on slide 4 to have a light blue background, without making unnecessary changes to other parts of the presentation",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Target Figure Color Modified",
+        "description": "Verifies that a figure on slide 4 has been modified to have a light blue background color tone",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Figure Background Changed to Light Blue",
+            "description": "Verifies that at least one figure on slide 4 has a light blue background color tone using visual comparison",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 4 screenshots\n    original_slide_4 = None\n    modified_slide_4 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 4:\n            original_slide_4 = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 4:\n            modified_slide_4 = screenshot\n            break\n    \n    if not original_slide_4 or not modified_slide_4:\n        return \"Could not find slide 4 screenshots for comparison\", 0.0\n    \n    prompt = \"\"\"Compare these two PowerPoint slides (original vs modified). \n    \n    Task: The user was supposed to change the color tone of a figure on this slide so that its background looks light blue.\n    \n    Please analyze if the color tone of the figure's background has been changed to light blue in the modified version.\n    Respond with:\n    - PASS if a figure's background has been successfully changed to light blue\n    - FAIL if no figure background was changed to light blue or if the change is inappropriate\n    - Include a brief explanation of what you observe\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [original_slide_4.image_path, modified_slide_4.image_path], temperature=0.3)\n        \n        if \"PASS\" in response.upper():\n            return f\"Figure background successfully changed to light blue: {response}\", 1.0\n        else:\n            return f\"Figure background not properly changed to light blue: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error in visual comparison: {str(e)}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Extraneous Changes Made",
+        "description": "Ensures that only the intended figure color change was made without unnecessary modifications to other slides or elements",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Other Slides Unchanged",
+            "description": "Verifies that slides other than slide 4 remain unchanged",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        # Check if number of slides changed\n        if len(original_prs.slides) != len(modified_prs.slides):\n            return f\"Number of slides changed from {len(original_prs.slides)} to {len(modified_prs.slides)}\", 0.0\n        \n        # Check slides other than slide 4 (index 3)\n        changes_found = []\n        total_other_slides = 0\n        \n        for i, (orig_slide, mod_slide) in enumerate(zip(original_prs.slides, modified_prs.slides)):\n            if i == 3:  # Skip slide 4 (0-indexed)\n                continue\n                \n            total_other_slides += 1\n            \n            # Basic check for slide modifications\n            if len(orig_slide.shapes) != len(mod_slide.shapes):\n                changes_found.append(f\"Slide {i+1} shape count changed\")\n        \n        # Check PPTDiff for animations/transitions on other slides\n        for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n            slide_num = int(anim.slide_id.split('_')[-1]) if '_' in anim.slide_id else 0\n            if slide_num != 4:\n                changes_found.append(f\"Animation change on slide {slide_num}\")\n        \n        for transition in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n            slide_num = int(transition.slide_id.split('_')[-1]) if '_' in transition.slide_id else 0\n            if slide_num != 4:\n                changes_found.append(f\"Transition change on slide {slide_num}\")\n        \n        if changes_found:\n            return f\"Extraneous changes detected: {'; '.join(changes_found[:3])}\", 0.5\n        \n        return f\"No extraneous changes detected on {total_other_slides} other slides\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking other slides: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "Only One Shape Added on Slide 4",
+            "description": "Ensures that only the shape added to change the color was the only modification on slide 4, without changing other elements unnecessarily",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        if len(original_prs.slides) < 4 or len(modified_prs.slides) < 4:\n            return \"Slide 4 not available for comparison\", 0.5\n        \n        orig_slide_4 = original_prs.slides[3]\n        mod_slide_4 = modified_prs.slides[3]\n        \n        # Check if number of shapes changed by more than 1 (allowing for one figure color change)\n        if len(orig_slide_4.shapes) + 1 < len(mod_slide_4.shapes):\n            return f\"Number of shapes on slide 4 changed from {len(orig_slide_4.shapes)} to {len(mod_slide_4.shapes)}\", 0.3\n        \n        # Check for major structural changes\n        major_changes = []\n        \n        # Check if slide title changed (if it exists)\n        orig_title = None\n        mod_title = None\n        \n        for shape in orig_slide_4.shapes:\n            if shape.has_text_frame and hasattr(shape, 'placeholder_format'):\n                if shape.placeholder_format and shape.placeholder_format.type == 1:  # Title placeholder\n                    orig_title = shape.text\n                    break\n        \n        for shape in mod_slide_4.shapes:\n            if shape.has_text_frame and hasattr(shape, 'placeholder_format'):\n                if shape.placeholder_format and shape.placeholder_format.type == 1:  # Title placeholder\n                    mod_title = shape.text\n                    break\n        \n        if orig_title != mod_title:\n            major_changes.append(\"Slide title changed\")\n        \n        if major_changes:\n            return f\"Unnecessary changes detected: {'; '.join(major_changes)}\", 0.5\n        \n        return \"Only minimal changes detected on slide 4, likely just the target figure color\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking slide 4 modifications: {str(e)}\", 0.5\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the color tone of the figure on slide 4 so that its background looks light blue "
+  }
+}

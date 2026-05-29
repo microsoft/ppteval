@@ -1,0 +1,55 @@
+{
+  "root": {
+    "name": "Successfully create a table with two columns and convert the checklist into table format on slide 8",
+    "description": "Evaluates whether the agent has correctly created a two-column table on slide 8 and converted the checklist items into table format, without making extraneous changes elsewhere.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct table structure exists on slide 8",
+        "description": "Checks if a table with exactly two columns is present on slide 8.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[7]  # Slide 8 is index 7\n    for shape in slide.shapes:\n        if shape.shape_type == 19:  # MSO_SHAPE_TYPE.TABLE\n            table = shape.table\n            if table.columns.__len__() == 2:\n                return \"Table with two columns found on slide 8.\", 1.0\n            else:\n                return f\"Table found, but has {table.columns.__len__()} columns instead of 2.\", 0.0\n    return \"No table found on slide 8.\", 0.0\n"
+        }
+      },
+      {
+        "name": "Checklist items are converted to table rows",
+        "description": "Checks that the checklist items from the original slide 8 are now present as rows in the table on slide 8 (not simply copied as a text box).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    slide_orig = prs_orig.slides[7]\n    slide_mod = prs_mod.slides[7]\n\n    # Find checklist items in original slide (look for bullet points or checklist like lines)\n    checklist_items = ['Figurative language – metaphors, personification, similes, imagery', \n                       'Rhyme, end rhyme, iambic pentameter, rhythm, rhyming couplet',\n                       'Punctuation, commas, pause, caesura',\n                       'Form and stanza structure, sonnet (8/6), ode, ballad, blank verse',\n                       'Repetition',\n                       'Tone']\n\n    # Find table in modified slide\n    table_items = []\n    for shape in slide_mod.shapes:\n        if shape.shape_type == 19:  # MSO_SHAPE_TYPE.TABLE\n            table = shape.table\n            for row in table.rows:\n                row_text = [cell.text.strip() for cell in row.cells if cell.text.strip()]\n                table_items.append(row_text)\n\n    # Flatten table_items for easier matching\n    flat_table_texts = set([cell for row in table_items for cell in row])\n    matched = [item for item in checklist_items if any(cell_item in flat_table_texts for cell_item in [item, item.lstrip('-•□✓')])]\n    if len(checklist_items) == 0:\n        return \"No checklist items found on original slide 8.\", 0.0\n    ratio = len(matched) / len(checklist_items)\n    if ratio == 1.0:\n        return \"All checklist items converted to table rows.\", 1.0\n    elif ratio > 0.7:\n        return f\"{len(matched)} of {len(checklist_items)} checklist items converted to table rows.\", ratio\n    else:\n        return f\"Only {len(matched)} of {len(checklist_items)} checklist items converted to table rows.\", ratio\n"
+        }
+      },
+      {
+        "name": "No extraneous changes on other slides",
+        "description": "Checks that no slides other than slide 8 were modified, added, or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        extraneous = True\n        reason_list.append('Slides added or removed.')\n    # Animations or transitions\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        extraneous = True\n        reason_list.append('Animations changed.')\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        extraneous = True\n        reason_list.append('Transitions changed.')\n    # Only slide 8 should be modified\n    other_mods = []\n    for (old, new) in ppt_diff.modified_slides:\n        if old.slide_number != 8:\n            other_mods.append(old.slide_number)\n    added_nums = [slide.slide_number for slide in ppt_diff.added_slides if slide.slide_number != 8]\n    removed_nums = [slide.slide_number for slide in ppt_diff.removed_slides if slide.slide_number != 8]\n    changed = set(other_mods + added_nums + removed_nums)\n    if len(changed) == 0:\n        return \"No extraneous changes on other slides.\", 1.0\n    else:\n        return f\"Extraneous changes on slides: {sorted(changed)}.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous content changes on slide 8",
+        "description": "Checks that except for the table conversion, no significant extraneous content was added or deleted on slide 8.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # If only table added and checklist text removed, that's expected. But other shapes added/removed = penalize.\n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    slide_orig = prs_orig.slides[7]\n    slide_mod = prs_mod.slides[7]\n    orig_shape_types = [sh.shape_type for sh in slide_orig.shapes]\n    mod_shape_types = [sh.shape_type for sh in slide_mod.shapes]\n    orig_num_shapes = len(slide_orig.shapes)\n    mod_num_shapes = len(slide_mod.shapes)\n    # Expect 1 extra shape (the table), and possibly the checklist text box removed\n    expected_delta = 0\n    table_added = any(sh.shape_type == 19 for sh in slide_mod.shapes) and not any(sh.shape_type == 19 for sh in slide_orig.shapes)\n    checklist_removed = orig_num_shapes > mod_num_shapes\n\n    # Count extra added/removed shapes\n    added = mod_num_shapes - orig_num_shapes\n    # If more than 1 shape difference, penalize\n    if abs(added) > 1:\n        return f\"Extraneous content changes detected on slide 8 (shape count delta={added}).\", max(0.0, 1.0 - abs(added)/5)\n    elif not table_added:\n        return \"No table added to slide 8.\", 0.0\n    else:\n        return \"No significant extraneous content changes on slide 8.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Create a table with two columns and convert the checklist into table format on slide 8",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

@@ -1,0 +1,22 @@
+main:
+  # Footer navigation now mirrors hero buttons + Home
+  - title: "Home"
+    url: "#home"
+    icon: "home"
+  - title: "Task Explorer"
+    url: "/task-explorer/"
+    icon: "tasks"
+  - title: "Paper"
+    url: "{{ site.social_links.paper }}"
+    icon: "file-pdf"
+  - title: "Code"
+    url: "https://github.com/microsoft/PPTArena"
+    icon: "code"
+  - title: "Leaderboard"
+    url: "/leaderboard/"
+    icon: "trophy"
+  - title: "FAQ"
+    url: "/faq/"
+    icon: "question-circle"
+
+# Removed quick_links section; consolidated into main for simplicity

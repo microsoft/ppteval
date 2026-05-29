@@ -1,0 +1,45 @@
+{
+  "root": {
+    "name": "Change the French title text color from white to gold on slide 4",
+    "description": "Evaluates if the agent successfully changed the French title text color from white to gold on slide 4, without making extraneous changes to the presentation.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct French title color change on slide 4",
+        "description": "Checks that the French title text on slide 4 has been changed from white to gold.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 4\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (f\"Slide {slide_number} screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"You are shown the before and after images of a PowerPoint slide. \"\n        \"Is only the French title text ('Receuil et parallele des édifices en tout genre, anciens et modernes') color changed from white to gold on the after slide and not the English text? \"\n        \"Start the answer with YES or NO. If NO, explain what you see.\"\n    )\n    result = vlm_call(prompt, images=[before, after], temperature=0.2, max_tokens=10)\n    if 'yes' in result.lower():\n        return (f\"The French title text color on slide {slide_number} is changed from white to gold.\", 1.0)\n    else:\n        return (f\"The French title text color on slide {slide_number} is not changed to gold: {result}\", 0.0)"
+        }
+      },
+      {
+        "name": "No extraneous changes made to other slides and elements",
+        "description": "Checks that no unrelated changes (text, color, formatting, slides, transitions, animations, notes) were made to other slides.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for extraneous changes\n    # Acceptable change: text color of French title on slide 4\n    # All other diffs should be empty\n    ok = True\n    reasons = []\n    # Slides\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        ok = False\n        reasons.append(\"Slides were added/removed.\")\n    if len(ppt_diff.modified_slides) > 1:\n        ok = False\n        reasons.append(\"Multiple slides were modified.\")\n    # Transitions/animations\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        ok = False\n        reasons.append(\"Animations were added/removed/modified.\")\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        ok = False\n        reasons.append(\"Transitions were added/removed/modified.\")\n    # Notes\n    # Notes should not be changed except for slide 4 (if title was changed)\n    # We'll check modified_notes on slide 4 only\n    # For text/element formatting changes: We'll check all slides except slide 4\n    # Use python-pptx to compare all slide contents except slide 4\n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    orig_slide_count = len(prs_orig.slides)\n    mod_slide_count = len(prs_mod.slides)\n    if orig_slide_count != mod_slide_count:\n        ok = False\n        reasons.append(\"Slide count changed.\")\n    if ok:\n        return \"No extraneous changes detected.\", 1.0\n    else:\n        return \"; \".join(reasons), 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous changes on slide 4",
+        "description": "Checks that no extraneous changes were made to slide 4 beyond the French title text color change.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 4\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (f\"Slide {slide_number} screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"You are shown the before and after images of a PowerPoint slide. \"\n        \"Beyond the expected change of changing the French title text color from white to gold, \"\n        \"are there any other changes on the slide? \"\n        \"Start the answer with YES or NO. If NO, explain what you see.\"\n    )\n    result = vlm_call(prompt, images=[before, after], temperature=0.2, max_tokens=10)\n    if 'no' in result.lower():\n        return (f\"No extraneous changes detected on slide {slide_number} beyond the French title text color change.\", 1.0)\n    else:\n        return (f\"Extraneous changes detected on slide {slide_number} beyond the French title text color change: {result}\", 0.0)"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the French title text color from white to gold on slide 4",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

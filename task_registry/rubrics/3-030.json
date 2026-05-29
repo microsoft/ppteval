@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add code example on slide 33",
+    "description": "Evaluates whether a code example showing a simple fork() call has been successfully added below the bullet points on slide 33",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Code example added correctly",
+        "description": "Verifies that a code example showing a simple fork() call has been added to slide 33",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        # Load the modified presentation\n        pres = Presentation(modified_ppt_path)\n        \n        # Check if slide 33 exists (slide numbers are 1-indexed)\n        if len(pres.slides) < 33:\n            return \"Slide 33 does not exist in the presentation\", 0.0\n        \n        slide = pres.slides[32]  # 0-indexed access\n        \n        # Get screenshot of slide 33 for VLM analysis\n        slide_screenshot = None\n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 33:\n                slide_screenshot = screenshot\n                break\n        \n        if not slide_screenshot:\n            return \"Could not find screenshot for slide 33\", 0.0\n        \n        # Use VLM to check if a fork() code example has been added\n        prompt = \"\"\"Look at this PowerPoint slide carefully. Does this slide contain a code example that shows a simple fork() system call? \n        \n        A fork() code example would typically include:\n        - The fork() function call\n        - Basic C/C++ or similar programming language syntax\n        - Possibly variable assignments like pid = fork()\n        - May include conditional statements checking the return value\n        \n        Answer with 'YES' if there is a clear code example showing fork() usage, or 'NO' if there is no such code example.\"\"\"\n        \n        response = vlm_call(prompt, [slide_screenshot.image_path], temperature=0.1)\n        \n        if \"YES\" in response.upper():\n            return \"Code example with fork() call found on slide 33\", 1.0\n        else:\n            return \"No fork() code example found on slide 33\", 0.0\n            \n    except Exception as e:\n        return f\"Error analyzing slide 33: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Code positioning is appropriate",
+        "description": "Verifies that the code example is positioned below the bullet points as requested",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        # Get screenshot of slide 33 for VLM analysis\n        slide_screenshot = None\n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 33:\n                slide_screenshot = screenshot\n                break\n        \n        if not slide_screenshot:\n            return \"Could not find screenshot for slide 33\", 0.0\n        \n        # Use VLM to check positioning\n        prompt = \"\"\"Look at this PowerPoint slide. If there is a code example on this slide, is it positioned below any bullet points or bulleted text? \n        \n        Consider the visual layout:\n        - Are there bullet points or bulleted list items on the slide?\n        - If there is a code example, does it appear below (underneath) the bullet points?\n        - The code should be visually separated and positioned lower on the slide than the bullet points\n        \n        Answer with:\n        'GOOD' if the code is appropriately positioned below bullet points\n        'POOR' if the code is not well positioned relative to bullet points\n        'NO_CODE' if there is no code example visible\n        'NO_BULLETS' if there are no bullet points on the slide\"\"\"\n        \n        response = vlm_call(prompt, [slide_screenshot.image_path], temperature=0.1)\n        \n        if \"GOOD\" in response.upper():\n            return \"Code example is well positioned below bullet points\", 1.0\n        elif \"NO_CODE\" in response.upper():\n            return \"No code example found to evaluate positioning\", 0.0\n        elif \"NO_BULLETS\" in response.upper():\n            return \"No bullet points found on slide, positioning requirement not applicable\", 0.8\n        else:\n            return \"Code example positioning could be improved\", 0.3\n            \n    except Exception as e:\n        return f\"Error analyzing code positioning: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Slide formatting and content maintained",
+        "description": "Verifies that the slide remains well-formatted and all content is present after adding the code example",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        # Get screenshots for comparison\n        original_screenshot = None\n        modified_screenshot = None\n        \n        for screenshot in original_ppt_screenshots:\n            if screenshot.slide_number == 33:\n                original_screenshot = screenshot\n                break\n        \n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 33:\n                modified_screenshot = screenshot\n                break\n        \n        if not original_screenshot or not modified_screenshot:\n            return \"Could not find screenshots for slide 33 comparison\", 0.5\n        \n        # Use VLM to compare formatting\n        prompt = \"\"\"Compare these two versions of a PowerPoint slide. The second image shows the slide after adding a code example.\n        \n        Evaluate the formatting quality of the modified slide:\n        - Does the slide look professional and organized?\n        - Is the formatting\n        \n        Also, make sure no original content is missing.\n        \n        Rate the formatting quality:\n        'EXCELLENT' - Very well formatted, professional appearance, all content is present\n        'GOOD' - Well formatted with minor issues\n        'FAIR' - Acceptable formatting but could be improved\n        'POOR' - Poorly formatted, hard to read or unprofessional\"\"\"\n        \n        response = vlm_call(prompt, [original_screenshot.image_path, modified_screenshot.image_path], temperature=0.1)\n        \n        if \"EXCELLENT\" in response:\n            return response, 1.0\n        elif \"GOOD\" in response:\n            return response, 0.8\n        elif \"FAIR\" in response:\n            return response, 0.6\n        else:\n            return \"Slide formatting is poor after adding code example\", 0.2\n            \n    except Exception as e:\n        return f\"Error analyzing slide formatting: {str(e)}\", 0.5\n"
+        }
+      },
+      {
+        "name": "No extraneous changes made",
+        "description": "Verifies that only the requested changes were made and no other slides or content were modified unnecessarily",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        # Check for slide count changes\n        original_pres = Presentation(original_ppt_path)\n        modified_pres = Presentation(modified_ppt_path)\n        \n        original_slide_count = len(original_pres.slides)\n        modified_slide_count = len(modified_pres.slides)\n        \n        if original_slide_count != modified_slide_count:\n            return f\"Slide count changed from {original_slide_count} to {modified_slide_count}, indicating extraneous changes\", 0.0\n        \n        # Check PPTDiff for unexpected changes\n        extraneous_changes = []\n        \n        # Check for slide additions/removals (should be none)\n        if ppt_diff.added_slides:\n            extraneous_changes.append(f\"{len(ppt_diff.added_slides)} slides added\")\n        if ppt_diff.removed_slides:\n            extraneous_changes.append(f\"{len(ppt_diff.removed_slides)} slides removed\")\n        \n        # Check for animation/transition changes (should be minimal/none)\n        if ppt_diff.added_animations:\n            extraneous_changes.append(f\"{len(ppt_diff.added_animations)} animations added\")\n        if ppt_diff.removed_animations:\n            extraneous_changes.append(f\"{len(ppt_diff.removed_animations)} animations removed\")\n        if ppt_diff.added_transitions:\n            extraneous_changes.append(f\"{len(ppt_diff.added_transitions)} transitions added\")\n        if ppt_diff.removed_transitions:\n            extraneous_changes.append(f\"{len(ppt_diff.removed_transitions)} transitions removed\")\n        \n        # Check for modifications to slides other than slide 33\n        slide_33_id = None\n        if len(modified_pres.slides) >= 33:\n            # We need to identify slide 33's ID, but since we can't directly access it,\n            # we'll check if modifications are limited to what we expect\n            pass\n        \n        modified_slides_count = len(ppt_diff.modified_slides)\n        \n        # We expect at most 1 slide to be modified (slide 33)\n        if modified_slides_count > 1:\n            extraneous_changes.append(f\"{modified_slides_count} slides modified (expected only slide 33)\")\n        \n        if extraneous_changes:\n            change_summary = \"; \".join(extraneous_changes)\n            return f\"Extraneous changes detected: {change_summary}\", 0.2\n        else:\n            return \"No extraneous changes detected, modifications appear limited to slide 33\", 1.0\n            \n    except Exception as e:\n        return f\"Error checking for extraneous changes: {str(e)}\", 0.5\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 33, add a code example showing a simple fork() call below the bullet points"
+  }
+}

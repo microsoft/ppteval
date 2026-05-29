@@ -1,0 +1,55 @@
+---
+layout: page
+title: Task Explorer
+permalink: /task-explorer/
+---
+<div id="task-explorer" class="task-explorer">
+  <div class="task-filters card">
+    <h2 class="filters-title">Filters</h2>
+    <div class="filters-row">
+      <div class="filter-group">
+        <label>Difficulty</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" class="diff-filter" value="Easy" checked> Easy</label>
+          <label><input type="checkbox" class="diff-filter" value="Medium" checked> Medium</label>
+          <label><input type="checkbox" class="diff-filter" value="Hard" checked> Hard</label>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label for="search-id">Task ID</label>
+        <input type="text" id="search-id" placeholder="e.g. 3-003" class="input-sm" />
+      </div>
+      <div class="filter-group">
+        <label for="search-text">Search Goal Text</label>
+        <input type="text" id="search-text" placeholder="keywords..." class="input-sm" />
+      </div>
+      <div class="filter-group">
+        <label for="limit-count">Max Display</label>
+        <input type="number" id="limit-count" min="1" value="50" class="input-sm" />
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary" id="apply-filters"><i class="fas fa-filter"></i> Apply</button>
+        <button class="btn btn-secondary" id="reset-filters"><i class="fas fa-sync"></i> Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-stats" id="task-stats"></div>
+
+  <div class="tasks-list" id="tasks-list" aria-live="polite"></div>
+</div>
+
+<!-- Modal for rubric -->
+<div id="rubric-modal" class="rubric-modal" hidden>
+  <div class="rubric-modal-content">
+    <button class="rubric-close" id="rubric-close" aria-label="Close rubric">&times;</button>
+    <h3 id="rubric-title">Rubric</h3>
+    <div class="rubric-controls">
+      <button class="btn btn-xs" id="expand-all" type="button">Expand All</button>
+      <button class="btn btn-xs" id="collapse-all" type="button">Collapse All</button>
+    </div>
+    <div id="rubric-tree" class="rubric-tree"></div>
+  </div>
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/task-explorer.js"></script>

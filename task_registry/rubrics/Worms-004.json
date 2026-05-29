@@ -1,0 +1,36 @@
+{
+  "root": {
+    "name": "Change the font size of the title in the second slide to 36pt",
+    "description": "Evaluates whether the agent successfully changed the font size of the title textbox in the second slide to exactly 36pt, did not apply this change to other slides, and did not make extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title font size is 36pt on second slide",
+        "description": "Verifies that the title textbox in the second slide now has font size 36pt.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) < 2:\n        return \"Presentation has fewer than 2 slides.\", 0.0\n    slide = prs.slides[1]\n    # Try to find title shape per slide layout\n    title_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame is not None:\n            if shape == slide.shapes.title:\n                title_shape = shape\n                break\n    if title_shape is None:\n        # fallback: look for largest text box on slide with title-like text\n        title_shape = None\n        max_size = 0\n        for shape in slide.shapes:\n            if shape.has_text_frame and shape.text_frame is not None:\n                if len(shape.text) > max_size:\n                    title_shape = shape\n                    max_size = len(shape.text)\n        if title_shape is None:\n            return \"No title textbox found on second slide.\", 0.0\n    # Check all runs in title shape for font size\n    all_runs = []\n    for para in title_shape.text_frame.paragraphs:\n        all_runs.extend(para.runs)\n    if not all_runs:\n        return \"No text runs found in title textbox.\", 0.0\n    correct = True\n    for run in all_runs:\n        if run.font.size is None or abs(run.font.size.pt - 36) > 0.5:\n            correct = False\n    if not correct:\n        return \"Not all runs in the title textbox on the second slide are 36pt.\", 0.0\n    return \"Title textbox on second slide is 36pt.\", 1.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes elsewhere in presentation",
+        "description": "Checks that no other content in the presentation was changed (no slides added/removed, no other text/formatting changes, no animations or transitions changed).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for any changes besides the font size change on second slide's title.\n    changes = []\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        changes.append(\"Slides added or removed.\")\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        changes.append(\"Animations changed.\")\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        changes.append(\"Transitions changed.\")\n    # For slide content (besides font size on title of second slide), check for modified slides\n    # We will ignore the slide 2 title font size change; check other modifications\n    allowed_slide_ids = set()\n    if len(ppt_diff.modified_slides) > 0:\n        # Find slide 2 id (in original)\n        slide2_id = None\n        if len(ppt_diff.added_slides) == 0 and len(ppt_diff.removed_slides) == 0:\n            if len(ppt_diff.modified_slides) >= 1:\n                # Try to find slide 2 by slide_number\n                for s1, s2 in ppt_diff.modified_slides:\n                    if getattr(s1, 'slide_number', None) == 2:\n                        slide2_id = s1.slide_id\n                        break\n        for s1, s2 in ppt_diff.modified_slides:\n            if slide2_id is not None and s1.slide_id == slide2_id:\n                continue\n            changes.append(f\"Other content changed on slide {s1.slide_number if hasattr(s1, 'slide_number') else '?'}.\")\n    if changes:\n        return f\"Extraneous changes: {'; '.join(changes)}\", 0.0\n    return \"No extraneous changes.\", 1.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Change the font size of the title in the second slide to 36pt"
+  }
+}

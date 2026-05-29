@@ -1,0 +1,69 @@
+{
+  "root": {
+    "name": "Add bullet point 'File System' after 'Dual Mode' on slide 2",
+    "description": "Evaluates whether the agent successfully added the specified bullet point in the correct location on slide 2 without making unwanted changes",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct bullet point addition",
+        "description": "Verifies that the 'File System' bullet point was added in the correct location after 'Dual Mode' on slide 2",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "File System bullet point exists",
+            "description": "Verifies that a bullet point containing 'File System' text exists on slide 2",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        prs = Presentation(modified_ppt_path)\n        slide_2 = list(prs.slides)[1]\n        \n        # Search for 'File System' text in all text-containing shapes\n        file_system_found = False\n        \n        for shape in slide_2.shapes:\n            if hasattr(shape, 'text_frame') and shape.text_frame:\n                full_text = shape.text_frame.text.lower()\n                if 'file system' in full_text:\n                    file_system_found = True\n                    break\n            elif hasattr(shape, 'text'):\n                if 'file system' in shape.text.lower():\n                    file_system_found = True\n                    break\n        \n        if file_system_found:\n            return \"'File System' bullet point found on slide 2\", 1.0\n        else:\n            return \"'File System' bullet point not found on slide 2\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking for File System bullet point: {str(e)}\", 0.0\n"
+            }
+          },
+          {
+            "name": "Correct positioning after Dual Mode",
+            "description": "Verifies that the 'File System' bullet point appears after 'Dual Mode' in the text sequence",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        prs = Presentation(modified_ppt_path)\n        slide_2 = list(prs.slides)[1]\n        \n        # Find text frames that contain both 'Dual Mode' and 'File System'\n        for shape in slide_2.shapes:\n            if hasattr(shape, 'text_frame') and shape.text_frame:\n                full_text = shape.text_frame.text.lower()\n                \n                # Check if both terms exist in this text frame\n                if 'dual mode' in full_text and 'file system' in full_text:\n                    # Find positions of both terms\n                    dual_mode_pos = full_text.find('dual mode')\n                    file_system_pos = full_text.find('file system')\n                    \n                    if file_system_pos > dual_mode_pos:\n                        return \"'File System' correctly positioned after 'Dual Mode'\", 1.0\n                    else:\n                        return \"'File System' found but not positioned after 'Dual Mode'\", 0.0\n        \n        return \"Could not find both 'Dual Mode' and 'File System' in the same text context\", 0.0\n        \n    except Exception as e:\n        return f\"Error checking positioning: {str(e)}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No unwanted changes made",
+        "description": "Ensures that no unintended modifications were made to the presentation beyond the required bullet point addition",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No slide structure changes",
+            "description": "Verifies that no slides were added, removed, or had their basic properties modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if any slides were added or removed\n    if ppt_diff.added_slides:\n        return f\"Unwanted slides added: {len(ppt_diff.added_slides)} slides\", 0.0\n    \n    if ppt_diff.removed_slides:\n        return f\"Slides were removed: {len(ppt_diff.removed_slides)} slides\", 0.0\n    \n    # Check for modifications to slides other than slide 2\n    problematic_modifications = []\n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if new_slide.slide_number != 2:\n            # Only flag if there are significant changes (not just element count changes)\n            if (old_slide.title != new_slide.title or \n                old_slide.layout_type != new_slide.layout_type):\n                problematic_modifications.append(new_slide.slide_number)\n    \n    if problematic_modifications:\n        return f\"Unwanted modifications to slides: {problematic_modifications}\", 0.5\n    \n    return \"No unwanted slide structure changes detected\", 1.0\n"
+            }
+          },
+          {
+            "name": "No animation or transition changes",
+            "description": "Ensures that no animations or slide transitions were modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    issues = []\n    \n    if ppt_diff.added_animations:\n        issues.append(f\"Added {len(ppt_diff.added_animations)} animations\")\n    \n    if ppt_diff.removed_animations:\n        issues.append(f\"Removed {len(ppt_diff.removed_animations)} animations\")\n    \n    if ppt_diff.modified_animations:\n        issues.append(f\"Modified {len(ppt_diff.modified_animations)} animations\")\n    \n    if ppt_diff.added_transitions:\n        issues.append(f\"Added {len(ppt_diff.added_transitions)} transitions\")\n    \n    if ppt_diff.removed_transitions:\n        issues.append(f\"Removed {len(ppt_diff.removed_transitions)} transitions\")\n    \n    if ppt_diff.modified_transitions:\n        issues.append(f\"Modified {len(ppt_diff.modified_transitions)} transitions\")\n    \n    if issues:\n        return f\"Unwanted animation/transition changes: {'; '.join(issues)}\", 0.0\n    \n    return \"No unwanted animation or transition changes\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a new bullet point after 'Dual Mode' that says 'File System' on slide 2."
+  }
+}

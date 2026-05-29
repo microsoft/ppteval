@@ -1,0 +1,71 @@
+{
+  "root": {
+    "name": "Replace Background Image on Slide 2",
+    "description": "Evaluates whether the background image of slide 2 was successfully replaced with a lighter one, without making unintended changes to other aspects of the presentation",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Background Image Changed on Slide 2",
+        "description": "Verifies that the background image on slide 2 has been modified from the original",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Compare slide 2 screenshots to detect background changes\n    slide_2_original = None\n    slide_2_modified = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide_2_original = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide_2_modified = screenshot\n            break\n    \n    if not slide_2_original or not slide_2_modified:\n        return \"Could not find slide 2 screenshots for comparison\", 0.0\n    \n    # Use VLM to compare the background images\n    prompt = \"\"\"Compare these two PowerPoint slides and determine if the background image has changed. \n    Focus specifically on the background image/pattern/color behind the text and other elements.\n    Answer with 'YES' if the background image is different, or 'NO' if it appears the same.\n    Provide a brief explanation of what you observe.\"\"\"\n    \n    response = vlm_call(prompt, [slide_2_original.image_path, slide_2_modified.image_path], temperature=0.1)\n    \n    if \"YES\" in response.upper():\n        return f\"Background image successfully changed on slide 2: {response}\", 1.0\n    else:\n        return f\"Background image appears unchanged on slide 2: {response}\", 0.0\n"
+        }
+      },
+      {
+        "name": "New Background is Lighter",
+        "description": "Verifies that the new background image is lighter than the original background image",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Get slide 2 screenshots\n    slide_2_original = None\n    slide_2_modified = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide_2_original = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide_2_modified = screenshot\n            break\n    \n    if not slide_2_original or not slide_2_modified:\n        return \"Could not find slide 2 screenshots for comparison\", 0.0\n    \n    # Use VLM to compare brightness/lightness\n    prompt = \"\"\"Compare the background images in these two PowerPoint slides. \n    The first image shows the original slide, and the second shows the modified slide.\n    Determine if the background in the second slide is lighter/brighter than the background in the first slide.\n    Focus specifically on the overall brightness and lightness of the background image/pattern.\n    Answer with 'YES' if the second background is lighter, or 'NO' if it is darker or the same brightness.\n    Provide a brief explanation of the brightness comparison.\"\"\"\n    \n    response = vlm_call(prompt, [slide_2_original.image_path, slide_2_modified.image_path], temperature=0.1)\n    \n    if \"YES\" in response.upper():\n        return f\"New background is lighter than original: {response}\", 1.0\n    else:\n        return f\"New background is not lighter than original: {response}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Unintended Changes",
+        "description": "Ensures that no unintended changes were made to other slides or elements",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Other Slides Unchanged",
+            "description": "Verifies that slides other than slide 2 remain unchanged",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    # Check if any slides were added or removed\n    if len(ppt_diff.added_slides) > 0 or len(ppt_diff.removed_slides) > 0:\n        return f\"Slides were added or removed: {len(ppt_diff.added_slides)} added, {len(ppt_diff.removed_slides)} removed\", 0.0\n    \n    # Check if slides other than slide 2 were modified\n    modified_other_slides = []\n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number != 2:\n            modified_other_slides.append(old_slide.slide_number)\n    \n    if modified_other_slides:\n        return f\"Unintended changes detected in slides: {modified_other_slides}\", 0.0\n    \n    # Load presentations to verify content changes\n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        if len(original_prs.slides) != len(modified_prs.slides):\n            return f\"Number of slides changed: {len(original_prs.slides)} -> {len(modified_prs.slides)}\", 0.0\n        \n        # Check slides other than slide 2 (index 1)\n        changes_detected = 0\n        for i, (orig_slide, mod_slide) in enumerate(zip(original_prs.slides, modified_prs.slides)):\n            if i == 1:  # Skip slide 2 (index 1)\n                continue\n            \n            # Compare slide layouts\n            if orig_slide.slide_layout.name != mod_slide.slide_layout.name:\n                changes_detected += 1\n                continue\n            \n            # Compare number of shapes\n            if len(orig_slide.shapes) != len(mod_slide.shapes):\n                changes_detected += 1\n                continue\n        \n        if changes_detected > 0:\n            return f\"Detected changes in {changes_detected} other slides\", 0.5\n        \n        return \"No unintended changes detected in other slides\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking other slides: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "Slide 2 Content Preserved",
+            "description": "Verifies that text content and other elements on slide 2 remain unchanged (only background should change)",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        if len(original_prs.slides) < 2 or len(modified_prs.slides) < 2:\n            return \"Slide 2 not found in one of the presentations\", 0.0\n        \n        orig_slide = original_prs.slides[1]  # Slide 2 (0-indexed)\n        mod_slide = modified_prs.slides[1]\n        \n        # Compare slide layout\n        if orig_slide.slide_layout.name != mod_slide.slide_layout.name:\n            return \"Slide 2 layout was changed\", 0.0\n        \n        # Compare number of shapes (excluding background)\n        orig_shapes = [s for s in orig_slide.shapes if s.shape_type != 14]  # Exclude background\n        mod_shapes = [s for s in mod_slide.shapes if s.shape_type != 14]\n        \n        if len(orig_shapes) != len(mod_shapes):\n            return f\"Number of shapes changed on slide 2: {len(orig_shapes)} -> {len(mod_shapes)}\", 0.5\n        \n        # Compare text content in shapes\n        text_changes = 0\n        for orig_shape, mod_shape in zip(orig_shapes, mod_shapes):\n            if hasattr(orig_shape, 'text') and hasattr(mod_shape, 'text'):\n                if orig_shape.text != mod_shape.text:\n                    text_changes += 1\n        \n        if text_changes > 0:\n            return f\"Text content changed in {text_changes} shapes on slide 2\", 0.5\n        \n        return \"Slide 2 content preserved (only background changed)\", 1.0\n        \n    except Exception as e:\n        return f\"Error checking slide 2 content: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "No Animation or Transition Changes",
+            "description": "Verifies that no animations or transitions were unintentionally modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for any animation changes\n    total_animation_changes = (len(ppt_diff.added_animations) + \n                             len(ppt_diff.removed_animations) + \n                             len(ppt_diff.modified_animations))\n    \n    # Check for any transition changes\n    total_transition_changes = (len(ppt_diff.added_transitions) + \n                              len(ppt_diff.removed_transitions) + \n                              len(ppt_diff.modified_transitions))\n    \n    if total_animation_changes > 0:\n        return f\"Unintended animation changes detected: {total_animation_changes} changes\", 0.0\n    \n    if total_transition_changes > 0:\n        return f\"Unintended transition changes detected: {total_transition_changes} changes\", 0.0\n    \n    return \"No unintended animation or transition changes\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Replace the background image of the slide 2 to with a lighter one"
+  }
+}

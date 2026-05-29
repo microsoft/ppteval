@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add a text box explaining 'These drawings show standardized proportional relationships' on slide 7",
+    "description": "Evaluates whether the agent successfully added a text box containing the specified explanation to slide 7, and did so in a correct, precise, and non-intrusive manner.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text box presence on slide 7",
+        "description": "Checks if a new text box was added to slide 7.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find added text boxes on slide 7 using ppt_diff and python-pptx\n    import pptx\n    from pptx import Presentation\n\n    prs = pptx.Presentation(modified_ppt_path)\n    slide7 = None\n    for s in prs.slides:\n        if getattr(s, 'slide_number', None) == 7 or prs.slides.index(s) == 6:\n            slide7 = s\n            break\n    if slide7 is None:\n        return (\"Slide 7 not found in modified presentation.\", 0.0)\n    # Collect all text boxes\n    textbox_shapes = [shape for shape in slide7.shapes if shape.has_text_frame]\n    if not textbox_shapes:\n        return (\"No text boxes found on slide 7.\", 0.0)\n    # Check for new text boxes\n    orig_prs = pptx.Presentation(original_ppt_path)\n    orig_slide7 = None\n    for s in orig_prs.slides:\n        if getattr(s, 'slide_number', None) == 7 or orig_prs.slides.index(s) == 6:\n            orig_slide7 = s\n            break\n    orig_text_shape_count = len([shape for shape in orig_slide7.shapes if shape.has_text_frame]) if orig_slide7 else 0\n    if len(textbox_shapes) > orig_text_shape_count:\n        return (\"Text box added on slide 7.\", 1.0)\n    return (\"No new text box was added on slide 7.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Text content accuracy",
+        "description": "Checks if the text box contains the required explanation (exact or paraphrased) and nothing extraneous.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import pptx\n    from pptx import Presentation\n    import re\n    required_phrase = \"These drawings show standardized proportional relationships\"\n    prs = pptx.Presentation(modified_ppt_path)\n    slide7 = None\n    for s in prs.slides:\n        if getattr(s, 'slide_number', None) == 7 or prs.slides.index(s) == 6:\n            slide7 = s\n            break\n    if slide7 is None:\n        return (\"Slide 7 not found in modified presentation.\", 0.0)\n    # Get all text from text boxes\n    textbox_texts = [shape.text.strip() for shape in slide7.shapes if shape.has_text_frame]\n    # Remove any text that existed in the original\n    orig_prs = pptx.Presentation(original_ppt_path)\n    orig_slide7 = None\n    for s in orig_prs.slides:\n        if getattr(s, 'slide_number', None) == 7 or orig_prs.slides.index(s) == 6:\n            orig_slide7 = s\n            break\n    orig_texts = [shape.text.strip() for shape in orig_slide7.shapes if shape.has_text_frame] if orig_slide7 else []\n    new_texts = [t for t in textbox_texts if t not in orig_texts]\n    if not new_texts:\n        return (\"No new text box text found on slide 7.\", 0.0)\n    # Check for required phrase or paraphrase\n    found = False\n    for t in new_texts:\n        # Fuzzy match (case insensitive, ignore minor punctuation)\n        if required_phrase.lower() in t.lower():\n            found = True\n            break\n        # Basic paraphrase detection\n        if (re.search(r'standardized( proportional)? relationships', t, re.I) and re.search(r'drawing', t, re.I)):\n            found = True\n            break\n    if not found:\n        return (\"No text box with required explanation found.\", 0.0)\n    # Check for extraneous unrelated content\n    for t in new_texts:\n        # If text is much longer than the required phrase, suspect extraneous content\n        if len(t) > len(required_phrase)*2:\n            return (\"Text box contains excessive or unrelated information.\", 0.5)\n    return (\"Text box contains the required explanation.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "Text box visibility and formatting",
+        "description": "Checks that the text box is clearly visible (not hidden, not outside slide bounds, not overly tiny) and formatting is reasonable.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import pptx\n    from pptx import Presentation\n    prs = pptx.Presentation(modified_ppt_path)\n    slide7 = prs.slides[6] if len(prs.slides) >= 7 else None\n    if slide7 is None:\n        return (\"Slide 7 not found in modified presentation.\", 0.0)\n    textbox_shapes = [shape for shape in slide7.shapes if shape.has_text_frame]\n    orig_prs = pptx.Presentation(original_ppt_path)\n    orig_slide7 = orig_prs.slides[6] if len(orig_prs.slides) >= 7 else None\n    orig_text_shape_count = len([shape for shape in orig_slide7.shapes if shape.has_text_frame]) if orig_slide7 else 0\n    new_textboxes = textbox_shapes[orig_text_shape_count:]\n    if not new_textboxes:\n        return (\"No new text box found on slide 7.\", 0.0)\n    for shape in new_textboxes:\n        # Check size and position\n        left, top, width, height = shape.left, shape.top, shape.width, shape.height\n        # PowerPoint slide size is usually 914400 x 685800 EMUs (10\"x7.5\")\n        if width < 100000 or height < 40000:\n            return (\"Text box is too small to be visible.\", 0.5)\n        if left+width < 50000 or top+height < 50000:\n            return (\"Text box is off-slide or hidden.\", 0.5)\n        # If text is white on white bg, could be invisible (but python-pptx doesn't give bg color reliably)\n        # We'll skip color check for now\n    return (\"Text box is clearly visible and reasonably formatted.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No unwanted changes to slide 7",
+        "description": "Checks that no content other than the required text box was added, removed, or modified on slide 7.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check for unwanted changes on slide 7\n    unwanted = False\n    details = []\n    slide7_id = None\n    for slide in ppt_diff.modified_slides:\n        before, after = slide\n        if getattr(before, 'slide_number', None) == 7 or getattr(after, 'slide_number', None) == 7:\n            slide7_id = after.slide_id\n            break\n    # Check for elements on slide 7\n    # Check for added/removed/modified shapes (not text boxes)\n    # For this benchmark, we only expect a single new text box\n    # We'll use python-pptx for shape comparison\n    import pptx\n    from pptx import Presentation\n    prs_mod = pptx.Presentation(modified_ppt_path)\n    slide_mod = prs_mod.slides[6] if len(prs_mod.slides) >= 7 else None\n    prs_orig = pptx.Presentation(original_ppt_path)\n    slide_orig = prs_orig.slides[6] if len(prs_orig.slides) >= 7 else None\n    if slide_mod is None or slide_orig is None:\n        return (\"Slide 7 missing in original or modified PPT.\", 0.0)\n    orig_shapes = [s for s in slide_orig.shapes]\n    mod_shapes = [s for s in slide_mod.shapes]\n    if len(mod_shapes) > len(orig_shapes)+1:\n        details.append(\"More than one shape added to slide 7.\")\n        unwanted = True\n    if len(mod_shapes) < len(orig_shapes):\n        details.append(\"Shapes removed from slide 7.\")\n        unwanted = True\n    # Check for modified non-text shapes\n    orig_nontext_shapes = [s for s in orig_shapes if not s.has_text_frame]\n    mod_nontext_shapes = [s for s in mod_shapes if not s.has_text_frame]\n    if len(orig_nontext_shapes) != len(mod_nontext_shapes):\n        details.append(\"Non-text shapes modified on slide 7.\")\n        unwanted = True\n    # If unwanted, penalize\n    if unwanted:\n        return (\"; \".join(details), 0.0)\n    return (\"No unwanted changes detected on slide 7.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a text box explaining 'These drawings show standardized proportional relationships' on slide 7"
+  }
+}

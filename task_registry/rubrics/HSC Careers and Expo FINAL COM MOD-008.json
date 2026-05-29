@@ -1,0 +1,55 @@
+{
+  "root": {
+    "name": "Create a text box on slide 2 with the phrase 'Important Note' positioned in the bottom right corner",
+    "description": "Evaluates whether the agent accurately created a text box containing 'Important Note' on slide 2 and positioned it correctly, with no unnecessary changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text Box Creation on Slide 2",
+        "description": "Checks that a new text box was added on slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use python-pptx to check slide 2 for a new text box\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]  # slides are 0-indexed\n    textboxes = [shape for shape in slide.shapes if shape.has_text_frame and shape.shape_type == 17]  # 17: MSO_SHAPE.RECTANGLE (common for textboxes)\n    # Check if any textbox contains 'Important Note'\n    found = False\n    for shape in textboxes:\n        if 'Important Note' in shape.text:\n            found = True\n            break\n    if found:\n        reason = \"Text box with 'Important Note' found on slide 2.\"\n        score = 1.0\n    else:\n        reason = \"Text box with 'Important Note' not found on slide 2.\"\n        score = 0.0\n    return reason, score\n"
+        }
+      },
+      {
+        "name": "Text Content Accuracy",
+        "description": "Checks that the text box contains exactly the phrase 'Important Note'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]\n    textboxes = [shape for shape in slide.shapes if shape.has_text_frame]\n    # Find the textbox with 'Important Note'\n    for shape in textboxes:\n        if shape.text.strip() == 'Important Note':\n            return \"Text box contains exactly 'Important Note' on slide 2.\", 1.0\n    # If not exact match, try to find partial match\n    for shape in textboxes:\n        if 'Important Note' in shape.text:\n            return \"Text box contains 'Important Note', but has additional/incorrect text.\", 0.5\n    return \"No text box with 'Important Note' found on slide 2.\", 0.0\n"
+        }
+      },
+      {
+        "name": "Positioning of Text Box",
+        "description": "Evaluates whether the text box is located in the bottom right corner of slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]\n    slide_width = prs.slide_width\n    slide_height = prs.slide_height\n    textboxes = [shape for shape in slide.shapes if shape.has_text_frame]\n    for shape in textboxes:\n        if 'Important Note' in shape.text:\n            # Check if the bounding box is in bottom right\n            # We'll define bottom right as: left > 60% width, top > 70% height\n            left, top, width, height = shape.left, shape.top, shape.width, shape.height\n            if left > 0.6 * slide_width and top > 0.7 * slide_height:\n                return \"Text box is correctly positioned in bottom right.\", 1.0\n            elif left > 0.5 * slide_width and top > 0.6 * slide_height:\n                return \"Text box is in lower right quadrant, but not strictly bottom right.\", 0.7\n            else:\n                return \"Text box is not in bottom right quadrant.\", 0.0\n    return \"No text box with 'Important Note' found on slide 2.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Unnecessary Changes",
+        "description": "Checks that no extraneous slides, elements, animations, or transitions were added, removed, or modified except for the intended text box on slide 2.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow one new element (the text box) on slide 2, and no other diffs\n    # We'll check ppt_diff for slides, animations, transitions\n    extraneous = False\n    reason_list = []\n    # Slides\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        extraneous = True\n        reason_list.append('Slides added or removed.')\n    # Animations or transitions\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        extraneous = True\n        reason_list.append('Animations changed.')\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        extraneous = True\n        reason_list.append('Transitions changed.')\n    # Slide 2 elements: allow only one extra element\n    # We'll count element count difference\n    from pptx import Presentation\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_elems = len(orig_prs.slides[1].shapes)\n    mod_elems = len(mod_prs.slides[1].shapes)\n    if mod_elems - orig_elems > 1:\n        extraneous = True\n        reason_list.append('More than one element added to slide 2.')\n    # If anything extraneous, score 0\n    if extraneous:\n        return f\"Extraneous change(s): {'; '.join(reason_list)}\", 0.0\n    return \"No extraneous changes detected.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Create a text box on slide 2 with the phrase 'Important Note' and position it in the bottom right corner of the slide",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

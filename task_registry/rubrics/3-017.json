@@ -1,0 +1,71 @@
+{
+  "root": {
+    "name": "Add text box with 'Intel Skylake Die Layout' caption below processor image on slide 14",
+    "description": "Evaluates whether a text box with the specified caption was correctly added to slide 14 in the appropriate position relative to the processor image",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text box added to slide 14",
+        "description": "Verifies that a new text box was added to slide 14 by comparing element counts and identifying text elements",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.enum.shapes import MSO_SHAPE_TYPE\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        if len(original_prs.slides) < 14 or len(modified_prs.slides) < 14:\n            return \"Slide 14 not available in one or both presentations\", 0.0\n            \n        original_slide = original_prs.slides[13]  # 0-indexed\n        modified_slide = modified_prs.slides[13]\n        \n        # Count text boxes in original and modified slides\n        original_text_boxes = [shape for shape in original_slide.shapes \n                              if hasattr(shape, 'text_frame') and shape.shape_type == MSO_SHAPE_TYPE.TEXT_BOX]\n        modified_text_boxes = [shape for shape in modified_slide.shapes \n                              if hasattr(shape, 'text_frame') and shape.shape_type == MSO_SHAPE_TYPE.TEXT_BOX]\n        \n        if len(modified_text_boxes) > len(original_text_boxes):\n            return f\"Text box added to slide 14 (original: {len(original_text_boxes)}, modified: {len(modified_text_boxes)})\", 1.0\n        else:\n            return f\"No new text box detected on slide 14 (original: {len(original_text_boxes)}, modified: {len(modified_text_boxes)})\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking for text box addition: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Text box contains correct caption",
+        "description": "Verifies that the added text box contains the exact caption 'Intel Skylake Die Layout'",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.enum.shapes import MSO_SHAPE_TYPE\n    \n    try:\n        modified_prs = Presentation(modified_ppt_path)\n        if len(modified_prs.slides) < 14:\n            return \"Slide 14 not available\", 0.0\n            \n        modified_slide = modified_prs.slides[13]  # 0-indexed\n        \n        # Find all text boxes and check their content\n        text_boxes = [shape for shape in modified_slide.shapes \n                     if hasattr(shape, 'text_frame') and shape.shape_type == MSO_SHAPE_TYPE.TEXT_BOX]\n        \n        target_caption = \"Intel Skylake Die Layout\"\n        \n        for text_box in text_boxes:\n            text_content = text_box.text_frame.text.strip()\n            if text_content == target_caption:\n                return f\"Found text box with correct caption: '{target_caption}'\", 1.0\n        \n        # Check if any text box contains similar content (case insensitive)\n        for text_box in text_boxes:\n            text_content = text_box.text_frame.text.strip()\n            if target_caption.lower() in text_content.lower():\n                return f\"Found text box with similar caption: '{text_content}' (expected: '{target_caption}')\", 0.7\n        \n        return f\"No text box found with caption '{target_caption}'\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking text box content: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Text box positioned below processor image",
+        "description": "Verifies that the text box is positioned below the processor image on the slide using visual analysis",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        # Find slide 14 screenshots\n        original_screenshot = None\n        modified_screenshot = None\n        \n        for screenshot in original_ppt_screenshots:\n            if screenshot.slide_number == 14:\n                original_screenshot = screenshot\n                break\n                \n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 14:\n                modified_screenshot = screenshot\n                break\n        \n        if not original_screenshot or not modified_screenshot:\n            return \"Could not find screenshots for slide 14\", 0.0\n        \n        prompt = '''Compare these two PowerPoint slide images (before and after). \n        \nThe task was to add a text box with the caption \"Intel Skylake Die Layout\" below a processor image on slide 14.\n        \nPlease analyze:\n        1. Is there a processor/chip image visible in the slide?\n        2. Is there a text box with \"Intel Skylake Die Layout\" caption?\n        3. Is the text box positioned below the processor image?\n        \nRespond with:\n        - \"SUCCESS\" if the text box is correctly positioned below the processor image\n        - \"PARTIAL\" if the text box exists but positioning is not ideal\n        - \"FAILURE\" if the text box is not below the processor image or doesn't exist\n        \nThen provide a brief explanation.'''\n        \n        response = vlm_call(prompt, [original_screenshot.image_path, modified_screenshot.image_path])\n        \n        if \"SUCCESS\" in response.upper():\n            return f\"Text box correctly positioned below processor image: {response}\", 1.0\n        elif \"PARTIAL\" in response.upper():\n            return f\"Text box positioning needs improvement: {response}\", 0.6\n        else:\n            return f\"Text box not properly positioned below processor image: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking text box positioning: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous changes made",
+        "description": "Ensures that no unintended modifications were made to other slides or elements",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to other slides",
+            "description": "Verifies that slides other than slide 14 were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if any slides other than slide 14 were modified\n    modified_slides = ppt_diff.modified_slides\n    added_slides = ppt_diff.added_slides\n    removed_slides = ppt_diff.removed_slides\n    \n    # Check for added/removed slides\n    if added_slides or removed_slides:\n        return f\"Slides were added ({len(added_slides)}) or removed ({len(removed_slides)})\", 0.0\n    \n    # Check for modifications to slides other than slide 14\n    other_slide_modifications = []\n    for old_slide, new_slide in modified_slides:\n        if new_slide.slide_number != 14:\n            other_slide_modifications.append(new_slide.slide_number)\n    \n    if other_slide_modifications:\n        return f\"Unintended modifications detected on slides: {other_slide_modifications}\", 0.0\n    else:\n        return \"No unintended changes to other slides\", 1.0\n"
+            }
+          },
+          {
+            "name": "No animation or transition changes",
+            "description": "Verifies that no animations or transitions were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    total_changes = (len(ppt_diff.added_animations) + \n                    len(ppt_diff.removed_animations) + \n                    len(ppt_diff.modified_animations) +\n                    len(ppt_diff.added_transitions) + \n                    len(ppt_diff.removed_transitions) + \n                    len(ppt_diff.modified_transitions))\n    \n    if total_changes == 0:\n        return \"No animation or transition changes detected\", 1.0\n    else:\n        return f\"Unintended animation/transition changes detected: {total_changes} total changes\", 0.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 14, add a text box below the processor image with the caption 'Intel Skylake Die Layout'"
+  }
+}

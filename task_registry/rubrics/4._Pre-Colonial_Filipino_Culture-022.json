@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "Resize text in diagram on slide 9 so 'Nobles' fits",
+    "description": "Evaluates whether the agent successfully resized text in the diagram on slide 9 to make 'Nobles' fit properly in the pyramid",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "'Nobles' fits properly in pyramid",
+        "description": "Evaluates whether the 'Nobles' text now fits appropriately within the pyramid diagram using visual inspection",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 9 screenshots\n    original_slide_9 = None\n    modified_slide_9 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 9:\n            original_slide_9 = screenshot.image_path\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 9:\n            modified_slide_9 = screenshot.image_path\n            break\n    \n    if not original_slide_9 or not modified_slide_9:\n        return \"Could not find slide 9 screenshots for comparison\", 0.0\n    \n    prompt = '''Compare these two PowerPoint slide images (before and after). \n    Focus on the pyramid diagram and specifically look at the text \"Nobles\".\n    \n    Evaluate:\n    1. Does the \"Nobles\" text fit properly within its section of the pyramid in the modified version?\n    2. Is the text readable and appropriately sized for the pyramid section?\n    3. Does it look visually balanced compared to other text in the pyramid?\n    \n    Respond with a score from 0.0 to 1.0 where:\n    - 1.0 = \"Nobles\" fits perfectly within the pyramid section, is readable, and looks well-proportioned\n    - 0.5 = \"Nobles\" fits (CONTAINED VISUALLY ENTIRELY WITHIN THE PYRAMID) but may be slightly too large/small or not optimally positioned\n    - 0.0 = \"Nobles\" does not fit properly (ANY PART OF THE TEXT IS OUTSIDE THE PYRAMID), is cut off, or creates visual issues\n    \n    Remember, if any of the text is cut off or goes outside the pyramid, score is 0.0, even if it is within the shape.\n\n    Format your response as: SCORE: X.X - REASON'''\n    \n    response = vlm_call(prompt, [original_slide_9, modified_slide_9])\n    \n    try:\n        # Extract score from response\n        score_line = [line for line in response.split('\\n') if 'SCORE:' in line][0]\n        score = float(score_line.split('SCORE:')[1].split('-')[0].strip())\n        reason = score_line.split('-', 1)[1].strip() if '-' in score_line else response\n        return reason, max(0.0, min(1.0, score))\n    except:\n        # Fallback parsing\n        if 'fits perfectly' in response.lower() or 'well-proportioned' in response.lower():\n            return \"Visual inspection indicates good fit\", 1.0\n        elif 'does not fit' in response.lower() or 'cut off' in response.lower():\n            return \"Visual inspection indicates poor fit\", 0.0\n        else:\n            return \"Visual inspection indicates partial fit\", 0.5\n"
+        }
+      },
+      {
+        "name": "No extraneous changes made",
+        "description": "Ensures that only the intended text resizing was performed and no other unwanted modifications were made",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No unintended slide modifications",
+            "description": "Verifies that slides other than slide 9 were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if any slides other than slide 9 were modified\n    other_slides_modified = []\n    \n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number != 9 and new_slide.slide_number != 9:\n            other_slides_modified.append(old_slide.slide_number)\n    \n    # Check for added or removed slides\n    slides_added = len(ppt_diff.added_slides)\n    slides_removed = len(ppt_diff.removed_slides)\n    \n    if other_slides_modified or slides_added > 0 or slides_removed > 0:\n        issues = []\n        if other_slides_modified:\n            issues.append(f\"Modified slides: {other_slides_modified}\")\n        if slides_added > 0:\n            issues.append(f\"Added {slides_added} slides\")\n        if slides_removed > 0:\n            issues.append(f\"Removed {slides_removed} slides\")\n        return f\"Unintended changes detected: {'; '.join(issues)}\", 0.0\n    else:\n        return \"No unintended slide modifications detected\", 1.0\n"
+            }
+          },
+          {
+            "name": "No unintended animations or transitions modified",
+            "description": "Verifies that no animations or slide transitions were accidentally changed",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for any animation or transition changes\n    animations_changed = (len(ppt_diff.added_animations) + \n                         len(ppt_diff.removed_animations) + \n                         len(ppt_diff.modified_animations))\n    \n    transitions_changed = (len(ppt_diff.added_transitions) + \n                          len(ppt_diff.removed_transitions) + \n                          len(ppt_diff.modified_transitions))\n    \n    if animations_changed > 0 or transitions_changed > 0:\n        issues = []\n        if animations_changed > 0:\n            issues.append(f\"{animations_changed} animation changes\")\n        if transitions_changed > 0:\n            issues.append(f\"{transitions_changed} transition changes\")\n        return f\"Unintended changes detected: {'; '.join(issues)}\", 0.0\n    else:\n        return \"No unintended animation or transition changes\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 9, resize the text in the diagram so that 'Nobles' fits in the pyramid."
+  }
+}
