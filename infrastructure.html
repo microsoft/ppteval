@@ -8,10 +8,11 @@ permalink: /infrastructure/
     <img src="static/images/Figure2.jpg" alt="Environment Diagram" class="figure-img">
   </div>
   <div class="infra-content">
-    <p>PPTEval runs tasks inside a <strong>sandboxed PowerPoint Online</strong> session. Agents issue GUI-level actions (selection, typing, dragging, focus changes) mirroring human interaction and revealing realistic failure modes like mis-clicks or unintended global style changes.</p>
-    <p><strong>Execution Loop.</strong> Each task specifies a natural language goal; the agent iteratively observes updated state (DOM/screenshot/metadata) and selects the next action until completion or step budget exhaustion.</p>
-    <p><strong>Rubric Scoring.</strong> A task-specific rubric tree comprises critical checkpoints (essential edits) and non-critical quality checks (e.g. precise positioning, avoiding extra animations). Leaves may invoke deterministic comparisons plus LLM/VLM judgments for semantic or visual criteria.</p>
-    <p><strong>Aggregation Strategy.</strong> Modified scoring combines average critical progress with penalties from non-critical shortcomings, avoiding collapse of near-complete attempts to zero while preserving importance of essential changes.</p>
-    <p><strong>Human & Model Collaboration.</strong> Draft rubrics sourced from large language models are refined via multi-stage expert review to ensure consistency and robustness against reward hacking or ambiguous instructions.</p>
+    <p>PPT-Eval runs tasks inside a <strong>sandboxed PowerPoint Online</strong> session. Agents issue GUI-level actions (selection, typing, dragging, focus changes) mirroring human interaction and revealing realistic failure modes like mis-clicks or unintended global style changes.</p>
+    <p><strong>Execution Loop.</strong> Each task specifies a natural language goal; the agent iteratively observes updated state (DOM/screenshot/metadata) and selects the next action until completion or a budget of 30 steps is exhausted. We use a concurrency of 3 threads (~3.5 hours per full run).</p>
+    <p><strong>Rubric Scoring.</strong> Each task is represented by a tree-structured rubric where internal nodes define higher-level criteria and leaf nodes implement concrete checks. Critical nodes correspond to core requirements; non-critical nodes capture desirable but secondary aspects (e.g. stylistic choices, penalizing extraneous changes). Each leaf returns a numeric score (∈[0,1]) and a natural language explanation.</p>
+    <p><strong>Aggregation Strategy.</strong> Modified scoring combines average critical progress with a penalty factor (λ=0.3) from non-critical shortcomings, avoiding collapse of near-complete attempts to zero while preserving importance of essential changes.</p>
+    <p><strong>Human &amp; Model Collaboration.</strong> Rubrics are generated semi-automatically: LLMs (Claude-4-Sonnet and GPT-4.1) propose draft rubric trees, which are then refined via multi-stage expert review by six human annotators to ensure consistency and robustness.</p>
+    <p><strong>Meta-Evaluation.</strong> Rubric-based scores show strong agreement with human judgments: Kendall's τ<sub>b</sub> = 0.77, Spearman's ρ = 0.84.</p>
   </div>
 </section>
