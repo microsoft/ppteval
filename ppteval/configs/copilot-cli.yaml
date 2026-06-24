@@ -1,0 +1,24 @@
+# GitHub Copilot CLI (agentic) configuration
+#
+# Requires the agentic `copilot` binary on PATH (the `@github/copilot-cli`
+# package, NOT the legacy `gh copilot` extension). Verify with:
+#   copilot --version
+# Authenticate with `copilot auth login` (or `gh auth login` + extension).
+#
+# Cost is intentionally null for Copilot (subscription-billed).
+
+agent_type: "cli"
+cli_name: "copilot-cli"
+binary: "copilot"
+
+model: null
+max_turns: null
+timeout_s: 1800
+
+
+extra_args: []
+env: {}
+
+display_size:
+  width: 1024
+  height: 768

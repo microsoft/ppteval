@@ -1,0 +1,19 @@
+# Claude 4 Sonnet Configuration
+# Claude Computer Use Agent for GUI automation
+
+# Model configuration
+agent_type: "claude"
+model_name: "claude-sonnet-4-20250514"
+api_key: "${ANTHROPIC_API_KEY}"
+base_url: "${ANTHROPIC_BASE_URL}"
+
+# Display configuration (drives environment resolution)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+max_tokens: 4096
+temperature: 1.0
+reasoning_effort: "medium"
+enable_thinking: false

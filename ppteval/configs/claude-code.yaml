@@ -1,0 +1,41 @@
+# Claude Code CLI agent configuration
+#
+# Requires the `claude` binary on PATH. Verify with: `claude --version`
+# Authenticate once with `claude login`. The agent uses the CLI's own
+# OAuth/keychain session: ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL are
+# *scrubbed* from the subprocess env by default (see ClaudeCodeAgent.
+# default_scrub_env). To force forwarding either var, add it under
+# `env:` below.
+
+agent_type: "cli"
+cli_name: "claude-code"
+binary: "claude"
+
+# Model selection passed via `--model` (omit/null for CLI default).
+# Use an alias like 'opus', 'sonnet', or a full model name your account
+# has access to.
+model: "claude-sonnet-4-5"
+
+# Caps on the CLI's internal multi-turn loop. Older Claude Code versions
+# (< 2.x late builds) don't expose --max-turns; we only forward it when
+# send_max_turns is true.
+max_turns: 40
+send_max_turns: false
+timeout_s: 1800
+
+# Extra args appended to the command line if needed.
+extra_args: []
+
+# Optional environment variables for the subprocess.
+env: {}
+
+# Optional path to a directory whose contents are copied into each per-task
+# workspace before the CLI is invoked. Use this to seed CLAUDE.md,
+# .claude/skills/, .claude/agents/, .mcp.json, etc. Resolved relative to the
+# CWD where run_benchmark.py is invoked (typically the repo root).
+customization_dir: "claude-workspace"
+
+# Unused at runtime for CLI agents but kept for config plumbing parity.
+display_size:
+  width: 1024
+  height: 768

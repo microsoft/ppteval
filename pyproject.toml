@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ppteval"]
+
+[project]
+name = "ppteval"
+version = "0.1.0"
+description = "A benchmark to evaluate Computer-Use Agents on PowerPoint tasks."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "ai-rubric",
+    "openai>=1.0.0",
+    "screenenv",
+    "msal==1.32.3",
+    "dotenv",
+    "azure-identity>=1.15.0",
+    "python-pptx==1.0.2",
+    "litellm",
+    "orjson",
+    "apscheduler",
+    "xmltodict",
+    "pyyaml",
+    "requests",
+    "pillow",
+    "numpy"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+azure = [
+    "azure-identity"
+]
+
+
+[tool.ruff]
+line-length = 200
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["ppteval/unittests"]
+python_files = ["test_*.py"]
+markers = [
+    "integration: tests that require live external services",
+    "slow: tests that are slow or require real benchmark infrastructure",
+]

@@ -19,7 +19,9 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Checks if the main chart or image on slide 2 has been moved to the left side of the slide.\n    \"\"\"\n    # Use vision model to check for chart/image placement\n    slide_num = 2\n    try:\n        mod_img = [s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_num][0]\n        prompt = \"Is the graph chart positioned in the left half of the slide? Reply Yes or No.\"\n        result = vlm_call(prompt, [mod_img], temperature=0.0, max_tokens=5)\n        if 'yes' in result.lower():\n            return (\"Chart/image is on the left half of the slide.\", 1.0)\n        else:\n            return (\"Chart/image is not on the left half of the slide.\", 0.0)\n    except IndexError:\n        return (f\"Slide {slide_num} not found in modified presentation.\", 0.0)\n    except Exception as e:\n        return (f\"Unable to verify chart/image placement: {e}\", 0.0)\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "Chart/image is not on the left half of the slide."
           },
           {
             "name": "Caption moved to left side",
@@ -29,9 +31,13 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Checks if the caption for the main chart or image on slide 2 is on the left side of the slide.\n    \"\"\"\n    # Use vision model to check for caption placement\n    slide_num = 2\n    try:\n        mod_img = [s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_num][0]\n        prompt = \"Is the caption for the main chart or image on the left side of the slide? Reply Yes or No.\"\n        result = vlm_call(prompt, [mod_img], temperature=0.0, max_tokens=5)\n        if 'yes' in result.lower():\n            return (\"Caption is on the left near chart/image.\", 1.0)\n        else:\n            return (\"Caption is not on the left side of the slide.\", 0.0)\n    except IndexError:\n        return (f\"Slide {slide_num} not found in modified presentation.\", 0.0)\n    except Exception as e:\n        return (f\"Unable to verify caption placement: {e}\", 0.0)\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "Caption is not on the left side of the slide."
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The Chart/Image and Caption Placement criterion received a failing score because neither the chart/image nor its caption were positioned on the left half of slide 2 as required. Both critical sub-criteria failed completely - the main visual element remained improperly positioned, and the caption was also not moved to the left side of the slide. Since proper placement of both components on the left half is essential for this criterion, the failure to achieve either requirement resulted in the lowest possible score."
       },
       {
         "name": "Text Content Placement and Resizing",
@@ -47,19 +53,25 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Checks if the main text with bullet points on slide 2 is on the right side of the slide.\n    \"\"\"\n    # Use vision model to check for text placement\n    slide_num = 2\n    try:\n        mod_img = [s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_num][0]\n        prompt = \"Is the main text content with bullet points on the right side of the slide? Ignore titles and captions. Reply Yes or No.\"\n        result = vlm_call(prompt, [mod_img], temperature=0.0, max_tokens=5)\n        if 'yes' in result.lower():\n            return (\"Text with bullet points is on the right half of the slide.\", 1.0)\n        else:\n            return (\"Text with bullet points is not on the right half of the slide.\", 0.0)\n    except IndexError:\n        return (f\"Slide {slide_num} not found in modified presentation.\", 0.0)\n    except Exception as e:\n        return (f\"Unable to verify text placement: {e}\", 0.0)\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "Text with bullet points is not on the right half of the slide."
           },
           {
             "name": "Text resized to fit right area",
             "description": "Checks that the text content has been resized (font size and/or textbox size adjusted) to fit well within the right half, without overflow or truncation.",
-            "is_critical": true,
+            "is_critical": false,
             "metadata": {},
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Checks if the bullet point text fits within its box and the slide boundaries, without being occluded or cut off.\n    \"\"\"\n    # Use vision model to check for text fitting\n    slide_num = 2\n    try:\n        mod_img = [s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_num][0]\n        prompt = \"Does the main bullet point text fit neatly within its text box and the slide boundaries? Also, check if any text is cut off, missing, or covered by other objects. Reply Yes or No.\"\n        result = vlm_call(prompt, [mod_img], temperature=0.0, max_tokens=5)\n        if 'yes' in result.lower():\n            return (\"Text is properly resized and fits within the slide.\", 1.0)\n        else:\n            return (\"Text overflows, is occluded, or is otherwise improperly sized.\", 0.0)\n    except IndexError:\n        return (f\"Slide {slide_num} not found in modified presentation.\", 0.0)\n    except Exception as e:\n        return (f\"Unable to verify text fitting: {e}\", 0.0)\n"
-            }
+            },
+            "score": 1.0,
+            "reason": "Text is properly resized and fits within the slide."
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a failing score because the main body text content was not moved to the right half of slide 2, which is a critical requirement. While the text was properly resized to fit appropriately, the failure to meet the essential placement requirement resulted in the overall criterion not being satisfied. Since proper positioning on the right side of the slide is fundamental to this task, the text resizing success could not compensate for this critical placement error."
       },
       {
         "name": "No Extraneous Changes on Slide 2",
@@ -69,9 +81,13 @@
         "scorer": {
           "type": "function",
           "function_code": "def compute_score() -> tuple[str, float]:\n    # Count added/removed/modified shapes on slide 2\n    original_slide2_id = None\n    for slide in ppt_diff.removed_slides + ppt_diff.modified_slides:\n        if getattr(slide, 'slide_number', None) == 2:\n            return \"Slide 2 was removed.\", 0.0\n    for slide in ppt_diff.added_slides:\n        if getattr(slide, 'slide_number', None) == 2:\n            return \"Slide 2 was added (should not happen).\", 0.0\n    # Check for added/removed shapes on slide 2\n    extraneous = False\n    for (old, new) in ppt_diff.modified_slides:\n        if getattr(old, 'slide_number', None) == 2 or getattr(new, 'slide_number', None) == 2:\n            # Could compare element_count, layout_type, notes, etc.\n            if old.element_count != new.element_count:\n                extraneous = True\n    if extraneous:\n        return \"Elements were added or removed from slide 2 beyond the required move/resize.\", 0.0\n    return \"No extraneous changes detected on slide 2.\", 1.0\n"
-        }
+        },
+        "score": 1.0,
+        "reason": "No extraneous changes detected on slide 2."
       }
-    ]
+    ],
+    "score": 0.0,
+    "reason": "This criterion received a failing score because both critical requirements were completely unmet on slide 2. The chart/image and caption were not moved to the left side of the slide as instructed, and the main text content was not repositioned to the right half, despite being properly resized. Since both essential placement tasks failed entirely, the criterion could not be satisfied regardless of the successful text resizing and lack of extraneous changes."
   },
   "metadata": {
     "task": "Slide 2: Move the chart/image and caption to the left side of the slide and resize the text content to fit the right side"

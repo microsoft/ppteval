@@ -19,7 +19,9 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    original_ppt = Presentation(original_ppt_path)\n    modified_ppt = Presentation(modified_ppt_path)\n    \n    original_count = len(original_ppt.slides)\n    modified_count = len(modified_ppt.slides)\n    \n    if modified_count == original_count + 1:\n        return \"Slide count increased by exactly 1 as expected\", 1.0\n    elif modified_count > original_count:\n        return f\"Too many slides added: {modified_count - original_count} instead of 1\", 0.0\n    else:\n        return f\"No new slide added or slides were deleted: {modified_count - original_count}\", 0.0\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "No new slide added or slides were deleted: 0"
           },
           {
             "name": "New Slide Position",
@@ -29,27 +31,35 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    original_ppt = Presentation(original_ppt_path)\n    modified_ppt = Presentation(modified_ppt_path)\n    \n    original_count = len(original_ppt.slides)\n    modified_count = len(modified_ppt.slides)\n    \n    if modified_count != original_count + 1:\n        return \"Cannot verify position - slide count is incorrect\", 0.0\n    \n    # Check if slides 1-3 remain unchanged by comparing their content\n    try:\n        for i in range(3):  # slides 0, 1, 2 (1st, 2nd, 3rd slides)\n            orig_slide = original_ppt.slides[i]\n            mod_slide = modified_ppt.slides[i]\n            \n            # Basic check - compare number of shapes\n            if len(orig_slide.shapes) != len(mod_slide.shapes):\n                return f\"Original slide {i+1} appears to have been modified\", 0.0\n        \n        return \"New slide appears to be correctly positioned after slide 3\", 1.0\n    except Exception as e:\n        return f\"Error verifying slide position: {str(e)}\", 0.0\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "Cannot verify position - slide count is incorrect"
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a score of zero because no new slide was actually created in the presentation. Since the slide count didn't increase at all, it was impossible to verify whether a new slide would have been positioned correctly after slide 3. Both critical requirements failed - the fundamental task of adding a slide wasn't completed, making the positioning requirement irrelevant."
       },
       {
         "name": "Original Slides Preserved",
         "description": "Ensures that original slides 2 and 3 were not deleted or significantly modified",
-        "is_critical": true,
+        "is_critical": false,
         "metadata": {},
         "children": [
           {
             "name": "Slides 2 and 3 Still Exist",
             "description": "Verifies that slides 2 and 3 are still present in their original positions",
-            "is_critical": true,
+            "is_critical": false,
             "metadata": {},
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    original_ppt = Presentation(original_ppt_path)\n    modified_ppt = Presentation(modified_ppt_path)\n    \n    if len(modified_ppt.slides) < 3:\n        return \"Less than 3 slides in modified presentation\", 0.0\n    \n    # Check if slides 2 and 3 have similar structure (shape count)\n    try:\n        orig_slide2_shapes = len(original_ppt.slides[1].shapes)\n        orig_slide3_shapes = len(original_ppt.slides[2].shapes)\n        \n        mod_slide2_shapes = len(modified_ppt.slides[1].shapes)\n        mod_slide3_shapes = len(modified_ppt.slides[2].shapes)\n        \n        if orig_slide2_shapes == mod_slide2_shapes and orig_slide3_shapes == mod_slide3_shapes:\n            return \"Slides 2 and 3 appear to be preserved with same structure\", 1.0\n        else:\n            return f\"Slides 2 or 3 structure changed: orig(2:{orig_slide2_shapes}, 3:{orig_slide3_shapes}) vs mod(2:{mod_slide2_shapes}, 3:{mod_slide3_shapes})\", 0.0\n    except Exception as e:\n        return f\"Error checking slide preservation: {str(e)}\", 0.0\n"
-            }
+            },
+            "score": 1.0,
+            "reason": "Slides 2 and 3 appear to be preserved with same structure"
           }
-        ]
+        ],
+        "score": 1.0,
+        "reason": "The criterion received a perfect score because slides 2 and 3 were successfully preserved in their original positions without any deletion or significant modification. The evaluation confirmed that both slides maintained their same structure and content as required, demonstrating complete adherence to the preservation requirement."
       },
       {
         "name": "Table Content Structure",
@@ -65,7 +75,9 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.enum.shapes import MSO_SHAPE_TYPE\n    \n    modified_ppt = Presentation(modified_ppt_path)\n    \n    if len(modified_ppt.slides) < 4:\n        return \"New slide does not exist\", 0.0\n    \n    new_slide = modified_ppt.slides[3]  # 4th slide (index 3)\n    \n    # Look for table shapes\n    table_count = 0\n    for shape in new_slide.shapes:\n        if shape.shape_type == MSO_SHAPE_TYPE.TABLE:\n            table_count += 1\n    \n    if table_count > 0:\n        return f\"Found {table_count} table(s) on the new slide\", 1.0\n    else:\n        return \"No table found on the new slide\", 0.0\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "No table found on the new slide"
           },
           {
             "name": "Male and Female Categories",
@@ -74,10 +86,14 @@
             "metadata": {},
             "scorer": {
               "type": "function",
-              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find the new slide screenshot\n    new_slide_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 4:  # New slide should be at position 4\n            new_slide_screenshot = screenshot\n            break\n    \n    if new_slide_screenshot is None:\n        return \"Cannot find screenshot of new slide\", 0.0\n    \n    prompt = \"\"\"Look at this PowerPoint slide and determine if it contains a table with male and female clothing categories. \n    \n    Please check for:\n    1. Presence of a table structure\n    2. References to 'male' or 'men' clothing/items\n    3. References to 'female' or 'women' clothing/items\n    \n    Respond with 'YES' if the slide contains a table with both male and female clothing categories, or 'NO' if it doesn't meet these criteria. Then provide a brief explanation.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [new_slide_screenshot.image_path], temperature=0.1)\n        \n        if response.upper().startswith('YES'):\n            return f\"VLM confirmed table has male and female categories: {response}\", 1.0\n        else:\n            return f\"VLM did not find proper male/female table structure: {response}\", 0.0\n    except Exception as e:\n        return f\"Error in VLM call: {str(e)}\", 0.0\n"
-            }
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find the new slide screenshot\n    new_slide_screenshot = None\n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 4:  # New slide should be at position 4\n            new_slide_screenshot = screenshot\n            break\n    \n    if new_slide_screenshot is None:\n        return \"Cannot find screenshot of new slide\", 0.0\n    \n    prompt = \"\"\"Look at this PowerPoint slide and determine if it contains a table with male and female clothing categories. \n    \n    Please check for:\n    1. Presence of a table structure\n    2. References to 'male' or 'men' clothing/items\n    3. References to 'female' or 'women' clothing/items\n    \n    Respond with 'YES' if the slide contains a table with both male and female clothing categories, or 'NO' if it doesn't meet these criteria. Then provide a brief explanation.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [new_slide_screenshot.image_path], temperature=0.1)\n        \n        if response.upper().startswith('YES'):\n            return f\"VLM confirmed table has male and female categories: {response}\", 1.0\n        else:\n            return f\"VLM did not find proper male/female table structure: {response}\", 0.0\n    except Exception as e:\n        return f\"Error in VLM call: {str(e)}\", 0.0"
+            },
+            "score": 0.0,
+            "reason": "VLM did not find proper male/female table structure: NO\n\nThis PowerPoint slide does not contain a table with male and female clothing categories. While the slide does have a structured layout with bullet points about jewelry and ornaments, it lacks:\n\n1. A formal table structure - the content is presented as bullet points, not in a table format\n2. No references to male/men's clothing or items\n3. No references to female/women's clothing or items\n\nThe slide focuses on ornamental jewelry items (jewels, armlets, pendants, bracelets, rings, earrings, and leglets) without any gender-specific categorization or clothing references."
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The slide completely fails to meet the table content structure requirements because it contains no table whatsoever - the content is presented as bullet points rather than in a tabular format. Additionally, the slide focuses entirely on jewelry and ornamental items without any mention of male or female clothing categories, which are essential components of the expected table structure. Since both critical sub-criteria failed due to the absence of a proper table and the lack of gender-specific clothing categorization, the criterion receives the lowest possible score."
       },
       {
         "name": "Images from Both Slides",
@@ -92,10 +108,14 @@
             "metadata": {},
             "scorer": {
               "type": "function",
-              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find screenshots for slides 2, 3, and the new slide 4\n    slide2_screenshot = None\n    slide3_screenshot = None\n    new_slide_screenshot = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide2_screenshot = screenshot\n        elif screenshot.slide_number == 3:\n            slide3_screenshot = screenshot\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 4:\n            new_slide_screenshot = screenshot\n    \n    if not all([slide2_screenshot, slide3_screenshot, new_slide_screenshot]):\n        return \"Cannot find required slide screenshots\", 0.0\n    \n    prompt = \"\"\"I will show you three PowerPoint slides:\n    1. Original slide 2\n    2. Original slide 3  \n    3. New combined slide\n    \n    Please analyze whether the new combined slide contains images/visual elements that appear to come from both original slides 2 and 3. Look for similar clothing items, product images, or visual elements that have been transferred to the new slide.\n    \n    Respond with 'YES' if you can identify images/elements from both slides 2 and 3 in the new slide, or 'NO' if images from one or both slides are missing. Provide a brief explanation of what you observed.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [\n            slide2_screenshot.image_path,\n            slide3_screenshot.image_path, \n            new_slide_screenshot.image_path\n        ], temperature=0.1)\n        \n        if response.upper().startswith('YES'):\n            return f\"VLM confirmed images from both slides are present: {response}\", 1.0\n        else:\n            return f\"VLM did not find images from both slides: {response}\", 0.0\n    except Exception as e:\n        return f\"Error in VLM call: {str(e)}\", 0.0\n"
-            }
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Find screenshots for slides 2, 3, and the new slide 4\n    slide2_screenshot = None\n    slide3_screenshot = None\n    new_slide_screenshot = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 2:\n            slide2_screenshot = screenshot\n        elif screenshot.slide_number == 3:\n            slide3_screenshot = screenshot\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 4:\n            new_slide_screenshot = screenshot\n    \n    if not all([slide2_screenshot, slide3_screenshot, new_slide_screenshot]):\n        raise ScreenshotsUnavailableError(\"Cannot find required slide screenshots; flagging task for verification retry.\")\n    \n    prompt = \"\"\"I will show you three PowerPoint slides:\n    1. Original slide 2\n    2. Original slide 3  \n    3. New combined slide\n    \n    Please analyze whether the new combined slide contains images/visual elements that appear to come from both original slides 2 and 3. Look for similar clothing items, product images, or visual elements that have been transferred to the new slide.\n    \n    Respond with 'YES' if you can identify images/elements from both slides 2 and 3 in the new slide, or 'NO' if images from one or both slides are missing. Provide a brief explanation of what you observed.\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [\n            slide2_screenshot.image_path,\n            slide3_screenshot.image_path, \n            new_slide_screenshot.image_path\n        ], temperature=0.1)\n        \n        if response.upper().startswith('YES'):\n            return f\"VLM confirmed images from both slides are present: {response}\", 1.0\n        else:\n            return f\"VLM did not find images from both slides: {response}\", 0.0\n    except Exception as e:\n        return f\"Error in VLM call: {str(e)}\", 0.0"
+            },
+            "score": 0.0,
+            "reason": "VLM did not find images from both slides: NO\n\nThe new combined slide does not contain images from both original slides 2 and 3. \n\nOriginal slide 2 shows a man in traditional red clothing on a boat, and original slide 3 shows a woman in traditional dress with a blue striped skirt. However, the new combined slide is about \"ORNAMENTS\" and displays various gold jewelry pieces including earrings, necklaces, bracelets, and other ornamental items. \n\nThe new slide appears to be completely different content focused on jewelry and ornaments, rather than combining the clothing/people images from the two original slides about traditional male and female attire."
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a failing score because the new combined slide completely lacks images from the original slides. While the original slides featured people in traditional clothing - a man in red attire on a boat and a woman in a blue striped dress - the new slide instead displays various gold jewelry and ornamental items. This represents a fundamental failure to preserve and combine the visual content from both source slides, as the new slide appears to be entirely different subject matter focused on ornaments rather than traditional attire."
       },
       {
         "name": "Other Slides Unchanged",
@@ -105,9 +125,13 @@
         "scorer": {
           "type": "function",
           "function_code": "def compute_score() -> tuple[str, float]:\n    if len(ppt_diff.modified_slides) > 0:\n        return \"Other slides were modified\", 0.0\n    return \"Other slides were not modified\", 1.0\n"
-        }
+        },
+        "score": 1.0,
+        "reason": "Other slides were not modified"
       }
-    ]
+    ],
+    "score": 0.0,
+    "reason": "The task completely failed because no new slide was actually created in the presentation, which made it impossible to fulfill any of the core requirements. Even though the original slides were properly preserved, all three critical sub-criteria failed - there was no new slide positioned after slide 3, no table structure with male and female clothing categories, and no images from the original slides were combined. The agent appears to have misunderstood the fundamental task, as any content that might have been intended as a \"combined\" slide focused on jewelry rather than clothing and used bullet points instead of the required table format."
   },
   "metadata": {
     "task": "Combine slides 2 and 3 into a single slide with table for male and female clothing. Include the images from both slides. Don't delete the original slides yet; just insert this as a new slide after slide 3. Context for rubric generation: Perform most checks using VLM."

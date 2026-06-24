@@ -1,114 +1,50 @@
-# PPTEval - Jekyll Setup Instructions
+# Environment Setup
 
-## Local Development Setup
+The benchmark is set up to run with PPT Online so that you do not need to install Microsoft PowerPoint locally.
+We use OneDrive to access and store benchmark PowerPoint files. Below is the needed setup for this.
 
-### Prerequisites
-- Ruby 2.7+ (recommended 3.1+)
-- Bundler gem
-- Git
+## Set Up Your Python Environment
+- Make sure you run the project setup in README.md as a prerequisite.
+- Install and **ensure your docker daemon is running**: (https://docs.docker.com/)
 
-### Installation
+## Logging into a Microsoft Account
+You will need a valid personal Microsoft account with at least (X GB) of space on the attached personal OneDrive.
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/microsoft/PPTEval.git
-   cd PPTEval
-   ```
+### Azure Account
+You need an Azure account to register the app used for OneDrive access. Perform the following steps on the **Azure Portal**.
 
-2. **Install dependencies:**
-   ```bash
-   # If you get dependency conflicts, try:
-   bundle update
-   # Then:
-   bundle install
-   ```
+> **Disclaimer:** Creating an Azure free trial requires a credit card. The trial itself is free and you will not be charged unless you explicitly upgrade to a paid plan or choose pay-as-you-go.
 
-3. **Build and serve locally:**
-   ```bash
-   bundle exec jekyll serve
-   ```
+#### 1. Create a Free Azure Trial Account (or skip if you have an existing personal account)
+1. Go to https://azure.microsoft.com/free and click **Start free**.
+2. Sign in with a **personal** Microsoft account (or create one).
+3. Complete the identity verification steps (phone number and credit card).
+4. Agree to the subscription terms and finish sign-up.
 
-4. **Open in browser:**
-   Visit `http://localhost:4000`
+#### 2. Create a Tenant in Azure Active Directory
+1. Sign in to the Azure Portal: https://portal.azure.com
+2. In the top search bar, search for **Microsoft Entra ID** and open it.
+3. Verify that the **Default Directory** is selected.
+4. If not, create a new tenant by going to **Manage tenants** and choose **+ Create**.
 
-### Development Workflow
+#### 3. Register an App in Azure Portal
+1. In the Azure Portal, search for **App registrations** and open it.
+2. Click **New registration**.
+3. Enter a name for your application, (APPLICATION_NAME).
+4. Under **Supported account types**, choose **"Any Entra ID Tenant + Personal Microsoft accounts"**.
+5. Leave **Redirect URI** blank and click **Register**.
+6. On the app's **Overview** page, copy the **Application (client) ID** to the environment (.env) file and save it as `CLIENT_ID`. This application will be used to access your OneDrive.
+7. In the sidebar, click **Manage > Authentication (Preview)**, go to the **Settings** tab, and toggle **Allow public client flows** to **Enabled**. Click **Save**.
 
-- **Content Updates**: Edit `index.html` and data files in `_data/`
-- **Styling Changes**: Modify SCSS files in `_sass/`
-- **Layout Updates**: Edit templates in `_layouts/` and `_includes/`
-- **JavaScript**: Update `assets/js/main.js`
 
-### Adding Content
+## Configuring the OneDrive Root
+Benchmark runs default to `/PPTEval` in OneDrive. To override this you can use `--onedrive-root` when running `python -m ppteval.run_benchmark`, and `--root-folder` when hydrating files.
 
-#### Updating Authors
-Edit `_data/authors.yml`:
-```yaml
-- name: "Your Name"
-  affiliation: "1"
-  url: "https://yourwebsite.com"
+## Hydrate OneDrive Account
+Run `python -m ppteval.env_setup.hydrate` to hydrate your OneDrive with the required files.
+
+```sh
+python -m ppteval.env_setup.hydrate --root-folder /PPTEval --local-dir data/files/PowerPoint
 ```
 
-#### Adding Benchmark Results
-Edit `_data/benchmark.yml`:
-```yaml
-results:
-  - model: "Your Model"
-    type: "General|Specialized|Agentic"
-    success_rate: 25.5
-    max_steps: 20
-    category: "Foundation|Specialized|Agentic"
-```
-
-#### Updating Navigation
-Edit `_data/navigation.yml` to add/modify navigation items.
-
-### Deployment
-
-The site automatically deploys to GitHub Pages when you push to the main branch using GitHub Actions.
-
-### Customization
-
-1. **Site Settings**: Update `_config.yml`
-2. **Colors/Fonts**: Modify CSS variables in `_sass/_base.scss`
-3. **Layout**: Edit templates in `_layouts/`
-4. **Components**: Modify files in `_includes/`
-
-### Troubleshooting
-
-#### Common Issues:
-- **Build Errors**: Check Ruby/Jekyll versions
-- **Style Issues**: Verify SCSS syntax
-- **Data Problems**: Validate YAML formatting
-
-#### Useful Commands:
-```bash
-# Clean build cache
-bundle exec jekyll clean
-
-# Build for production
-JEKYLL_ENV=production bundle exec jekyll build
-
-# Check for issues
-bundle exec jekyll doctor
-```
-
-## GitHub Pages Configuration
-
-The site is configured to deploy automatically via GitHub Actions. To enable:
-
-1. Go to repository Settings → Pages
-2. Set Source to "GitHub Actions"
-3. Push changes to trigger deployment
-
-## Performance Optimization
-
-- Images are optimized for web
-- CSS/JS is minified in production
-- Lazy loading implemented for better performance
-- SEO optimized with proper meta tags
-
-## Browser Support
-
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Responsive design for mobile devices
-- Progressive enhancement for older browsers
+Note: This process will consume space on your OneDrive proportional to the size of `data/files/PowerPoint`.

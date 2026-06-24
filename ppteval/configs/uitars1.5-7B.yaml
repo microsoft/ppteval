@@ -1,0 +1,22 @@
+# UITARS (UI-TARS) Configuration
+# UI-TARS agent for GUI automation
+
+# Model configuration
+agent_type: "uitars"
+model_name: "openai/uitars-1.5-7B"
+
+# API endpoint
+endpoint_url: "${UITARS_ENDPOINT_URL}"
+token: "${UITARS_TOKEN}"
+
+# Display configuration (drives environment resolution)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+temperature: 0.7
+
+# Request settings
+max_retries: 5
+timeout_seconds: 60

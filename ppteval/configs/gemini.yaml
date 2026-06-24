@@ -1,0 +1,16 @@
+# Gemini Configuration
+# Google Gemini Computer Use Agent for GUI automation
+
+# Model configuration
+agent_type: "gemini"
+model_name: "gemini/gemini-2.0-flash-exp"  # Gemini model name
+api_key: null  # Set via GEMINI_API_KEY env var or override here
+
+# Display configuration (drives environment resolution)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+temperature: 0.7
+max_output_tokens: 8192

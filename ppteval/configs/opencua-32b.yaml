@@ -1,0 +1,24 @@
+# OpenCUA 32B Agent Configuration
+# Native ppteval implementation.
+
+agent_type: "opencua"
+model_name: "openai/opencua-32b"
+api_key: "${OPENCUA32B_API_KEY}"
+base_url: "${OPENCUA32B_BASE_URL}"
+
+temperature: 0.0
+top_p: 0.9
+max_tokens: 8096
+
+display_size:
+  width: 1920
+  height: 1080
+
+coordinate_type: "absolute"
+cot_level: "l2"
+history_type: "thought_history"
+max_image_history_length: 3
+max_steps: 30
+password: "password"
+use_old_sys_prompt: true
+

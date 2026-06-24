@@ -1,0 +1,28 @@
+# Claude Code CLI agent — Opus 4.5
+#
+# Same as claude-code-opus-4-7.yaml but pinned to opus-4-5.
+# Requires `claude` on PATH and an authenticated OAuth/keychain session
+# (run `claude login` once).
+
+agent_type: "cli"
+cli_name: "claude-code"
+binary: "claude"
+
+# Pin to opus-4-5 specifically.
+model: "claude-opus-4-5"
+
+max_turns: 40
+send_max_turns: false
+timeout_s: 1800
+
+extra_args: []
+env: {}
+
+# Seeded into each per-task workspace (has CLAUDE.md, .claude/skills/pptx/,
+# verify-or-retry instructions).
+customization_dir: "claude-workspace"
+
+
+display_size:
+  width: 1024
+  height: 768
