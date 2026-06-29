@@ -1,0 +1,468 @@
+{
+  "file": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+  "num_tasks": 42,
+  "tasks": [
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-001",
+      "goal": "Change the font color of the main title 'NEGLECTED ASPECTS OF SEA LEVEL RISE: ACCOUNTING FOR GROUNDWATER IMPACTS' to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-002",
+      "goal": "Add a text box with the text 'Updated Presentation' in the top-right corner of the title slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-003",
+      "goal": "Remove the underline formatting from all email addresses on the title slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-004",
+      "goal": "Change the layout of the title slide to a different PowerPoint layout template",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-005",
+      "goal": "Change the title 'Introduction' to 'Overview'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-006",
+      "goal": "Add a bullet point 'Pacific Coast Impacts' under the Case Studies section",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-007",
+      "goal": "Change the bullet point 'Gulf Coast BMP Design' to 'Gulf Coast Best Management Practices Design'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-008",
+      "goal": "Move the chart/image to the left side of the slide and resize the text content to fit the right side",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-009",
+      "goal": "Make the title 'Introduction' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-010",
+      "goal": "Change the title 'Sea Level Rise - Observed' to 'Historical Sea Level Rise Data'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-011",
+      "goal": "Add a text box with the text 'Data shows increasing trend since 1980' below the chart",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-012",
+      "goal": "Change the chart title from 'Avg Annual Hours of Nuisance Flooding' to 'Average Annual Nuisance Flooding Hours'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-013",
+      "goal": "Add a subtitle 'Coastal Flooding Trends' under the main title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-014",
+      "goal": "Add a title 'Water Level Analysis Over Time' to this slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-015",
+      "goal": "Add a text box explaining the color legend on the left side of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-016",
+      "goal": "Change the 'Day of Year' label to 'Julian Day'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-017",
+      "goal": "Add a subtitle 'Temporal Distribution of Water Levels (1913-2016)' under the main title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-018",
+      "goal": "Change the slide title from 'Sea Level Rise' to 'Sea Level Rise Projections'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-019",
+      "goal": "Remove the '43 year horizon' red annotation from the chart",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-020",
+      "goal": "Move the Miami-Dade report document image to the left side of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-021",
+      "goal": "Change the color of the '13 year horizon' text from red to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-022",
+      "goal": "Resize the main chart to be larger and more prominent on the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-023",
+      "goal": "Change the title 'SLR Impacts' to 'Sea Level Rise Impact Categories'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-024",
+      "goal": "Add a bullet point 'Aquifer contamination' under the Groundwater section",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-025",
+      "goal": "Change 'Shorelines' to 'Coastal Shorelines' in the Surface Water column",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-026",
+      "goal": "Switch the order of the two columns so Groundwater appears first",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-027",
+      "goal": "Make the column headers 'Surface Water' and 'Groundwater' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-028",
+      "goal": "Change 'Ft. Lauderdale, FL' to 'Fort Lauderdale, Florida'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-029",
+      "goal": "Add a text box with 'Regional Analysis' positioned above the maps",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-030",
+      "goal": "Rearrange the layout so the study area map appears first (on the left)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-031",
+      "goal": "Change the subtitle 'Ft. Lauderdale, FL' to italics",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-032",
+      "goal": "Add a legend explaining the different colored regions in the study area map",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-033",
+      "goal": "Change '13-year period (2002 – 2014)' to '13-year period (2002-2014)' removing the spaces around the dash",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-034",
+      "goal": "Add a bullet point 'Enhanced storm surge modeling' under Scenario 2",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-035",
+      "goal": "Move the yellow text box 'Assess Potential Impact of 2 ft SLR' to the left side of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-036",
+      "goal": "Make the text 'Integrated Modeling' bold in the slide title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-037",
+      "goal": "Change 'Scenario 1' to 'Baseline Scenario'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-038",
+      "goal": "Change the date range '(Oct. 28 – 31, 2011)' to '(October 28-31, 2011)'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-039",
+      "goal": "Add a title 'Storm Event Analysis' above the objective text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-040",
+      "goal": "Add a text box explaining that this chart shows cumulative rainfall over the storm period",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-041",
+      "goal": "Change the y-axis label from 'Cumulative Rainfall (inches)' to 'Cumulative Rainfall (in)'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-042",
+      "goal": "Make the objective text italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx",
+      "misc": {}
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# Claude Opus 4.5 Configuration
+# Claude Computer Use Agent with 2025-11-24 action space, including zoom.
+
+# Model configuration
+agent_type: "claude"
+model_name: "anthropic/claude-opus-4-5-20251101"
+api_key: "${ANTHROPIC_API_KEY}"
+base_url: "${ANTHROPIC_BASE_URL}"
+
+# Computer Use API version
+computer_use_tool_type: "computer_20250124"
+computer_use_beta: "computer-use-2025-01-24"
+
+# Display configuration (drives environment resolution)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+max_tokens: 4096
+temperature: 1.0
+reasoning_effort: "medium"

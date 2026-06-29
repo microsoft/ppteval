@@ -1,0 +1,666 @@
+{
+  "file": "PowerPoint/Worms.pptx",
+  "num_tasks": 60,
+  "tasks": [
+    {
+      "task_id": "Worms-001",
+      "goal": "Change the title text color to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-002",
+      "goal": "Add a subtitle 'A Comprehensive Study' below the main title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-003",
+      "goal": "Format the three main sections as numbered list items",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-004",
+      "goal": "Change the font size of the title to 36pt",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-005",
+      "goal": "Add a text box with 'Roundworms' and insert an image placeholder below the existing two categories",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-006",
+      "goal": "Replace the flatworm image with a different worm image from online sources",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-007",
+      "goal": "Add a text box explaining what 'prostomium' means",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-008",
+      "goal": "Change the background color of the slide to light blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-009",
+      "goal": "Create a new slide after this one showing internal anatomy of segmented worms",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-010",
+      "goal": "Split the content into two bullet points instead of two paragraphs",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-011",
+      "goal": "Add a bold heading 'Fun Facts about Worms'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-012",
+      "goal": "Create a table with two columns: 'Habitat Requirements' and 'Diet Information'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-013",
+      "goal": "Change the author name font to italics",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-014",
+      "goal": "Add the current date below the author name",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-015",
+      "goal": "Add animations so each worm type appears one by one when clicked",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-016",
+      "goal": "Resize both images to be exactly the same size",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-017",
+      "goal": "Remove the decorative orange circles",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-018",
+      "goal": "Add callout lines pointing from labels to specific parts of the worm diagrams",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-019",
+      "goal": "Add a bullet point about worm reproduction",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-020",
+      "goal": "Change the text alignment to justified",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-021",
+      "goal": "Bold the numbers '20,000', '15,000', and '25,000' in the species counts",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-022",
+      "goal": "Create a summary slide after this one with a comparison chart of the three worm types",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-023",
+      "goal": "Add a slide transition effect that will apply to all slides in the presentation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-024",
+      "goal": "Center-align both images on the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-025",
+      "goal": "Add a footer to the slide with 'External Anatomy - Page 4'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-026",
+      "goal": "Convert the text into a flowchart showing the regeneration process",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-027",
+      "goal": "Highlight the word 'omnivorous' in yellow",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-028",
+      "goal": "Add a small logo placeholder in the top-right corner",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-029",
+      "goal": "Group the text labels with their corresponding images",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-030",
+      "goal": "Add a shadow effect to the title text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-031",
+      "goal": "Make the diagram border thicker",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-032",
+      "goal": "Create a new slide with a quiz question about worm facts",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-033",
+      "goal": "Add an icon related to regeneration next to the first paragraph",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-034",
+      "goal": "Increase the line spacing between paragraphs",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-035",
+      "goal": "Add hover effects to the anatomical labels",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-036",
+      "goal": "Change the slide layout to 'Title and Content'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-037",
+      "goal": "Make the 'THANK YOU' text larger",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-038",
+      "goal": "Add drop shadow effects to both images",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-039",
+      "goal": "Insert hyperlinks to external resources about each worm type",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-040",
+      "goal": "Add quotation marks around the word 'aerate'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-041",
+      "goal": "Apply a consistent color scheme using shades of green throughout all slides",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:ALL"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-042",
+      "goal": "Add slide numbers to all slides except the title slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:ALL"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-043",
+      "goal": "Change the word 'FLATWORMS' to all lowercase",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-044",
+      "goal": "Add a text box with the definition of 'clitellum'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-045",
+      "goal": "Create a SmartArt graphic comparing the three worm types",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-046",
+      "goal": "Change the bullet point style to arrows",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-047",
+      "goal": "Add a border around the entire text area",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-048",
+      "goal": "Insert a video placeholder about worm biology",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-049",
+      "goal": "Change the background gradient direction",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-050",
+      "goal": "Rotate the leech diagram 90 degrees clockwise",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-051",
+      "goal": "Add a hyperlink to 'regeneration' that goes to slide 4",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-052",
+      "goal": "Make the word 'phyla' italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-053",
+      "goal": "Add a caption below each image describing the worm type",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-054",
+      "goal": "Create an infographic layout for the habitat and diet information",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-055",
+      "goal": "Change the title font to Arial",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-056",
+      "goal": "Ensure all body text uses the same font family",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:ALL"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-057",
+      "goal": "Add animation to highlight each anatomical part sequentially",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-058",
+      "goal": "Underline the phrase 'varied diet'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-059",
+      "goal": "Add a custom footer with presentation title and date",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Worms-060",
+      "goal": "Insert a table comparing characteristics of all three worm types",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Worms.pptx",
+      "misc": {}
+    }
+  ]
+}

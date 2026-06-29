@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Create flowchart representing 'Left Hand Side → Right Hand Side → Balance' on slide 3",
+    "description": "Evaluates whether the agent successfully added a 'Fade' transition effect to slide 2 without extraneous modifications.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct transition type added to slide 2",
+        "description": "Checks if slide 2 has a newly added transition of type 'Fade'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    slide_2 = Presentation(modified_ppt_path).slides[1]\n    slide_2_id = str(slide_2.slide_id)\n    transitions = ppt_diff.added_transitions or [x[1] for x in ppt_diff.modified_transitions]\n    if not transitions:\n        return ('No transitions were added or modified.', 0.0)\n    for t in transitions:\n        slide_id = getattr(t, 'slide_id', None) or getattr(t, 'slide_number', None)\n        transition_type = getattr(t, 'transition_type', '').lower()\n        if str(slide_id) == slide_2_id and transition_type == 'fade':\n            return (\"'Fade' transition was correctly added to slide 2.\", 1.0)\n    return (\"No 'Fade' transition was added to slide 2.\", 0.0)\n"
+        },
+        "score": 0.0,
+        "reason": "No transitions were added or modified."
+      },
+      {
+        "name": "Transition parameters appropriate (duration, direction)",
+        "description": "Checks if the 'Fade' transition added to slide 2 has reasonable parameters (duration and direction).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Look for the Fade transition on slide 2\n\n    from pptx import Presentation\n    slide_2 = Presentation(modified_ppt_path).slides[1]\n    slide_2_id = str(slide_2.slide_id)\n    \n    transitions = ppt_diff.added_transitions or [x[1] for x in ppt_diff.modified_transitions]\n    fade_transition = None\n    for t in transitions:\n        slide_id = getattr(t, 'slide_id', None) or getattr(t, 'slide_number', None)\n        if str(slide_id) == slide_2_id and getattr(t, 'transition_type', '').lower() == 'fade':\n            fade_transition = t\n            break\n    if not fade_transition:\n        return (\"No 'Fade' transition found on slide 2 to check parameters.\", 0.0)\n\n    duration = getattr(fade_transition, 'duration', None)\n    duration_ok = duration is not None and 0.5 <= duration <= 5.0\n    direction = getattr(fade_transition, 'direction', None)\n\n    if duration_ok:\n        msg = f\"Duration for 'Fade' transition is {duration:.2f}s, which is appropriate.\"\n        return (msg, 1.0)\n    else:\n        msg = f\"Duration for 'Fade' transition is {duration}, which is out of typical range.\"\n        return (msg, 0.5)\n"
+        },
+        "score": 0.0,
+        "reason": "No 'Fade' transition found on slide 2 to check parameters."
+      },
+      {
+        "name": "No extraneous transitions added to other slides",
+        "description": "Checks that no transitions were added to slides other than slide 2.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    slide_2_id = str(Presentation(modified_ppt_path).slides[1].slide_id)\n    extraneous = [t for t in ppt_diff.added_transitions if getattr(t, 'slide_id', None) != slide_2_id]\n    if extraneous:\n        slides = ', '.join(str(getattr(t, 'slide_number', getattr(t, 'slide_id', '?'))) for t in extraneous)\n        return (f\"Extraneous transitions added to slides: {slides}.\", 0.0)\n    return (\"No extraneous transitions were added to other slides.\", 1.0)\n"
+        },
+        "score": 1.0,
+        "reason": "No extraneous transitions were added to other slides."
+      },
+      {
+        "name": "No extraneous modifications (animations, slides, transitions)",
+        "description": "Checks that there were no unintended modifications to animations, slides, or transitions elsewhere in the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    any_mod = (\n        ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations or\n        ppt_diff.added_slides or ppt_diff.removed_slides or \n        [ x for x in ppt_diff.modified_slides if x[0].slide_number != 2]\n    )\n    if any_mod:\n        return (\"There were extraneous modifications to other animations, slides, or transitions.\", 0.0)\n    return (\"No extraneous modifications detected.\", 1.0)\n"
+        },
+        "score": 1.0,
+        "reason": "No extraneous modifications detected."
+      }
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a failing score because the agent completely failed to add the required 'Fade' transition effect to slide 2, which was the core task being evaluated. While the agent avoided making unwanted changes to other parts of the presentation, the critical requirement of actually implementing the fade transition was not met at all. Since adding the correct transition type was marked as critical and the agent didn't perform this essential action, the overall criterion could not pass regardless of the other positive aspects."
+  },
+  "metadata": {
+    "task": "Add a slide transition effect of 'Fade' to slide 2"
+  }
+}

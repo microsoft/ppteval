@@ -1,0 +1,358 @@
+{
+  "file": "PowerPoint/PET.pptx",
+  "num_tasks": 32,
+  "tasks": [
+    {
+      "task_id": "PET-001",
+      "goal": "Change the presentation title from 'Positron emission tomography ( PET )' to 'Medical Imaging: PET Technology'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-002",
+      "goal": "Update the student name from 'Ali Y. Taqatqa' to 'Sarah M. Johnson'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-003",
+      "goal": "Change the date from 'April - 2016' to 'October - 2024'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-004",
+      "goal": "Add a new bullet point to the outline that says 'Clinical Applications'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-005",
+      "goal": "Reorder the outline items so that 'Summary' comes before 'References'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-006",
+      "goal": "Add a new summary bullet point that says 'PET technology continues to advance with improved resolution and sensitivity'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:31"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-007",
+      "goal": "Change the heading from 'nuclear medicine machines (PET)' to 'PET Scanner Technology'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:17"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-008",
+      "goal": "Replace the PET scanner image with a different image while keeping the same slide title",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-009",
+      "goal": "Remove the hyperlink from the slide and replace it with plain text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:25"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-010",
+      "goal": "Add a new reference at the end of the references list: 'Smith, J. et al. Modern PET Imaging Techniques. Journal of Nuclear Medicine, 2023.'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:32"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-011",
+      "goal": "Add a timeline graphic showing the key dates mentioned in the history section",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-012",
+      "goal": "Change the formatting of all bullet points to use numbered list (1, 2, 3, etc.) instead of bullets",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:31"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-013",
+      "goal": "Change the font color of the presentation title to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-014",
+      "goal": "Increase the font size of the university name 'Al-Quds University' by 2 points",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-015",
+      "goal": "Create a table format for the outline instead of bullet points with columns for 'Section' and 'Page Range'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-016",
+      "goal": "Change the bullet style from numbers to checkmarks",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-017",
+      "goal": "Add a text box explaining what the mathematical equation represents",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:22"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-018",
+      "goal": "Add callout labels to the diagram pointing to key components of the PET scanning process",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:27"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-019",
+      "goal": "Add a new slide after slide 32 with the title 'Thank You' and a subtitle 'Questions and Discussion'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-020",
+      "goal": "Split the introduction content into two slides, keeping the first half on slide 3 and moving the second half to a new slide 4",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-021",
+      "goal": "Add a caption below the brain scan image that says 'PET scan showing brain glucose metabolism'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:29"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-022",
+      "goal": "Create a chart or graph from the tabular data visible in the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-023",
+      "goal": "Highlight key terms in the text by making them bold and underlined",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:13"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-024",
+      "goal": "Change the text alignment from left-aligned to center-aligned",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:26"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-025",
+      "goal": "Apply a gradient background to the title slide using blue and white colors",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-026",
+      "goal": "Resize the brain scan image to be 50% smaller while maintaining aspect ratio",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:30"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-027",
+      "goal": "Add animation to the PET process diagram so components appear sequentially",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-028",
+      "goal": "Create a two-column layout with text on the left and a placeholder for an image on the right",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-029",
+      "goal": "Change the font style of the heading to Arial Bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:21"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-030",
+      "goal": "Insert a footnote at the bottom of the slide referencing additional historical information",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-031",
+      "goal": "Replace the chemical equation with a more visually appealing formatted equation",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PET-032",
+      "goal": "Add page numbers to all slides starting from slide 2",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/PET.pptx",
+      "misc": {}
+    }
+  ]
+}

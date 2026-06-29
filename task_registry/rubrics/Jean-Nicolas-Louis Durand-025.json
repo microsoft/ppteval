@@ -1,0 +1,69 @@
+{
+  "root": {
+    "name": "Rotate the architectural diagram image 45 degrees clockwise on slide 6",
+    "description": "Evaluates whether the architectural diagram image on slide 6 was correctly rotated 45 degrees clockwise, with no unintended side effects.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct image rotated 45 degrees clockwise on slide 6",
+        "description": "Checks that the architectural diagram image on slide 6 was rotated exactly 45 degrees clockwise.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Image is present and rotated 45 degrees clockwise",
+            "description": "Checks that the architectural diagram image is still present and has been rotated 45 degrees clockwise.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"Check that the (only) image on slide 6 is rotated ~45 degrees clockwise.\"\"\"\n    from pptx import Presentation\n\n    SLIDE_IDX = 5  # slide numbers are 1-based\n    TARGET_ROTATION = 45\n    ROTATION_TOLERANCE = 2  # degrees\n\n    # Load modified presentation\n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) <= SLIDE_IDX:\n        return (\"Slide 6 does not exist in modified presentation.\", 0.0)\n    slide = prs.slides[SLIDE_IDX]\n\n    # Collect debug info about shapes\n    shapes_debug = []\n    picture_like_indices = []\n    pics = []\n    for idx, sh in enumerate(slide.shapes):\n        stype = getattr(sh, \"shape_type\", None)\n        name = getattr(sh, \"name\", \"<no-name>\")\n        fill_type = None\n        try:\n            fill = getattr(sh, \"fill\", None)\n            if fill is not None:\n                fill_type = getattr(fill, \"type\", None)\n        except Exception:\n            pass\n        has_image_attr = hasattr(sh, \"image\")\n        # Primary detection: native picture shape_type == 13\n        if stype == 13:\n            pics.append(sh)\n            picture_like_indices.append(idx)\n        # Secondary detection: non-picture shape that has a picture fill\n        elif has_image_attr or (fill_type is not None and str(fill_type).upper().endswith(\"PICTURE\")):\n            pics.append(sh)\n            picture_like_indices.append(idx)\n        shapes_debug.append({\n            \"idx\": idx,\n            \"name\": name,\n            \"shape_type\": stype,\n            \"has_image_attr\": has_image_attr,\n            \"fill_type\": str(fill_type) if fill_type is not None else None,\n        })\n\n    if not pics:\n        debug_msg = (\n            f\"No image found on slide 6. Total shapes={len(slide.shapes)}. \"\n            f\"Shape summaries: \"\n            + \"; \".join(\n                f\"#{d['idx']} type={d['shape_type']} name='{d['name']}' has_image={d['has_image_attr']} fill_type={d['fill_type']}\"  # noqa: E501\n                for d in shapes_debug\n            )\n        )\n        return (debug_msg, 0.0)\n\n    # If multiple, pick first but include note\n    pic = pics[0]\n    if len(pics) > 1:\n        multi_note = f\" (Multiple picture-like shapes detected indices={picture_like_indices}; using first index {picture_like_indices[0]})\"\n    else:\n        multi_note = \"\"\n\n    rotation = getattr(pic, \"rotation\", 0) % 360\n    diff = min(abs(rotation - TARGET_ROTATION), abs(rotation + 360 - TARGET_ROTATION))\n\n    if diff <= ROTATION_TOLERANCE:\n        return (f\"Image rotation {rotation}° within tolerance.{multi_note}\", 1.0)\n    return (f\"Image rotation {rotation}°; expected {TARGET_ROTATION}° ±{ROTATION_TOLERANCE}°.\" + multi_note, 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No other unintended slide content changes",
+        "description": "Checks that no other content (text, objects, animations, etc.) changed on slide 6 or elsewhere except the intended image rotation.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to animations or transitions on slide 6",
+            "description": "Ensures no animations or transitions were added, removed, or modified on slide 6.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff\n    slide_num = 6\n    # Animations\n    affected_animations = [ae for ae in ppt_diff.added_animations + ppt_diff.removed_animations\n                           if int(ae.slide_id) == slide_num]\n    affected_animations += [ae for before, after in ppt_diff.modified_animations\n                            if int(before.slide_id) == slide_num or int(after.slide_id) == slide_num]\n    # Transitions\n    affected_transitions = [tr for tr in ppt_diff.added_transitions + ppt_diff.removed_transitions\n                            if int(tr.slide_id) == slide_num]\n    affected_transitions += [tr for before, after in ppt_diff.modified_transitions\n                             if int(before.slide_id) == slide_num or int(after.slide_id) == slide_num]\n    if affected_animations or affected_transitions:\n        return (f\"Animations/Transitions changed on slide 6: Animations: {len(affected_animations)}, Transitions: {len(affected_transitions)}\", 0.0)\n    return (\"No animation or transition changes on slide 6.\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No changes to other slides",
+            "description": "Ensures that slides other than slide 6 were not changed in any way.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff for all types\n    changed = False\n    details = []\n    # Slides\n    for slide in ppt_diff.added_slides:\n        if slide.slide_number != 6:\n            changed = True\n            details.append(f\"Slide {slide.slide_number} added.\")\n    for slide in ppt_diff.removed_slides:\n        if slide.slide_number != 6:\n            changed = True\n            details.append(f\"Slide {slide.slide_number} removed.\")\n    for before, after in ppt_diff.modified_slides:\n        if before.slide_number != 6 and after.slide_number != 6:\n            changed = True\n            details.append(f\"Slide {before.slide_number} modified.\")\n    # Animations\n    for ae in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if int(ae.slide_id) != 6:\n            changed = True\n            details.append(f\"Animation on slide {ae.slide_id} changed.\")\n    for before, after in ppt_diff.modified_animations:\n        if int(before.slide_id) != 6 and int(after.slide_id) != 6:\n            changed = True\n            details.append(f\"Animation on slide {before.slide_id} modified.\")\n    # Transitions\n    for tr in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if int(tr.slide_id) != 6:\n            changed = True\n            details.append(f\"Transition on slide {tr.slide_id} changed.\")\n    for before, after in ppt_diff.modified_transitions:\n        if int(before.slide_id) != 6 and int(after.slide_id) != 6:\n            changed = True\n            details.append(f\"Transition on slide {before.slide_id} modified.\")\n    if changed:\n        return (\"Unintended changes detected on slides other than slide 6: \" + \"; \".join(details), 0.0)\n    return (\"No changes detected on slides other than slide 6.\", 1.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No extraneous images added to slide 6",
+        "description": "Checks that no new images were added to slide 6.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    SLIDE_IDX = 5\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    if len(orig_prs.slides) <= SLIDE_IDX or len(mod_prs.slides) <= SLIDE_IDX:\n        return (\"Slide 6 missing in one of the presentations.\", 0.0)\n    orig_slide = orig_prs.slides[SLIDE_IDX]\n    mod_slide = mod_prs.slides[SLIDE_IDX]\n    orig_pics = [sh for sh in orig_slide.shapes if sh.shape_type == 13]\n    mod_pics = [sh for sh in mod_slide.shapes if sh.shape_type == 13]\n    import hashlib\n    def get_pic_hash(pic):\n        if hasattr(pic, 'image'):\n            return hashlib.sha256(pic.image.blob).hexdigest()\n        return None\n    orig_hashes = set(get_pic_hash(pic) for pic in orig_pics)\n    mod_hashes = set(get_pic_hash(pic) for pic in mod_pics)\n    # Any extra in modified?\n    added = mod_hashes - orig_hashes\n    if added:\n        return (f\"{len(added)} new image(s) added to slide 6.\", 0.0)\n    return (\"No new images added to slide 6.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Rotate the architectural diagram image 45 degrees clockwise on slide 6"
+  }
+}

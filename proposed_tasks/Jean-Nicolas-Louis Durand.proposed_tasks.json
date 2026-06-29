@@ -1,0 +1,347 @@
+{
+  "file": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+  "num_tasks": 31,
+  "tasks": [
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-001",
+      "goal": "Change the title text to 'French Architect: Jean-Nicolas-Louis Durand'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-002",
+      "goal": "Add a subtitle text box below the title saying 'An Overview of His Architectural Contributions'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-003",
+      "goal": "Bold the text 'Jean-Nicolas-Louis Durand' in the first bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-004",
+      "goal": "Change the font size of the main heading 'Introduction' to 48pt",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-005",
+      "goal": "Create a new text box and add the year '1760' above the timeline at the birth event",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-006",
+      "goal": "Change the color of the timeline line from green to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-007",
+      "goal": "Add a text box with the caption 'One of Durand's most famous publications' below the historical document image",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-008",
+      "goal": "Resize the historical document image to be 20% smaller while maintaining aspect ratio",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-009",
+      "goal": "Change all bullet points to numbered list format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-010",
+      "goal": "Italicize the phrase 'imaginary museum' in the third bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-011",
+      "goal": "Add a title text box at the top of the slide with 'Durand's Systematic Architectural Organization'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-012",
+      "goal": "Add a border around the architectural diagram image",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-013",
+      "goal": "Add a subtitle saying 'Architectural Elements and Proportions' below the main title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-014",
+      "goal": "Change the background color of the left text panel from black to dark blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-015",
+      "goal": "Crop the architectural diagram image to show only the top two rows of buildings",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-016",
+      "goal": "Bold the word 'Orders:' in the heading",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-017",
+      "goal": "Add a caption 'First Edition Title Page (1802)' below the book cover image",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-018",
+      "goal": "Add bullet points to the two text statements using the bullet formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-019",
+      "goal": "Change the layout to have 3 references per row instead of stacked vertically",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:22"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-020",
+      "goal": "Change the font color of 'Conclusion:' from white to yellow",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-021",
+      "goal": "Add a new reference entry 'Smith, John. Modern Architecture Studies. New York: Academic Press, 2010.' at the bottom",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-022",
+      "goal": "Replace the background color of the right panel from black to dark navy blue",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-023",
+      "goal": "Add connecting lines between timeline events with arrows pointing to the next event",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-024",
+      "goal": "Bold all the text in the green text boxes",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-025",
+      "goal": "Rotate the architectural diagram image 45 degrees clockwise",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-026",
+      "goal": "Add a text box explaining 'These drawings show standardized proportional relationships'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-027",
+      "goal": "Change 'Orders:' to 'Classical Orders:'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-028",
+      "goal": "Create a new slide after this one with the title 'Building Analysis Methods'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-029",
+      "goal": "Change the French title text color from white to gold",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-030",
+      "goal": "Add a heading 'Book Overview:' above the bullet points",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Jean-Nicolas-Louis Durand-031",
+      "goal": "Create a text box with hyperlink to 'École Polytechnique' linking to the school's website",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Jean-Nicolas-Louis Durand.pptx",
+      "misc": {}
+    }
+  ]
+}

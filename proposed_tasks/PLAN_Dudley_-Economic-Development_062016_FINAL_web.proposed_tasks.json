@@ -1,0 +1,391 @@
+{
+  "file": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+  "num_tasks": 35,
+  "tasks": [
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-001",
+      "goal": "Change the date on the title slide from 'June 20, 2016' to 'July 15, 2024'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-002",
+      "goal": "Replace the photo on slide 2 with a different image while maintaining the same layout and photo credit format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-003",
+      "goal": "Add a fourth agenda item titled 'NEXT STEPS' with bullet point 'Community Engagement Process' to the agenda slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-004",
+      "goal": "Change the color scheme of the title slide from red to blue while maintaining the same layout and visual hierarchy",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-005",
+      "goal": "Add a text box with 'REVISED 2024' in the bottom right corner of the study area map",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-006",
+      "goal": "Change the color of the 'Development Parcels' in the legend from blue to green and update all corresponding map elements",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-007",
+      "goal": "Change the title from 'STUDY AREA CONTEXT' to 'PROJECT AREA CONTEXT'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-008",
+      "goal": "Add a north arrow symbol to the study area map",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-009",
+      "goal": "Change the first bullet point from 'PROVIDE' to 'DELIVER' in the study goals",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-010",
+      "goal": "Replace the photo on the right side with a different building image while maintaining the same size and position",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-011",
+      "goal": "Reformat the bullet points to use numbered list instead of bullet points (1., 2., 3.)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-012",
+      "goal": "Change 'STUDY GOALS' title to 'PROJECT OBJECTIVES'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-013",
+      "goal": "Add a new event to the calendar: 'DECEMBER 15, 2016' with text 'Final Report Presentation'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-014",
+      "goal": "Change the highlighted date from 'JUNE 20, 2016' to 'JUNE 25, 2016'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-015",
+      "goal": "Reorder the calendar events chronologically and add month headers",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-016",
+      "goal": "Change the section number from '2' to '3' in the large number",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-017",
+      "goal": "Replace the street mural photo with a different urban development image while maintaining the same layout",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-018",
+      "goal": "Change 'Prioritize Economic & Workforce Goals' to 'Define Economic & Workforce Priorities' in the process flow",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-019",
+      "goal": "Add a fifth box to the process flow titled 'Implementation Timeline' after 'Draft RFP Guidelines'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-020",
+      "goal": "Change the subtitle from 'Process & Outcomes' to 'Planning Process & Results'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-021",
+      "goal": "Swap the positions of the second and third boxes in the process flow",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-022",
+      "goal": "Change the chart data to show 'Healthcare' as the largest category (35%) instead of 23.5% while updating all other percentages proportionally",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-023",
+      "goal": "Add a third bullet point with 'Education (18.2%)' to the job statistics",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-024",
+      "goal": "Change the title from 'JOBS HELD BY ROXBURY RESIDENTS – COMPARISON' to 'EMPLOYMENT BY INDUSTRY – REGIONAL COMPARISON'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-025",
+      "goal": "Add a fourth region 'Cambridge' to the bar chart with similar proportional data",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-026",
+      "goal": "Change the legend to show full category names instead of abbreviated text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-027",
+      "goal": "Add a new pathway box titled 'Professional Certification Programs' between 'Community College Certificate Programs' and 'University Credential' in the career pathways flow",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-028",
+      "goal": "Convert the bullet list to a numbered priority list (1-5) with the same content",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:42"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-029",
+      "goal": "Change 'STRATEGIES (CONTINUED)' to 'IMPLEMENTATION STRATEGIES'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:42"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-030",
+      "goal": "Change the color scheme of the infographic from blue/green to purple/orange while maintaining readability",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-031",
+      "goal": "Add an arrow connecting 'Adult Basic Education' directly to 'Skilled Workforce' to show an alternative pathway",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-032",
+      "goal": "Add a subtitle 'Community Development Initiative' below the main title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-033",
+      "goal": "Reorganize the agenda to move 'WORKFORCE DEVELOPMENT OVERVIEW' before 'ECONOMIC DEVELOPMENT OVERVIEW'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-034",
+      "goal": "Create a timeline version of the process flow showing approximate duration for each phase",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Economic-Development_062016_FINAL_web-035",
+      "goal": "Bold the key terms 'responsive', 'challenges', 'opportunities', 'Roxbury Strategic Master Plan', and 'Dudley Vision' in the text",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Economic-Development_062016_FINAL_web.pptx",
+      "misc": {}
+    }
+  ]
+}

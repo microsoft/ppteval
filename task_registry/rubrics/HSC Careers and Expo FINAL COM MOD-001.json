@@ -1,0 +1,69 @@
+{
+  "root": {
+    "name": "Change presentation title to the requested text",
+    "description": "Evaluates whether the agent successfully changed the presentation title from 'Texts and Human Experiences The Common Modules' to 'Literature and Human Experiences The Common Modules', and did not introduce unintended changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct title change",
+        "description": "Checks that the presentation's title was changed exactly as requested, and the old title is no longer present.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Title text matches exactly",
+            "description": "Verifies that the main title of the presentation is now exactly 'Literature and Human Experiences The Common Modules'.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Try to identify the title from Slide 1\n    from pptx import Presentation\n    import re\n\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    expected_title = 'Literature and Human Experiences The Common Modules'\n    found = False\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = shape.text_frame.text.strip()\n            # Normalize whitespace\n            text_norm = re.sub(r'\\s+', ' ', text)\n            if text_norm == expected_title:\n                found = True\n                break\n    if found:\n        return (\"Title matches exactly as requested.\", 1.0)\n    else:\n        return (\"Title does not exactly match the requested text.\", 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No extraneous changes",
+        "description": "Checks that the agent did not make unrelated changes such as modifying slide content, adding/removing slides, transitions, or animations.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No slides added or removed",
+            "description": "Verifies that no slides were added or removed except for the title change.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added = len(ppt_diff.added_slides)\n    removed = len(ppt_diff.removed_slides)\n    if added == 0 and removed == 0:\n        return (\"No slides were added or removed.\", 1.0)\n    else:\n        return (f\"{added} slides added, {removed} slides removed.\", 0.0)\n"
+            }
+          },
+          {
+            "name": "No unrelated content modifications",
+            "description": "Checks that content (other than the title) was not changed on any slide.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow modifications to the title shape on the first slide\n    if not ppt_diff.modified_slides:\n        return (\"No slides were modified.\", 1.0)\n    # For any modified slide, ensure it's slide 1 and only the title shape was changed\n    from pptx import Presentation\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    # Get title text on slide 1 before and after\n    orig_slide = orig.slides[0]\n    mod_slide = mod.slides[0]\n    orig_titles = set()\n    mod_titles = set()\n    for shape in orig_slide.shapes:\n        if shape.has_text_frame:\n            orig_titles.add(shape.text_frame.text.strip())\n    for shape in mod_slide.shapes:\n        if shape.has_text_frame:\n            mod_titles.add(shape.text_frame.text.strip())\n    modified_slides_ok = True\n    for (before, after) in ppt_diff.modified_slides:\n        if before.slide_number != 1:\n            modified_slides_ok = False\n            break\n    if not modified_slides_ok:\n        return (\"Slides other than the title slide were modified.\", 0.0)\n    # If only title text changed, that's ok\n    # For simplicity, we assume only the title change is allowed on slide 1\n    if orig_titles != mod_titles:\n        # Check that the only difference is the title string\n        # Allow exactly one differing element between equal-length collections\n        # Using symmetric difference on sets: replacing one element yields diff size == 2\n        symmetric_diff_count = len(orig_titles ^ mod_titles)\n        if len(orig_titles) == len(mod_titles) and symmetric_diff_count == 2:\n            return (\"Only the title text on slide 1 was changed.\", 1.0)\n        else:\n            return (f\"Multiple text elements changed on slide 1.\", 0.0)\n    return (\"No content changed except the title.\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No animations or transitions changed",
+            "description": "Ensures no animations or transitions (added, removed, or modified) occurred as a result of the title change.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    if (ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations or\n        ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions):\n        return (\"Animations or transitions were changed.\", 0.0)\n    return (\"No animations or transitions were changed.\", 1.0)\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the title of the presentation from 'Texts and Human Experiences The Common Module' to 'Literature and Human Experiences The Common Modules'"
+  }
+}

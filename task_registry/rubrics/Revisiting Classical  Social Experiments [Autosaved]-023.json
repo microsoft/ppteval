@@ -1,0 +1,56 @@
+{
+  "root": {
+    "name": "Insertion of New Slide After Slide 4 with Correct Title",
+    "description": "Evaluates whether the agent successfully inserted a new slide after slide 4 and gave it the correct title as specified in the task.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Slide Insertion After Slide 4",
+        "description": "Checks if exactly one new slide was inserted and it appears immediately after slide 4 in the presentation.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Exactly One Slide Inserted",
+            "description": "Verifies that exactly one slide was added to the presentation.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) == 1:\n        return (\"Exactly one slide was added.\", 1.0)\n    elif len(added_slides) == 0:\n        return (\"No slide was added.\", 0.0)\n    else:\n        return (f\"{len(added_slides)} slides were added instead of 1.\", 0.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "Slide Inserted After Slide 4",
+            "description": "Checks if the new slide was inserted immediately after slide 4 (i.e., is now slide 5).",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    # Find the only added slide\n    if len(ppt_diff.added_slides) != 1:\n        return (\"Cannot check position because the number of added slides is not 1.\", 0.0)\n    added_slide = ppt_diff.added_slides[0]\n    # In the modified presentation, slide 5 should be the new slide\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slides = list(prs.slides)\n    if len(slides) < 5:\n        return (\"Modified presentation has fewer than 5 slides.\", 0.0)\n    slide5 = slides[4]  # 0-based index\n    # Try to match slide5 with added_slide by title or element count\n    try:\n        title = None\n        for shape in slide5.shapes:\n            if shape.has_text_frame and shape.text_frame.text.strip():\n                title = shape.text_frame.text.strip()\n                break\n        if title and title.strip().lower() == (added_slide.title or '').strip().lower():\n            return (\"Slide was correctly inserted after slide 4.\", 1.0)\n    except Exception:\n        pass\n    # Fallback: match by element count or assume the structure matches\n    # If slide ids are stable, could match by slide_id\n    # If all else fails, check if slide5 is not present in original\n    from pptx import Presentation as OrigPresentation\n    orig_prs = OrigPresentation(original_ppt_path)\n    orig_slides = list(orig_prs.slides)\n    orig_titles = set()\n    for s in orig_slides:\n        for shape in s.shapes:\n            if shape.has_text_frame and shape.text_frame.text.strip():\n                orig_titles.add(shape.text_frame.text.strip().lower())\n    if title and title.strip().lower() not in orig_titles:\n        return (\"Slide inserted after slide 4 and is new.\", 1.0)\n    return (\"New slide does not appear after slide 4.\", 0.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "Inserted Slide Has Correct Title",
+        "description": "Ensures the inserted slide's title is exactly 'Milgram's Obedience Study'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n\n    title = None\n    for shape in prs.slides[4].shapes:\n        if shape.has_text_frame and shape.text_frame.text.strip():\n            title = shape.text_frame.text.strip()\n            break\n\n    if title and (title.strip().lower() == \"milgram’s obedience study\" or title.strip().lower() == \"milgram's obedience study\"):\n        return (\"Added title is correct.\", 1.0)\n    return (f\"Added title is incorrect, and is instead: \\\"{title.strip()}\\\".\", 0.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Insert a new slide after slide 4 with the title 'Milgram's Obedience Study'"
+  }
+}

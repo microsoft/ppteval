@@ -1,0 +1,47 @@
+{
+  "root": {
+    "name": "Add a text box with 'These are the key elements' positioned below the circles and text in slide 2",
+    "description": "Evaluates whether the agent correctly added a text box with the specified text and positioned it below the circles and text on slide 2.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text box with 'These are the key elements' was added to slide 2",
+        "description": "Checks if a new text box containing exactly 'These are the key elements' was added to slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check if a text box with the exact text was added to slide 2\n    target_text = \"These are the key elements\"\n    for slide in ppt_diff.added_slides:\n        # We do NOT expect a new slide; skip\n        pass\n    # Use python-pptx to check for added shape on slide 2\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]  # slide 2 (zero-indexed)\n    found = False\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = shape.text_frame.text.strip()\n            if text == target_text:\n                found = True\n                break\n    if not found:\n        return (\"No text box with the exact specified text found on slide 2.\", 0.0)\n    return (\"Text box with correct text found on slide 2.\", 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Text box is positioned below the circles and text on slide 2",
+        "description": "Checks that the text box is visually located below the circles and their associated text in slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use python-pptx to check shape positions\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]  # slide 2 (zero-indexed)\n    target_text = \"These are the key elements\"\n    target_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame.text.strip() == target_text:\n            target_shape = shape\n            break\n    if target_shape is None:\n        return (\"Text box with the specified text does not exist on slide 2.\", 0.0)\n    # Find the lowest Y position of any circle or associated text\n    lowest_y = 0\n    for shape in slide.shapes:\n        if shape.shape_type == 9:  # MSO_SHAPE.OVAL (circle)\n            lowest_y = max(lowest_y, shape.top + shape.height)\n        elif shape.has_text_frame and shape.text_frame.text.strip() and shape.text_frame.text.strip() not in (target_text, '2'):\n            # Associated text: heuristic\n            lowest_y = max(lowest_y, shape.top + shape.height)\n    # Is the top of the text box below the lowest_y?\n    if target_shape.top > lowest_y:\n        return (\"Text box is positioned below the circles and associated text.\", 1.0)\n    else:\n        return (\"Text box is not positioned below the circles/text.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous modifications to slide 2",
+        "description": "Checks that there are no unnecessary changes (e.g., extra shapes, altered layout) to slide 2 except for the required text box.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for extraneous added/removed/modified shapes on slide 2 using ppt_diff\n    # For simplicity, use ppt_diff.modified_slides, added_slides, removed_slides\n    extraneous_changes = 0\n    # Check for added slides -- shouldn't be any for slide 2\n    if any(slide.slide_number == 2 for slide in ppt_diff.added_slides):\n        extraneous_changes += 1\n    # Check for removed slides\n    if any(slide.slide_number == 2 for slide in ppt_diff.removed_slides):\n        extraneous_changes += 1\n    # Check for modified slides\n    for old, new in ppt_diff.modified_slides:\n        if new.slide_number == 2:\n            # If more than one shape added (aside from the required text box), penalize\n            if new.element_count > old.element_count + 1:\n                extraneous_changes += 1\n    if extraneous_changes > 0:\n        return (\"Extraneous modifications made to slide 2.\", 0.0)\n    else:\n        return (\"No extraneous modifications to slide 2.\", 1.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Add a text box with 'These are the key elements' positioned below the circles and text in slide 2"
+  }
+}

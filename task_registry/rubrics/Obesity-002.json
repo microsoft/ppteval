@@ -1,0 +1,73 @@
+{
+  "root": {
+    "name": "Title Slide Background Color Change Task",
+    "description": "Evaluates whether the agent successfully changed the title slide background color to light blue by creating a rectangular shape with transparency, overlaying it on the slide and sending it to the back",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title Slide Modified",
+        "description": "Checks that the title slide (first slide) was actually modified",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    # Check if title slide (slide 1) was modified by looking at slide modifications\n    title_slide_modified = False\n    \n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number == 1 or new_slide.slide_number == 1:\n            title_slide_modified = True\n            break\n    \n    # Also check if title slide exists in both presentations\n    ppt_original = Presentation(original_ppt_path)\n    ppt_modified = Presentation(modified_ppt_path)\n    \n    if len(ppt_original.slides) == 0 or len(ppt_modified.slides) == 0:\n        return \"No slides found in presentation\", 0.0\n    \n    # Check if first slide has title layout or is identifiable as title slide\n    first_slide_original = ppt_original.slides[0]\n    first_slide_modified = ppt_modified.slides[0]\n    \n    if not title_slide_modified:\n        # Check if there are any shape additions that might indicate modification\n        original_shape_count = len(first_slide_original.shapes)\n        modified_shape_count = len(first_slide_modified.shapes)\n        \n        if modified_shape_count > original_shape_count:\n            title_slide_modified = True\n    \n    if title_slide_modified:\n        return \"Title slide was successfully modified\", 1.0\n    else:\n        return \"Title slide was not modified\", 0.0\n"
+        }
+      },
+      {
+        "name": "Shape Positioning and Size",
+        "description": "Verifies that the rectangular shape covers the slide appropriately (overlay behavior)",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.util import Inches\n    \n    try:\n        ppt_modified = Presentation(modified_ppt_path)\n        \n        if len(ppt_modified.slides) == 0:\n            return \"No slides found in presentation\", 0.0\n        \n        modified_slide = ppt_modified.slides[0]\n        slide_width = ppt_modified.slide_width\n        slide_height = ppt_modified.slide_height\n        \n        # Look for shapes that could be background rectangles\n        # They should be large enough to cover most/all of the slide\n        overlay_shapes = []\n        \n        for shape in modified_slide.shapes:\n            if hasattr(shape, 'width') and hasattr(shape, 'height'):\n                shape_width = shape.width\n                shape_height = shape.height\n                \n                # Check if shape is large enough to be a background overlay\n                # Should cover at least 80% of slide area\n                width_ratio = shape_width / slide_width\n                height_ratio = shape_height / slide_height\n                \n                if width_ratio >= 0.8 and height_ratio >= 0.8:\n                    overlay_shapes.append(shape)\n        \n        if len(overlay_shapes) > 0:\n            return f\"Found {len(overlay_shapes)} shape(s) that appear to be positioned as background overlays\", 1.0\n        else:\n            return \"No shapes found that are positioned/sized as background overlays\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking shape positioning: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "Background Color is Light Blue",
+        "description": "Uses visual analysis to verify the background color appears light blue",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find the title slide screenshots\n    original_screenshot = None\n    modified_screenshot = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 1:\n            original_screenshot = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 1:\n            modified_screenshot = screenshot\n            break\n    \n    if not original_screenshot or not modified_screenshot:\n        return \"Could not find title slide screenshots\", 0.0\n    \n    prompt = '''Compare these two slides (before and after). \n    \nThe task was to change the background color of the title slide to light blue by adding a rectangular overlay.\n    \nPlease analyze:\n1. Does the modified slide (after) have a light blue background color and is there a clear difference in background color between the before and after images?\n2. Is the background color transparent enough to see through to the original slide content?\n    \nRespond with an overall single response of either \"YES\" if the background appears light blue and is transparent enough, \"PARTIAL\" if it is light blue but not transparent enough, or \"NO\" if neither of the above, followed by a brief explanation.'''\n    \n    try:\n        response = vlm_call(prompt, [original_screenshot.image_path, modified_screenshot.image_path], temperature=0.3)\n        \n        if  'YES' in response:\n            return f\"Background color appears light blue and is transparent enough: {response}\", 1.0\n        elif 'PARTIAL' in response:\n            return f\"Background color appears light blue but not transparent enough: {response}\", 0.2\n        else:\n            return f\"Background color does not appear light blue and is not transparent enough: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error analyzing background color: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes",
+        "description": "Ensures no unintended modifications were made to other slides or content",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Other Slides Unchanged",
+            "description": "Verifies that slides other than the title slide were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        ppt_original = Presentation(original_ppt_path)\n        ppt_modified = Presentation(modified_ppt_path)\n        \n        original_slide_count = len(ppt_original.slides)\n        modified_slide_count = len(ppt_modified.slides)\n        \n        # Check if slide count changed\n        if original_slide_count != modified_slide_count:\n            return f\"Slide count changed from {original_slide_count} to {modified_slide_count}\", 0.0\n        \n        # Check if any non-title slides were modified\n        non_title_modifications = 0\n        \n        for old_slide, new_slide in ppt_diff.modified_slides:\n            if old_slide.slide_number != 1 and new_slide.slide_number != 1:\n                non_title_modifications += 1\n        \n        # Also check for added/removed slides\n        if len(ppt_diff.added_slides) > 0 or len(ppt_diff.removed_slides) > 0:\n            return f\"Slides were added or removed: {len(ppt_diff.added_slides)} added, {len(ppt_diff.removed_slides)} removed\", 0.0\n        \n        if non_title_modifications == 0:\n            return \"No extraneous changes detected to other slides\", 1.0\n        else:\n            return f\"Found {non_title_modifications} modifications to non-title slides\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking for extraneous changes: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "Title Slide Content Preserved",
+            "description": "Verifies that existing content on the title slide was not removed or significantly altered",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use visual analysis to check if original content is still present\n    original_screenshot = None\n    modified_screenshot = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 1:\n            original_screenshot = screenshot\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if screenshot.slide_number == 1:\n            modified_screenshot = screenshot\n            break\n    \n    if not original_screenshot or not modified_screenshot:\n        return \"Could not find title slide screenshots for content analysis\", 0.5\n    \n    prompt = '''Compare these two slides (before and after). The task was only to add a light blue background overlay.\n    \nPlease analyze:\n1. Is all the original text content still present and readable in the modified slide?\n2. Are any images, logos, or other elements from the original slide still visible?\n3. Does it appear that only a background color change was made, without removing or altering existing content?\n    \nRespond with \"PRESERVED\" if the original content appears to be maintained, or \"ALTERED\" if content seems to have been removed or significantly changed.'''\n    \n    try:\n        response = vlm_call(prompt, [original_screenshot.image_path, modified_screenshot.image_path], temperature=0.3)\n        \n        if 'PRESERVED' in response.upper():\n            return f\"Original slide content appears preserved: {response}\", 1.0\n        else:\n            return f\"Original slide content may have been altered: {response}\", 0.3\n            \n    except Exception as e:\n        return f\"Error analyzing content preservation: {str(e)}\", 0.5\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the background color of the title slide to light blue by creating a rectangular shape with transparency, overlaying it on the slide and sending it to the back.",
+    "compute_strategy": "default",
+    "non_critical_weight": 0.3
+  }
+}

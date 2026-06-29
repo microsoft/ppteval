@@ -1,0 +1,226 @@
+{
+  "file": "PowerPoint/Obesity.pptx",
+  "num_tasks": 20,
+  "tasks": [
+    {
+      "task_id": "Obesity-001",
+      "goal": "Change the title of the presentation from 'Obesity' to 'Understanding Obesity'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-002",
+      "goal": "Change the background color of the title slide to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-003",
+      "goal": "Add the title 'Introduction' to slide 2",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-004",
+      "goal": "Add a bullet point list with three items: 'Obesity definition', 'Global statistics', and 'Impact on health' to slide 2",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-005",
+      "goal": "Change the font size of the main title 'Obesity' to 48pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-006",
+      "goal": "Change the title color from green to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-007",
+      "goal": "Add a bullet point before the text 'Obesity is defined as excess body fat'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-008",
+      "goal": "Change the font size of the title to 36pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-009",
+      "goal": "Break the paragraph into two bullet points: 'Obesity is defined as excess body fat' and 'Because body fat is difficult to measure directly, obesity is often measured by body mass index (BMI)'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-010",
+      "goal": "Add a text box with BMI calculation formula 'BMI = weight(kg) / height(m)²' positioned at the bottom right of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-011",
+      "goal": "Change the bullet point to a numbered list item '1.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-012",
+      "goal": "Change the title to 'BMI for Children and Adolescents'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-013",
+      "goal": "Add a second bullet point: 'Determining healthy weight for children requires precise measurement tools'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-014",
+      "goal": "Bold the text '85th and 94th percentiles' and '95th percentile'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-015",
+      "goal": "Insert a small table showing age ranges (2-5 years, 6-11 years, 12-19 years) and their corresponding BMI categories",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-016",
+      "goal": "Change the title color to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-017",
+      "goal": "Convert the paragraph into two bullet points: 'Early Life: A child's risk of becoming obese may begin before birth' and 'Pregnant women who use tobacco, gain excessive weight, or have diabetes increase their children's obesity risk'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-018",
+      "goal": "Add the word 'Genetic' as a subtitle below the main title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-019",
+      "goal": "Add a bullet point before the text 'In addition to genetic factors...'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Obesity-020",
+      "goal": "Create a two-column layout with 'Adults' on the left and 'Children' on the right, moving appropriate bullet points to each column",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Obesity.pptx",
+      "misc": {}
+    }
+  ]
+}

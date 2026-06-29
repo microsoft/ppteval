@@ -1,0 +1,47 @@
+{
+  "root": {
+    "name": "Change Slide Title Text",
+    "description": "Evaluates whether the agent correctly changed the title text from 'REVISITING CLASSICAL SOCIAL EXPERIMENTS' to 'EXPLORING CLASSICAL SOCIAL EXPERIMENTS', without introducing errors or extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Title Text Change",
+        "description": "Checks that the title text was changed from 'REVISITING CLASSICAL SOCIAL EXPERIMENTS' to 'EXPLORING CLASSICAL SOCIAL EXPERIMENTS' on the intended slide.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import re\n    from pptx import Presentation\n    def norm(s):\n        return re.sub(r'\\s+', ' ', s).strip().lower()\n    old_title = norm(\"REVISITING CLASSICAL SOCIAL EXPERIMENTS\")\n    new_title = norm(\"EXPLORING CLASSICAL SOCIAL EXPERIMENTS\")\n    prs = Presentation(modified_ppt_path)\n    found_old = False\n    found_new = False\n    for shape in prs.slides[0].shapes:\n        if shape.has_text_frame:\n            for paragraph in shape.text_frame.paragraphs:\n                text = norm(paragraph.text)\n                if text == old_title:\n                    found_old = True\n                if text == new_title:\n                    found_new = True\n    if found_new:\n        return \"Title was changed to the correct new text.\", 1.0\n    elif found_old:\n        return \"Title was not changed.\", 0.0\n    else:\n        return \"Neither the old nor the new title was found. Possible error in modification.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No Extraneous Changes",
+        "description": "Checks that no unintended slides were added, removed, or modified except for the intended title change.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow one modified slide, and only the title text should be changed.\n    # No slides should be added or removed.\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        return \"Slides were added or removed, which is extraneous.\", 0.0\n    if len(ppt_diff.modified_slides) == 0:\n        return \"No slides were modified.\", 0.0\n    if len(ppt_diff.modified_slides) > 1:\n        return \"More than one slide was modified.\", 0.0\n    # Check that only the title text was changed\n    old_slide, new_slide = ppt_diff.modified_slides[0]\n    # If slide number or layout changed, that's extraneous\n    if old_slide.slide_number != new_slide.slide_number or old_slide.layout_type != new_slide.layout_type or old_slide.element_count != new_slide.element_count or old_slide.notes != new_slide.notes:\n        return \"Slide metadata other than title text was changed.\", 0.0\n    return \"No extraneous slide additions, removals, or modifications detected.\", 1.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No Extraneous Animations or Transitions",
+        "description": "Checks that no animations or transitions were added, removed, or modified as part of the change.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Animations and transitions should not be changed for a title text modification\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        return \"Animations were changed, which is extraneous.\", 0.0\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        return \"Transitions were changed, which is extraneous.\", 0.0\n    return \"No extraneous animations or transitions detected.\", 1.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Change the title text from 'REVISITING CLASSICAL SOCIAL EXPERIMENTS' to 'EXPLORING CLASSICAL SOCIAL EXPERIMENTS'"
+  }
+}

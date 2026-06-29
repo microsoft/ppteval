@@ -1,0 +1,61 @@
+{
+  "root": {
+    "name": "Change slide 1 title from 'AIRCRAFT SURFACE' to 'AIRCRAFT FUNDAMENTALS'",
+    "description": "Evaluates whether the agent correctly changed the title text on slide 1 exactly as instructed, made no unnecessary extraneous modifications, and preserved slide integrity.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title Text Correctly Changed on Slide 1",
+        "description": "Checks that the title text on slide 1 was changed from 'AIRCRAFT SURFACE' to exactly 'AIRCRAFT FUNDAMENTALS'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    correct_old_text = \"AIRCRAFT SURFACE\"\n    correct_new_text = \"AIRCRAFT FUNDAMENTALS\"\n    \n    prs_original = Presentation(original_ppt_path)\n    prs_modified = Presentation(modified_ppt_path)\n    \n    def get_title_text(prs, slide_idx):\n        slide = prs.slides[slide_idx]\n        for shape in slide.shapes:\n            if shape.has_text_frame and shape.text_frame is not None:\n                if shape.text_frame.text.strip().upper() == correct_old_text or \\\n                   shape.text_frame.text.strip().upper() == correct_new_text:\n                    return shape.text_frame.text.strip().upper()\n        # fallback: grab the first shape that seems to be title\n        for shape in slide.shapes:\n            if shape.name.lower().startswith(\"title\") and shape.has_text_frame:\n                return shape.text_frame.text.strip().upper()\n        return None\n\n    orig_title = get_title_text(prs_original, 0)  # slide 1 is index 0\n    mod_title = get_title_text(prs_modified, 0)\n    \n    if orig_title != correct_old_text:\n        return (f\"Original slide 1 title was not '{correct_old_text}', found '{orig_title}'.\", 0.0)\n\n    if mod_title == correct_new_text:\n        return (\"Slide 1 title correctly changed to 'AIRCRAFT FUNDAMENTALS'\", 1.0)\n    else:\n        return (f\"Slide 1 title was not correctly changed. Found '{mod_title}'.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No Unintended Slide 1 Changes",
+        "description": "Checks that only the title was changed on slide 1 – no other elements or content were altered.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    # Check shapes (slides), for slide 1\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    orig_slide = prs_orig.slides[0]\n    mod_slide = prs_mod.slides[0]\n    # Compare all shapes except for the title\n    def get_shape_texts(slide):\n        txts = []\n        for shape in slide.shapes:\n            if shape.has_text_frame and shape.text_frame is not None:\n                txts.append((shape.name, shape.text_frame.text.strip()))\n        return txts\n\n    orig_texts = get_shape_texts(orig_slide)\n    mod_texts = get_shape_texts(mod_slide)\n    # Get change set:\n    changed = []\n    for (n1,t1), (n2,t2) in zip(orig_texts, mod_texts):\n        # If the names match and it's title, skip it (expected to change)\n        if (n1.lower().startswith(\"title\") or t1.upper()==\"AIRCRAFT SURFACE\") and (n2.lower().startswith(\"title\") or t2.upper()==\"AIRCRAFT FUNDAMENTALS\"):\n            continue\n        if t1 != t2:\n            changed.append((n1, t1, t2))\n    # Also check number of shapes/elements\n    if len(orig_slide.shapes) != len(mod_slide.shapes):\n        return (f\"Shape count changed on slide 1 (from {len(orig_slide.shapes)} to {len(mod_slide.shapes)})\", 0.0)\n    if changed:\n        return (f\"Text or content changed on one or more non-title elements of slide 1: {changed}\", 0.0)\n    return (\"No unintended changes on slide 1\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes Elsewhere",
+        "description": "Checks that there are no other changes made to other slides or to animations/transitions throughout the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Changes to Other Slides",
+            "description": "Ensures that only slide 1 was modified, and all other slides remain unaltered.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    if len(prs_orig.slides) != len(prs_mod.slides):\n        return (f\"Total number of slides changed from {len(prs_orig.slides)} to {len(prs_mod.slides)}\", 0.0)\n    # Compare slide content for all slides except slide 1\n    for idx in range(1, len(prs_orig.slides)):\n        orig_slide = prs_orig.slides[idx]\n        mod_slide = prs_mod.slides[idx]\n        # Compare text content\n        orig_texts = [s.text_frame.text.strip() for s in orig_slide.shapes if s.has_text_frame and s.text_frame is not None]\n        mod_texts = [s.text_frame.text.strip() for s in mod_slide.shapes if s.has_text_frame and s.text_frame is not None]\n        if orig_texts != mod_texts:\n            return (f\"Content changed on slide {idx+1} other than slide 1.\", 0.0)\n    return (\"No changes to other slides detected\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No Changes to Animations or Transitions",
+            "description": "Ensures that no animations or transitions were added, removed, or modified anywhere in the presentation.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    chg = False\n    for name in [\"added_animations\", \"removed_animations\", \"modified_animations\", \"added_transitions\", \"removed_transitions\", \"modified_transitions\"]:\n        if getattr(ppt_diff, name):\n            chg = True\n            break\n    if chg:\n        return (\"Animations or transitions were modified.\", 0.0)\n    return (\"No changes to animations or transitions.\", 1.0)\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 1, Change the title 'AIRCRAFT SURFACE' to 'AIRCRAFT FUNDAMENTALS'"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Successfully split Assets and Liabilities in slide 6 using Two Content layout",
+    "description": "Evaluates whether slide 6 has been changed to a 'Two Content' layout and the Assets and Liabilities sections are correctly separated into two content placeholders.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Slide 6 layout changed to 'Two Content'",
+        "description": "Checks if slide 6's layout has been changed to 'Two Content'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Attempt to find slide 6 in the modified ppt using ppt_diff\n    slide = None\n    for s, _ in ppt_diff.modified_slides:\n        if s.slide_number == 6:\n            slide = s\n            break\n    if not slide:\n        return \"Slide 6 was not found in the modified presentation.\", 0.0\n    \n    # Use python-pptx to get accurate layout information\n    import pptx\n    prs = pptx.Presentation(modified_ppt_path)\n    try:\n        slide_obj = prs.slides[5]  # Slide 6 is at index 5\n    except Exception:\n        return \"Slide 6 (index 5) not found in pptx.\", 0.0\n    \n    layout_name = slide_obj.slide_layout.name\n    layout_name_normalized = layout_name.strip().lower().replace('-', ' ').replace('_', ' ')\n    \n    # Check for various possible \"Two Content\" layout names\n    two_content_variants = [\n        \"two content\",\n        \"two content layout\", \n        \"content with caption\",\n        \"comparison\", \n        \"two objects\",\n        \"side by side\"\n    ]\n    \n    # Also check if the slide actually has two content placeholders\n    content_placeholders = []\n    for shape in slide_obj.shapes:\n        if shape.is_placeholder:\n            placeholder = shape.placeholder_format\n            # Check for content placeholders (types 1, 7, 13)\n            if placeholder.type in [1, 7, 13]:  # CONTENT, OBJECT, CONTENT_WITH_CAPTION\n                content_placeholders.append(placeholder.type)\n    \n    # Check layout name variants\n    for variant in two_content_variants:\n        if variant in layout_name_normalized:\n            return f\"Slide 6 has '{layout_name}' layout which matches 'Two Content'.\", 1.0\n    \n    # Check if slide has exactly 2 content placeholders\n    if len(content_placeholders) >= 2:\n        return f\"Slide 6 has {len(content_placeholders)} content placeholders, which indicates a 'Two Content' style layout (layout name: '{layout_name}').\", 1.0\n    \n    # If neither condition is met, check the original slide layout detection\n    if slide.layout_type:\n        slide_layout_variants = slide.layout_type.strip().lower().replace('-', ' ').replace('_', ' ')\n        for variant in two_content_variants:\n            if variant in slide_layout_variants:\n                return \"Slide 6 has 'Two Content' layout applied (from ppt_diff).\", 1.0\n    \n    return f\"Slide 6 layout is '{layout_name}' with {len(content_placeholders)} content placeholder(s), which does not match 'Two Content' layout requirements.\", 0.0\n"
+        }
+      },
+      {
+        "name": "Assets and Liabilities are split into two separate content areas",
+        "description": "Checks that text referring to 'Assets' and 'Liabilities' is in two different content placeholders/boxes on slide 6.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import pptx\n    prs = pptx.Presentation(modified_ppt_path)\n    try:\n        slide = prs.slides[5]  # Slide 6 (0-based)\n    except Exception:\n        return \"Slide 6 not found.\", 0.0\n    # Get all placeholder shapes (only content placeholders)\n    placeholders = [shape for shape in slide.shapes if shape.is_placeholder]\n    # Filter placeholders for 'Content' type\n    content_placeholders = []\n    for ph in placeholders:\n        # Looking for 'Content' or 'Two Content' types\n        try:\n            ph_type = ph.placeholder_format.idx\n        except Exception:\n            continue\n        # Allowing all placeholders except title and objects (idx==0 or idx==7 are typically title/object)\n        if ph_type > 0 and ph_type != 7:\n            content_placeholders.append(ph)\n        elif hasattr(ph, 'name') and 'content' in ph.name.lower():\n            content_placeholders.append(ph)\n    # Edge: .pptx layouts vary, but typically two content have at least two content placeholders.\n    # Now check for 'Assets'/'Liabilities' in their text\n    assets_found = False\n    liabilities_found = False\n    assets_box = None\n    liabilities_box = None\n    for ph in content_placeholders:\n        text = ph.text.lower()\n        if 'assets' in text:\n            assets_found = True\n            assets_box = ph\n        if 'liabilities' in text:\n            liabilities_found = True\n            liabilities_box = ph\n    # They must not be in the same placeholder (if both appear in one box, it's a fail)\n    if not assets_found:\n        return \"No content placeholder contains 'Assets'.\", 0.0\n    if not liabilities_found:\n        return \"No content placeholder contains 'Liabilities'.\", 0.0\n    if assets_box is not None and liabilities_box is not None and assets_box != liabilities_box:\n        return \"'Assets' and 'Liabilities' are in separate content placeholders.\", 1.0\n    else:\n        return \"'Assets' and 'Liabilities' are in the same placeholder or not properly separated.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous modifications made to slide 6",
+        "description": "Checks that no changes other than layout and splitting Assets/Liabilities sections were performed on slide 6.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Look for modifications other than layout or placeholder text split\n    unexpected_changes = []\n    # Check for added or removed elements in slide 6\n    slide_id_6 = None\n    # Find slide_id for slide 6\n    for s, _ in ppt_diff.modified_slides:\n        if s.slide_number == 6:\n            slide_id_6 = s.slide_id\n            break\n    # If slide_id_6 not found, skip (can't evaluate)\n    if not slide_id_6:\n        return \"Could not confidently check extraneous modifications on slide 6.\", 1.0\n    # Find if there are added/removed animations or transitions on slide 6\n    for anim in ppt_diff.added_animations:\n        if anim.slide_id == slide_id_6:\n            unexpected_changes.append(\"Added animation\")\n    for anim in ppt_diff.removed_animations:\n        if anim.slide_id == slide_id_6:\n            unexpected_changes.append(\"Removed animation\")\n    for anim1, anim2 in ppt_diff.modified_animations:\n        if anim1.slide_id == slide_id_6 or anim2.slide_id == slide_id_6:\n            unexpected_changes.append(\"Modified animation\")\n    for trans in ppt_diff.added_transitions:\n        if trans.slide_id == slide_id_6:\n            unexpected_changes.append(\"Added transition\")\n    # for trans in ppt_diff.removed_transitions:\n    #     if trans.slide_id == slide_id_6:\n    #         unexpected_changes.append(\"Removed transition\")\n    # for trans1, trans2 in ppt_diff.modified_transitions:\n    #     if trans1.slide_id == slide_id_6 or trans2.slide_id == slide_id_6:\n    #         unexpected_changes.append(\"Modified transition\")\n    # Not checking for element addition/removal in depth, just above animation/transition scope.\n    if unexpected_changes:\n        return f\"Extraneous modifications detected on slide 6: {'; '.join(unexpected_changes)}\", 0.0\n    return \"No extraneous modifications found on slide 6.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 6. Change the slide layout to 'Two Content' and split the Assets and Liabilities sections into two separate content areas"
+  }
+}

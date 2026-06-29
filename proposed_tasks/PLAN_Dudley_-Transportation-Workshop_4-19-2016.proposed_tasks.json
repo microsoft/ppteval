@@ -1,0 +1,611 @@
+{
+  "file": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+  "num_tasks": 55,
+  "tasks": [
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-001",
+      "goal": "Change the date on the title slide from 'April 19, 2016' to 'April 20, 2016'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-002",
+      "goal": "Replace the aerial photo on the title slide with a different image while maintaining the same layout and circular overlay",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-003",
+      "goal": "Change the title color from red to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-004",
+      "goal": "Add a subtitle below the main title that says 'Community Engagement Session' in a smaller font size",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-005",
+      "goal": "Change the agenda item '2. Open House' to '2. Public Meeting'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-006",
+      "goal": "Add a new agenda item '9. Next Steps' under the 'TALK TO US' section",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-007",
+      "goal": "Replace the map on the right side with a different map while maintaining the same size and position",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-008",
+      "goal": "Change the header color from blue to green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-009",
+      "goal": "Remove agenda item '4. Visioning Workshop' and renumber the subsequent items accordingly",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-010",
+      "goal": "Replace the placeholder text 'Click to add Subtitle' with 'Project Timeline Overview'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-011",
+      "goal": "Change the date of the 'Tools for Development Workshop' from 'JUNE 20, 2016' to 'JUNE 22, 2016'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-012",
+      "goal": "Add a new calendar entry for 'SEPTEMBER 15, 2016' with the title 'Community Follow-up Meeting'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-013",
+      "goal": "Remove the red border/highlight from the April 19, 2016 entry",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-014",
+      "goal": "Change the title 'PLAN CALENDAR' to 'PROJECT TIMELINE'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-015",
+      "goal": "Change the subtitle from 'Roxbury Map with Study Area' to 'Transportation Context Map'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-016",
+      "goal": "Add a new legend item for 'Bike Lanes' with an appropriate symbol",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-017",
+      "goal": "Replace the current map with a different map of the same area while maintaining the legend and layout",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-018",
+      "goal": "Change the title color from red to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-019",
+      "goal": "Modify the legend to show 'Light Rail' instead of 'Subway Lines & Stops'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-020",
+      "goal": "Change the date from 'February 22, 2016' to 'February 23, 2016'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-021",
+      "goal": "Add a new comment 'Improved pedestrian crossings needed' to the list",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-022",
+      "goal": "Remove the quotes around 'Better (safer) traffic signals'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-023",
+      "goal": "Replace the document image on the right with a different image while maintaining the same size and position",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-024",
+      "goal": "Change the title color from red to purple",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-025",
+      "goal": "Change the date from 'March 16, 2016' to 'March 17, 2016'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-026",
+      "goal": "Add a new comment 'Need more lighting along main streets' to the list",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-027",
+      "goal": "Replace the walking tour photo on the right with a different community photo while maintaining the same size",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-028",
+      "goal": "Change the title text color from red to dark green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-029",
+      "goal": "Modify the comment about the farmer's market to remove the parenthetical '(Dudley St. Commercial)'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-030",
+      "goal": "Change the title from 'TABLE 1' to 'EXERCISE 1'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-031",
+      "goal": "Add a fourth bullet point 'Improve pedestrian safety at major intersections'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-032",
+      "goal": "Replace the colored dot activity photo on the left with a different workshop photo while maintaining the same size",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-033",
+      "goal": "Change the subtitle color from gray to black",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-034",
+      "goal": "Modify the first bullet point to read 'Preserve Madison Park and surrounding areas as residential'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-035",
+      "goal": "Change the title color from magenta to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-036",
+      "goal": "Add a bullet point list below the subtitle with three key characteristics of public realm",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-037",
+      "goal": "Replace the street scene background image with a different urban photo while maintaining text readability",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-038",
+      "goal": "Change 'working definition for tonight' to 'key definition for this workshop'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-039",
+      "goal": "Add a small text box in the bottom corner with 'Source: Urban Planning Institute'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-040",
+      "goal": "Change the text color from red to navy blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-041",
+      "goal": "Add a small subtitle under the main text that says 'Key Considerations for Dudley Square'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-042",
+      "goal": "Rearrange the transportation icons to show bicycle first, then walking person, then bus",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-043",
+      "goal": "Remove the dotted border around the content",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-044",
+      "goal": "Change the text to read 'Transportation Options and Community Access'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-045",
+      "goal": "Change the title from 'BOSTON COMPLETE STREETS' to 'COMPLETE STREETS VISION'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-046",
+      "goal": "Add a bullet point list below the image with three key features of complete streets",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-047",
+      "goal": "Replace the complete streets diagram with a different urban planning visualization while maintaining the same dimensions",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-048",
+      "goal": "Change the title color from red to dark green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-049",
+      "goal": "Add a small caption below the image that reads 'Integrated transportation design for all users'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-050",
+      "goal": "Change the title from 'GREENLINKS' to 'GREEN INFRASTRUCTURE CONNECTIONS'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-051",
+      "goal": "Move the Greenlinks Boston logo to the bottom center of the slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-052",
+      "goal": "Replace the trail map with a different environmental connectivity map while maintaining the same legend",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-053",
+      "goal": "Change the subtitle color from gray to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:29"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-054",
+      "goal": "Add a fifth bullet point about 'Community engagement continuing through 2016'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:29"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "PLAN_Dudley_-Transportation-Workshop_4-19-2016-055",
+      "goal": "Replace the community meeting photo with a different community engagement photo of similar size",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:29"
+      ],
+      "file_path": "PowerPoint/PLAN_Dudley_-Transportation-Workshop_4-19-2016.pptx",
+      "misc": {}
+    }
+  ]
+}

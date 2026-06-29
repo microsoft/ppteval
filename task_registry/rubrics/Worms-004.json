@@ -1,0 +1,36 @@
+{
+  "root": {
+    "name": "Change the font size of the title in the second slide to 36pt",
+    "description": "Evaluates whether the agent successfully changed the font size of the title textbox in the second slide to exactly 36pt, did not apply this change to other slides, and did not make extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title font size is 36pt on second slide",
+        "description": "Verifies that the title textbox in the second slide now has font size 36pt.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) < 2:\n        return \"Presentation has fewer than 2 slides.\", 0.0\n    slide = prs.slides[1]\n    # Try to find title shape per slide layout\n    title_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame is not None:\n            if shape == slide.shapes.title:\n                title_shape = shape\n                break\n    if title_shape is None:\n        # fallback: look for largest text box on slide with title-like text\n        title_shape = None\n        max_size = 0\n        for shape in slide.shapes:\n            if shape.has_text_frame and shape.text_frame is not None:\n                if len(shape.text) > max_size:\n                    title_shape = shape\n                    max_size = len(shape.text)\n        if title_shape is None:\n            return \"No title textbox found on second slide.\", 0.0\n    # Check all runs in title shape for font size\n    all_runs = []\n    for para in title_shape.text_frame.paragraphs:\n        all_runs.extend(para.runs)\n    if not all_runs:\n        return \"No text runs found in title textbox.\", 0.0\n    correct = True\n    for run in all_runs:\n        if run.font.size is None or abs(run.font.size.pt - 36) > 0.5:\n            correct = False\n    if not correct:\n        return \"Not all runs in the title textbox on the second slide are 36pt.\", 0.0\n    return \"Title textbox on second slide is 36pt.\", 1.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes elsewhere in presentation",
+        "description": "Checks that no other content in the presentation was changed (no slides added/removed, no other text/formatting changes, no animations or transitions changed).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Structural verification: only flag slides where text content or\n    # shape count actually differs. Some PPT round-trips touch slide\n    # XML without visible change, which produces spurious entries in\n    # ppt_diff.modified_slides; we ignore those.\n    from pptx import Presentation\n    import re as _re\n    _norm = lambda s: _re.sub(r\"\\s+\", \" \", s or \"\").strip()\n    target = 2\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    if len(orig.slides) != len(mod.slides):\n        return f\"Slide count differs ({len(orig.slides)} vs {len(mod.slides)}).\", 0.0\n    changed = []\n    for i, (so, sm) in enumerate(zip(orig.slides, mod.slides)):\n        slide_num = i + 1\n        if slide_num == target:\n            continue\n        if len(so.shapes) != len(sm.shapes):\n            changed.append(f\"slide {slide_num}: shape count differs ({len(so.shapes)} vs {len(sm.shapes)})\")\n            continue\n        for sho, shm in zip(so.shapes, sm.shapes):\n            to = _norm(getattr(sho, 'text', '') or '')\n            tm = _norm(getattr(shm, 'text', '') or '')\n            if to != tm:\n                changed.append(f\"slide {slide_num}: text differs on shape {sho.name!r}\")\n                break\n    if changed:\n        return f\"Extraneous changes detected: {'; '.join(changed)}\", 0.0\n    return \"No extraneous structural changes outside the target slide.\", 1.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Change the font size of the title in the second slide to 36pt"
+  }
+}

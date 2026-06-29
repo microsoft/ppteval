@@ -1,0 +1,89 @@
+{
+  "root": {
+    "name": "Add vCPU4 Circle and Time-sharing Diagram Entry",
+    "description": "Evaluates whether the agent successfully added a fourth vCPU circle (vCPU4) next to existing circles using a different color and added vCPU4 to the time-sharing diagram on slide 3",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "vCPU4 Circle Added",
+        "description": "Verifies that a fourth vCPU circle labeled vCPU4 was added next to the existing three circles",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "vCPU4 Circle Presence",
+            "description": "Checks if a fourth circle element with vCPU4 label exists on slide 3",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check if the fourth circle has a different color\n    if len(modified_ppt_screenshots) > 2:\n        slide3_image = modified_ppt_screenshots[2].image_path\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. I need you to examine the vCPU circles on this slide.\n        \nPlease check: Are there 4 vCPU circles visible and is one of them labeled \"vCPU4\"\n        \nRespond with 'YES' if so, 'NO' if not.\"\"\"\n        \n        try:\n            response = vlm_call(prompt, [slide3_image], temperature=0.1)\n            response_lower = response.lower().strip()\n            \n            if 'yes' in response_lower:\n                return \"vCPU4 circle is present\", 1.0\n            else:\n                return \"vCPU4 circle is not present\", 0.0\n                \n        except Exception as e:\n            return f\"Error checking circle colors: {str(e)}\", 0.0\n    else:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 3:\n            raise ScreenshotsUnavailableError(\"Slide 3 screenshot not available; flagging task for verification retry.\")\n        return \"Slide 3 screenshot not available\", 0.0"
+            }
+          },
+          {
+            "name": "vCPU4 Circle Color Differentiation",
+            "description": "Verifies that the vCPU4 circle uses a different color from the existing three circles",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check if the fourth circle has a different color\n    if len(modified_ppt_screenshots) > 2:\n        slide3_image = modified_ppt_screenshots[2].image_path\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. I need you to examine the vCPU circles on this slide.\n        \nPlease check:\n        1. Are there 4 vCPU circles visible?\n        2. Does the fourth circle (vCPU4) have a different color from the first three circles?\n        \nRespond with 'YES' if there are 4 circles and the 4th has a different color, 'PARTIAL' if there are 4 circles but colors are not clearly different, or 'NO' if the conditions are not met.\"\"\"\n        \n        try:\n            response = vlm_call(prompt, [slide3_image], temperature=0.1)\n            response_lower = response.lower().strip()\n            \n            if 'yes' in response_lower:\n                return \"vCPU4 circle has a different color from existing circles\", 1.0\n            elif 'partial' in response_lower:\n                return \"vCPU4 circle present but color difference unclear\", 0.5\n            else:\n                return \"vCPU4 circle does not have a different color\", 0.0\n                \n        except Exception as e:\n            return f\"Error checking circle colors: {str(e)}\", 0.0\n    else:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 3:\n            raise ScreenshotsUnavailableError(\"Slide 3 screenshot not available; flagging task for verification retry.\")\n        return \"Slide 3 screenshot not available\", 0.0"
+            }
+          },
+          {
+            "name": "vCPU4 Circle Positioning",
+            "description": "Verifies that the vCPU4 circle is positioned next to the existing three circles and with proper spacing",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check positioning\n    if len(modified_ppt_screenshots) > 2:\n        slide3_image = modified_ppt_screenshots[2].image_path\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. Examine the positioning of the vCPU4 circle carefully (if it exists).\n        \n1. Please check if there are 4 vCPU circles with one that is labeled vCPU4. \n2. Are all the circles positioned next to each other in a logical grouping (e.g., in a row, column, or cluster). \n3. Pay special attention to whether the vCPU4 circle overlaps with or obstructs other slide elements, including diagrams, text, timelines, or visual elements on any part of the slide - not just the immediate area around the circles.\n\nRespond with 'GOOD' if the vCPU4 circle is well-positioned next to the others with proper spacing and does not overlap with ANY other slide content, 'PARTIAL' if the circles are reasonably grouped but have minor spacing issues or slight overlap with other elements, or 'POOR' if the vCPU4 circle is poorly positioned, not properly grouped with the others, or significantly overlaps with or obstructs other slide elements anywhere on the slide. 'MISSING' if the vCPU4 circle is not present.\"\"\"\n        \n        try:\n            response = vlm_call(prompt, [slide3_image], temperature=0.1)\n            \n            if 'GOOD' in response:\n                return response, 1.0\n            elif 'PARTIAL' in response:\n                return response, 0.5\n            elif 'MISSING' in response:\n                return response, 0.0\n            else:\n                return response, 0.0\n                \n        except Exception as e:\n            return f\"Error checking circle positioning: {str(e)}\", 0.0\n    else:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 3:\n            raise ScreenshotsUnavailableError(\"Slide 3 screenshot not available; flagging task for verification retry.\")\n        return \"Slide 3 screenshot not available\", 0.0"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Time-sharing Diagram Updated",
+        "description": "Verifies that vCPU4 was added to the time-sharing diagram on slide 3",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to assess diagram integration\n    if len(modified_ppt_screenshots) > 2:\n        slide3_image = modified_ppt_screenshots[2].image_path\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. Examine the time-sharing diagram (if present).\n        \nPlease evaluate:\n        1. Is there a time-sharing diagram visible?\n        2. Is vCPU4 integrated into this diagram alongside other vCPUs? Remember - it has to be labeled vCPU4 on the time sharing diagram\n        3. Does the integration look consistent and well-formatted?\n        \nRespond with 'EXCELLENT' if vCPU4 is well-integrated and labeled into a clear time-sharing diagram, 'GOOD' if it's integrated but with minor issues, 'POOR' if integration is problematic, or 'MISSING' if no diagram or vCPU4 integration is found.\"\"\"\n        \n        try:\n            response = vlm_call(prompt, [slide3_image], temperature=0.1)\n            \n            if 'EXCELLENT' in response:\n                return \"vCPU4 excellently integrated into time-sharing diagram\", 1.0\n            elif 'GOOD' in response:\n                return \"vCPU4 well integrated with minor issues\", 0.8\n            elif 'POOR' in response:\n                return \"vCPU4 poorly integrated into diagram\", 0.3\n            else:\n                return \"vCPU4 not found in time-sharing diagram\", 0.0\n                \n        except Exception as e:\n            return f\"Error checking diagram integration: {str(e)}\", 0.0\n    else:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 3:\n            raise ScreenshotsUnavailableError(\"Slide 3 screenshot not available; flagging task for verification retry.\")\n        return \"Slide 3 screenshot not available\", 0.0"
+        }
+      },
+      {
+        "name": "No Unintended Changes",
+        "description": "Ensures that no unintended modifications were made to other slides or elements",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Other Slides Unchanged",
+            "description": "Verifies that slides other than slide 3 remain unchanged",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        original_prs = Presentation(original_ppt_path)\n        modified_prs = Presentation(modified_ppt_path)\n        \n        # Check if slide count changed\n        if len(original_prs.slides) != len(modified_prs.slides):\n            return \"Slide count changed unexpectedly\", 0.0\n        \n        changes_found = 0\n        total_slides_checked = 0\n        \n        # Check slides other than slide 3\n        for i, (orig_slide, mod_slide) in enumerate(zip(original_prs.slides, modified_prs.slides)):\n            if i == 2:  # Skip slide 3 (0-indexed)\n                continue\n                \n            total_slides_checked += 1\n            \n            # Compare text content\n            orig_texts = []\n            mod_texts = []\n            \n            for shape in orig_slide.shapes:\n                if hasattr(shape, 'text'):\n                    orig_texts.append(shape.text)\n            \n            for shape in mod_slide.shapes:\n                if hasattr(shape, 'text'):\n                    mod_texts.append(shape.text)\n            \n            if orig_texts != mod_texts:\n                changes_found += 1\n        \n        if changes_found == 0:\n            return f\"No unintended changes found in {total_slides_checked} other slides\", 1.0\n        else:\n            score = max(0.0, 1.0 - (changes_found / total_slides_checked))\n            return f\"Found unintended changes in {changes_found} out of {total_slides_checked} slides\", score\n            \n    except Exception as e:\n        return f\"Error checking other slides: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "No Unintended Animations/Transitions",
+            "description": "Ensures no unintended animations or transitions were added or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        return \"Unintended animations or transitions changes detected\", 0.0\n    return \"No unintended animation or transition changes\", 1.0"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 3, Add a fourth vCPU circle (vCPU4) next to the existing three circles using a different color and also add vCPU4 to the time-sharing diagram"
+  }
+}

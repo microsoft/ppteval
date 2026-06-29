@@ -1,0 +1,248 @@
+{
+  "file": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+  "num_tasks": 22,
+  "tasks": [
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-001",
+      "goal": "Change the title font size to 48pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-002",
+      "goal": "Add a subtitle text box below the main title with the text 'An Educational Overview'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-003",
+      "goal": "Replace the bullet points with numbered list formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-004",
+      "goal": "Change the background color of the slide to a lighter shade",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-005",
+      "goal": "Add a new text box on the right side listing female clothing items with proper formatting",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-006",
+      "goal": "Change the bullet points to square bullets instead of checkboxes",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-007",
+      "goal": "Resize the image to be 20% larger",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-008",
+      "goal": "Change the title 'ORNAMENTS' to be center-aligned",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-009",
+      "goal": "Create a comparison table showing male vs female ornaments with appropriate formatting",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-010",
+      "goal": "Add a new slide after this one with the title 'Traditional Weapons'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-011",
+      "goal": "Make the italicized text 'Islas de los Pintados' bold instead of italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-012",
+      "goal": "Add a text box with additional information about traditional building materials",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-013",
+      "goal": "Create a comparison chart showing the differences between lowland and upland housing",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-014",
+      "goal": "Change the numbered list to use Roman numerals (I, II, III, IV)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-015",
+      "goal": "Add appropriate icons or symbols next to each social class type",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-016",
+      "goal": "Create a hierarchical diagram showing the social structure of one of the societies mentioned",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-017",
+      "goal": "Change the yellow highlighted text to use blue highlighting instead",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-018",
+      "goal": "Add a header above the list saying 'Bisayan Dependent Classes'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-019",
+      "goal": "Create a comparison table showing women's rights in Pre-Spanish vs Spanish colonial periods",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-020",
+      "goal": "Change all checkbox bullets to arrow bullets",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-021",
+      "goal": "Add a text box explaining the significance of the babaylan position",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "4._Pre-Colonial_Filipino_Culture-022",
+      "goal": "On slide 9, make the resize the text in the diagram so that 'Nobles' fits in the pyramid.",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx",
+      "misc": {"source": "human"}
+    },
+  ]
+}

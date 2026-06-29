@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "replace_images_with_textbox_on_slide_5",
+    "description": "Evaluates whether images on slide 5 were deleted and replaced with correct text box.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "images_deleted_from_slide_5",
+        "description": "Checks that all images on slide 5 were deleted.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use a VLM to compare original vs modified slide 5 and detect image deletions\n    # Find slide 5 screenshots\n    orig_img = None\n    mod_img = None\n    # original\n    for s in original_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 5:\n                orig_img = getattr(s, 'image_path', None)\n                if not orig_img and isinstance(s, dict):\n                    orig_img = s.get('image_path') or s.get('path')\n                break\n        except Exception:\n            continue\n    # modified\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 5:\n                mod_img = getattr(s, 'image_path', None)\n                if not mod_img and isinstance(s, dict):\n                    mod_img = s.get('image_path') or s.get('path')\n                break\n        except Exception:\n            continue\n\n    if not mod_img:\n        return \"Modified slide 5 screenshot not found.\", 0.0\n    if not orig_img:\n        return \"Original slide 5 screenshot not found.\", 1.0  # Can't penalize without baseline\n\n    prompt = (\n        \"Compare these two images of slide 5: the first is ORIGINAL, the second is MODIFIED.\\n\"\n        \"Count the number of distinct images/photos/graphics/icons/charts on each slide.\\n\"\n        \"Ignore background theme images and pure text.\\n\"\n        \"Respond in EXACTLY this format with integers only (no extra words):\\n\"\n        \"ORIGINAL: <number>\\nMODIFIED: <number>\"\n    )\n\n    try:\n        response = vlm_call(images=[orig_img, mod_img], prompt=prompt, temperature=0.1)\n        txt = str(response).strip()\n\n        # Robustly parse two integers from the response\n        import re\n        m1 = re.search(r\"ORIGINAL\\s*:\\s*(\\d+)\", txt, flags=re.IGNORECASE)\n        m2 = re.search(r\"MODIFIED\\s*:\\s*(\\d+)\", txt, flags=re.IGNORECASE)\n        if m1 and m2:\n            orig_count = int(m1.group(1))\n            mod_count = int(m2.group(1))\n        else:\n            nums = re.findall(r\"\\d+\", txt)\n            if len(nums) >= 2:\n                orig_count = int(nums[0])\n                mod_count = int(nums[1])\n            else:\n                return f\"Could not parse image counts from VLM response: {response}\", 0.0\n\n        if orig_count == 0:\n            return \"No images found on original slide 5.\", 1.0\n        if mod_count == 0:\n            return \"All images were deleted from slide 5.\", 1.0\n        if mod_count < orig_count:\n            removed = orig_count - mod_count\n            return f\"Some images deleted: {removed}/{orig_count} removed.\", (mod_count / orig_count)\n        return \"No images were deleted from slide 5.\", 0.0\n\n    except Exception as e:\n        return f\"Error during VLM comparison: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "textbox_added_with_correct_texts",
+        "description": "Checks that a textbox with both required texts was added to slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    import pptx\n    from pptx import Presentation\n    prs = pptx.Presentation(modified_ppt_path)\n    slide = prs.slides[4]\n    required_texts = [\n        'Image Placeholder - Eye Examination 1',\n        'Image Placeholder - Eye Examination 2'\n    ]\n    found_texts = set()\n    \n    def _normalize(text: str) -> str:\n        # Remove zero-width spaces and collapse all whitespace/newlines to single spaces\n        try:\n            text = text.replace('\\u200b', ' ')\n        except Exception:\n            pass\n        # Collapse all whitespace sequences (including newlines, tabs) to single spaces\n        return ' '.join(text.split())\n    \n    normalized_required = [_normalize(t) for t in required_texts]\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = _normalize(shape.text_frame.text)\n            for req_txt, norm_req in zip(required_texts, normalized_required):\n                if norm_req in text:\n                    found_texts.add(req_txt)\n    missing = set(required_texts) - found_texts\n    if not missing:\n        return \"Textbox with both required texts found on slide 5.\", 1.0\n    elif found_texts:\n        return f\"Only found: {', '.join(found_texts)}. Missing: {', '.join(missing)}.\", len(found_texts)/2.0\n    else:\n        return \"No textbox with required texts found on slide 5.\", 0.0\n"
+        }
+      },
+      {
+        "name": "no_extraneous_changes_on_slide_5",
+        "description": "Checks for unnecessary additions/deletions on slide 5 beyond required changes.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    extraneous = False\n    details = []\n    # Check for extraneous shape additions or deletions\n    import pptx\n    from pptx import Presentation\n    prs_orig = pptx.Presentation(original_ppt_path)\n    prs_mod = pptx.Presentation(modified_ppt_path)\n    slide_orig = prs_orig.slides[4]\n    slide_mod = prs_mod.slides[4]\n    orig_shapes = [(s.shape_type, getattr(s, 'name', None)) for s in slide_orig.shapes]\n    mod_shapes = [(s.shape_type, getattr(s, 'name', None)) for s in slide_mod.shapes]\n    # Acceptable: images deleted, textbox(es) with correct text added\n    # The task allows either a single textbox with both lines or two textboxes (one per line).\n    # The image-deletion path may either remove the image-bearing picture placeholders entirely\n    # or replace them with empty layout-default placeholders. Both are valid.\n    # Therefore allow a +/- 2 net change in non-image shape count.\n    orig_nonimg_shapes = [x for x in orig_shapes if x[0] != 13]\n    mod_nonimg_shapes = [x for x in mod_shapes if x[0] != 13]\n    delta = len(mod_nonimg_shapes) - len(orig_nonimg_shapes)\n    if delta > 2:\n        extraneous = True\n        details.append(f'Too many new non-image shapes added (net +{delta}).')\n    elif delta < -2:\n        extraneous = True\n        details.append(f'Too many non-image shapes deleted (net {delta}).')\n    # Check for extraneous slide-level changes (notes, layout)\n    orig_notes = slide_orig.notes_slide.notes_text_frame.text if slide_orig.has_notes_slide else ''\n    mod_notes = slide_mod.notes_slide.notes_text_frame.text if slide_mod.has_notes_slide else ''\n    if orig_notes != mod_notes:\n        extraneous = True\n        details.append('Slide notes changed.')\n    # Check for extraneous title/layout change\n    if slide_orig.slide_layout.name != slide_mod.slide_layout.name:\n        extraneous = True\n        details.append('Slide layout changed.')\n    if slide_orig.shapes.title and slide_mod.shapes.title:\n        if slide_orig.shapes.title.text != slide_mod.shapes.title.text:\n            extraneous = True\n            details.append('Slide title text changed.')\n    if extraneous:\n        msg = 'Extraneous changes made: ' + '; '.join(details)\n        return msg, 0.0\n    return 'No extraneous changes detected on slide 5.', 1.0"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Delete the current images on slide 5 and replace it with a text box containing 'Image Placeholder - Eye Examination 1' and 'Image Placeholder - Eye Examination 2'"
+  }
+}

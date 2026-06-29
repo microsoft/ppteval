@@ -1,0 +1,171 @@
+{
+  "file": "PowerPoint/Time and Meetings management.pptx",
+  "num_tasks": 15,
+  "tasks": [
+    {
+      "task_id": "Time and Meetings management-001",
+      "goal": "Change the title text from 'TIME & MEETINGS MANAGEMENT' to 'EFFECTIVE TIME MANAGEMENT'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-002",
+      "goal": "Change the subtitle text from 'YOUR LIFE JACKET' to 'MASTER YOUR SCHEDULE'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-003",
+      "goal": "Add a bullet point below the existing text that says '• Time is a finite resource'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-004",
+      "goal": "Replace one of the three clock images with a calendar icon",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-005",
+      "goal": "Change the background image of the pocket watch to a different time-related image",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-006",
+      "goal": "Add a new bullet point to the Time Stealers list that says '• Social media distractions'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-007",
+      "goal": "Change the text 'TRY IT !' to 'GET STARTED!'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:20"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-008",
+      "goal": "Change the formatting of the first bullet point 'Procrastination' to bold text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-009",
+      "goal": "Add a text box with the message 'Value every moment' below the clock image",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-010",
+      "goal": "Rearrange the bullet points in the Time Stealers list to put 'Procrastination' as the last item instead of the first",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-011",
+      "goal": "Change 'HABIT ONE' to 'PRINCIPLE ONE' in the first numbered item",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:31"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-012",
+      "goal": "Change the text 'HABIT' in the center of the Venn diagram to 'SUCCESS'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:32"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-013",
+      "goal": "Add an 8th habit that says '8 HABIT EIGHT - FIND YOUR VOICE \"Find your voice and inspire others to find theirs.\"'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:31"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-014",
+      "goal": "Change the color of the 'Skills (How)' circle from green to orange",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:32"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Time and Meetings management-015",
+      "goal": "Create a new text box and add a bulleted list with three time management tips: '• Set daily priorities', '• Use a calendar system', '• Eliminate distractions'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:20"
+      ],
+      "file_path": "PowerPoint/Time and Meetings management.pptx",
+      "misc": {}
+    }
+  ]
+}

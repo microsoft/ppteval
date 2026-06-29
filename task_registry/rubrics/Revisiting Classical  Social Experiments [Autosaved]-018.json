@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "Add appropriate icons or symbols inside each of the three circles in slide 2 to illustrate the respective text",
+    "description": "Evaluates whether the agent has correctly placed meaningful icons or symbols inside each of the three circles in slide 2, such that each icon visually represents the text associated with its circle.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Icons or symbols added inside each of the three circles in slide 2",
+        "description": "Checks if there are new icons or symbols inside each of the three circles in slide 2, and that the required number (3) are present.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[1]  # slide 2 (0-based)\n\n    icons_found = 0\n    for shape in slide.shapes:\n        if shape.shape_type == 13 or hasattr(shape, 'image'):  # picture, icon, auto shape\n            icons_found += 1\n\n    if icons_found == 3:\n        return \"Icons/symbols found inside each of the three circles.\", 1.0\n    elif icons_found == 2:\n        return \"Icons/symbols found in only 2 circles.\", 2/3\n    elif icons_found == 1:\n        return \"Icon/symbol found in only 1 circle.\", 1/3\n    else:\n        return \"No icons/symbols found inside circles.\", 0.0\n"
+        },
+        "score": 1.0,
+        "reason": "Icons/symbols found inside each of the three circles."
+      },
+      {
+        "name": "Each icon or symbol meaningfully illustrates the respective text",
+        "description": "Checks if each icon or symbol visually represents the text associated with its circle in a meaningful way.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare the screenshot and text for each circle\n    slide = modified_ppt_screenshots[1]\n\n    # Find circles and their associated text\n\n    texts = ['Challenging Findings', 'Demanding Methods', 'Ingredients of a Classical Study']\n    results = 0\n    for text in texts:\n        prompt = f\"Does the icon or symbol inside the above the text {text} circle visually represent or illustrate said text? Respond 'Yes' or 'No' for each item, and briefly explain why.\"\n        resp = vlm_call(prompt, images=[slide.image_path], temperature=0.0)\n        results += int('yes' in resp.lower().strip())\n\n    score = float(results)/len(texts)\n    reason = f\"Icon/text illustration scores: {score}\"\n    return reason, score\n"
+        },
+        "score": 1.0,
+        "reason": "Icon/text illustration scores: 1.0"
+      },
+      {
+        "name": "No unintended modifications to other slides or elements",
+        "description": "Checks that no extraneous changes (icons, symbols, or other modifications) were made to slides or elements outside the specified circles in slide 2.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = ppt_diff.added_slides\n    if len(added_slides) > 0:\n        return f\"Expected 0 slide added, found {len(added_slides)}.\", 0.0\n    \n    if len(ppt_diff.removed_slides) != 0:\n        return f\"{len(ppt_diff.removed_slides)} slides removed, expected 0.\", 0.0\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        return \"Animations were changed, which is extraneous.\", 0.0\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        return \"Transitions were changed, which is extraneous.\", 0.0\n    \n    return ('No differences found', 1.0)\n"
+        },
+        "score": 1.0,
+        "reason": "No differences found"
+      }
+    ],
+    "score": 1.0,
+    "reason": "The criterion received a perfect score because the agent successfully added icons or symbols inside all three circles in slide 2, with each icon meaningfully representing its associated text content. Both critical requirements were fully met - the correct number of icons were placed in the specified locations, and they provided appropriate visual illustrations of their respective text. Additionally, the agent made no unintended changes to other parts of the presentation, demonstrating precise execution of the task."
+  },
+  "metadata": {
+    "task": "Add icons or symbols inside each of the three circles in slide 2 which illustrate the respective text"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "add_bmi_formula_textbox",
+    "description": "Evaluates if a text box with the BMI formula is correctly added and positioned on slide 2.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "textbox_added_slide2",
+        "description": "Checks that a new text box is added to slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare original vs modified slide 2 and detect if a new text box was added\n    original_image = None\n    modified_image = None\n\n    # Find slide 2 in original screenshots\n    for s in original_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 2:\n                original_image = s.image_path\n                break\n        except Exception:\n            continue\n\n    # Find slide 2 in modified screenshots\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 2:\n                modified_image = s.image_path\n                break\n        except Exception:\n            continue\n\n    if not modified_image:\n        return \"Modified slide 2 screenshot not found.\", 0.0\n    if not original_image:\n        return \"Original slide 2 screenshot not found.\", 0.0\n    prompt = (\n        \"Compare these two images of slide 2: the first is the original, the second is the modified.\\n\"\n        \"Has a new text box been added in the modified slide that was not present in the original?\\n\"\n        \"Ignore minor formatting changes, font/style changes, or small position tweaks in existing boxes;\\n\"\n        \"focus only on whether an additional text box appears. Respond YES or NO with a brief justification.\"\n    )\n\n    try:\n        response = vlm_call(images=[original_image, modified_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().lower()\n        if resp.startswith('yes'):\n            return response, 1.0\n        elif resp.startswith('no'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM comparison: {str(e)}\", 0.0\n"
+        }
+      },
+      {
+        "name": "textbox_content_correct",
+        "description": "Checks the content of the added text box matches the BMI formula.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check whether slide 2 contains a text box with the BMI formula\n    # Locate slide 2 screenshot\n    slide_2_image = None\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 2:\n                slide_2_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_2_image:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 2:\n            raise ScreenshotsUnavailableError(\"Slide 2 screenshot not found; flagging task for verification retry.\")\n        return \"Slide 2 screenshot not found.\", 0.0\n\n    prompt = (\n        \"Look at slide 2. Is there a text box that contains the BMI formula?\\n\"\n        \"Accept formulas equivalent to: BMI = Weight in kg / (Height in m)^2.\\n\"\n        \"Ignore minor formatting and whitespace. Respond YES or NO and include a brief justification.\"\n    )\n    try:\n        response = vlm_call(images=[slide_2_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().lower()\n        if resp.startswith('yes'):\n            return response, 1.0\n        elif resp.startswith('no'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM check: {str(e)}\", 0.0"
+        }
+      },
+      {
+        "name": "textbox_position_bottom_right",
+        "description": "Verifies the BMI formula text box is at the bottom right of slide 2.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check whether the BMI text box is placed at the bottom-right of slide 2\n    slide_2_image = None\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 2:\n                slide_2_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_2_image:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 2:\n            raise ScreenshotsUnavailableError(\"Slide 2 screenshot not found; flagging task for verification retry.\")\n        return \"Slide 2 screenshot not found.\", 0.0\n\n    prompt = (\n        \"Look at slide 2. Find the text box that contains the BMI formula/term (e.g., mentions 'BMI').\\n\"\n        \"Is that text box positioned in the bottom-right quadrant of the slide?\\n\"\n        \"Respond YES or NO with a short justification.\"\n    )\n    try:\n        response = vlm_call(images=[slide_2_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().lower()\n        if resp.startswith('yes'):\n            return response, 1.0\n        elif resp.startswith('no'):\n            return response, 0.0\n        else:\n            return f\"Unclear VLM response: {response}\", 0.0\n    except Exception as e:\n        return f\"Error during VLM check: {str(e)}\", 0.0"
+        }
+      },
+      {
+        "name": "no_extraneous_modifications",
+        "description": "Checks that no other slides or elements are unnecessarily changed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 2: one textbox added. No other changes expected.\n    extraneous = []\n    # Check slides added/removed/modified\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        extraneous.append('Slides added or removed')\n    # Slide modifications (except for slide 2)\n    for orig, mod in ppt_diff.modified_slides:\n        if orig.slide_number != 2:\n            extraneous.append(f'Slide {orig.slide_number} modified')\n    # Any animations or transitions added/removed/modified?\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        extraneous.append('Animations changed')\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        extraneous.append('Transitions changed')\n    # Extra shapes added/removed on other slides\n    # Can't check shape diffs via ppt_diff, but can check added/removed slides and slide-level mods\n    if extraneous:\n        return f\"Extraneous modifications found: {', '.join(extraneous)}\", 0.0\n    return \"No extraneous modifications detected.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a text box with BMI calculation formula 'BMI = (Weight in kg)/(Height in m)2\u200b' positioned at the bottom right of slide 2"
+  }
+}

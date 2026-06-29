@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add bullet point 'Aquifer contamination' to Slide 7 under Groundwater section",
+    "description": "Evaluates whether the agent correctly added a bullet point 'Aquifer contamination' under the Groundwater section on slide 7, and that the addition is accurate, placed correctly, and does not introduce extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Bullet point 'Aquifer contamination' exists on Slide 7",
+        "description": "Checks that the text 'Aquifer contamination' appears as a bullet point on slide 7.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[6] if len(prs.slides) > 6 else None\n    if slide is None:\n        return \"Slide 7 not found.\", 0.0\n    found = False\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for paragraph in shape.text_frame.paragraphs:\n            text = paragraph.text.strip().lower()\n            if 'aquifer contamination' == text:\n                found = True\n            elif 'aquifer contamination' in text and paragraph.level == 1:\n                found = True\n            # Accept either a distinct bullet or part of a valid bullet\n    if found:\n        return \"'Aquifer contamination' bullet found on Slide 7.\", 1.0\n    else:\n        return \"'Aquifer contamination' bullet not found on Slide 7.\", 0.0\n"
+        }
+      },
+      {
+        "name": "Bullet point 'Aquifer contamination' exists under Groundwater section",
+        "description": "Checks that the text 'Aquifer contamination' appears as a bullet point under Groundwater section.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find Slide 5 in the original and modified deck screenshots\n    slide_number = 7\n    orig_img = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n\n    if not (orig_img and mod_img):\n        return (\"Slide 7 screenshots missing for before or after.\", 0.0)\n\n    prompt = (\n        \"You are given two images: a 'before' and 'after' screenshot of a PowerPoint slide for a modification task.\\n\"\n        \"Compare the 2 images and check if the bullet point 'Aquifer contamination' has been added under the Groundwater section.\\n\"\n        \"Respond only with YES or NO.\"\n    )\n\n    response = vlm_call(prompt, images=[orig_img, mod_img], temperature=0.0, max_tokens=5)\n    response_lower = response.lower()\n\n    if 'yes' in response_lower:\n        return (\"Bullet point 'Aquifer contamination' was added under the Groundwater section.\", 1.0)\n    elif 'no' in response_lower:\n        return (\"Bullet point 'Aquifer contamination' was not added under the Groundwater section.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No extraneous change on other slides",
+        "description": "Checks that no changes were made to slides other than the targeted slide.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 7 (slide_number=7) should be altered\n    problematic_mods = []\n    for (old, new) in ppt_diff.modified_slides:\n        if old.slide_number != 7:\n            # Check if nontrivial changes happened\n            major = False\n            # Check notes, title, number of elements (as proxy)\n            if old.title != new.title or (old.notes or \"\") != (new.notes or \"\") or old.element_count != new.element_count:\n                major = True\n            if major:\n                problematic_mods.append(old.slide_number)\n    # Check for added/removed slides\n    added = [s.slide_number for s in ppt_diff.added_slides if s.slide_number != 7]\n    removed = [s.slide_number for s in ppt_diff.removed_slides if s.slide_number != 7]\n    if problematic_mods or added or removed:\n        return f\"Slides other than 7 changed: modified={problematic_mods}, added={added}, removed={removed}.\", 0.0\n    return \"No extraneous changes to other slides.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No extraneous changes on Slide 7",
+        "description": "Checks that no unrelated content, bullets, or sections were added or removed from Slide 7, except the requested bullet point.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow a single new bullet with 'Aquifer contamination' to be added to Slide 7.\n    # We'll compare text content of Slide 7 before and after.\n    from pptx import Presentation\n    before = Presentation(original_ppt_path)\n    after = Presentation(modified_ppt_path)\n    s_before = before.slides[6] if len(before.slides) > 6 else None\n    s_after = after.slides[6] if len(after.slides) > 6 else None\n    if s_before is None or s_after is None:\n        return \"Slide 7 missing in one of the presentations.\", 0.0\n    def extract_text(slide):\n        texts = []\n        for shape in slide.shapes:\n            if not shape.has_text_frame:\n                continue\n            for para in shape.text_frame.paragraphs:\n                texts.append((para.text.strip(), para.level))\n        return texts\n    before_texts = set(extract_text(s_before))\n    after_texts = set(extract_text(s_after))\n    added = after_texts - before_texts\n    removed = before_texts - after_texts\n    extraneous_added = [t for t, l in added if 'aquifer contamination' not in t.lower()]\n    extraneous_removed = [t for t, l in removed]\n    if len(extraneous_added) == 0 and len(extraneous_removed) == 0:\n        return \"No extraneous changes on Slide 7.\", 1.0\n    else:\n        msg = f\"Extraneous changes detected on Slide 7: added={extraneous_added}, removed={extraneous_removed}\"\n        return msg, 0.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Slide 7: Add a bullet point 'Aquifer contamination' under the Groundwater section"
+  }
+}

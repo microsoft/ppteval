@@ -1,0 +1,78 @@
+{
+  "root": {
+    "name": "Slide 12: Remove blue box and replace with bullet point",
+    "description": "Evaluates whether the blue box and its content are removed from slide 12 and replaced with the required bullet point.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Blue box and its content removed from slide 12",
+        "description": "Checks that the blue box and all its contents on the right side of slide 12 are fully removed.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No blue box present on slide 12",
+            "description": "Verifies the blue box is visually absent from slide 12 in the modified presentation.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 12\n    orig_img = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not orig_img or not mod_img:\n        return \"Missing slide screenshot(s)\", 0.0\n    prompt = (\n        \"You are given two images of the same PowerPoint slide, before and after a change. \"\n        \"In the BEFORE image, there is a blue box on the right side. In the AFTER image, is the blue box on the right side completely gone? \"\n        \"Answer 'Yes' if the blue box is fully removed, 'No' otherwise.\"\n    )\n    result = vlm_call(prompt, [orig_img, mod_img], temperature=0, max_tokens=16)\n    if 'yes' in result.lower():\n        return \"Blue box is absent in the modified slide.\", 1.0\n    return \"Blue box is not fully removed.\", 0.0\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "Content of blue box is removed",
+            "description": "Ensures all content that was inside the blue box (text/graphics) is no longer present on slide 12.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 12\n    orig_img = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not orig_img or not mod_img:\n        return \"Missing slide screenshot(s)\", 0.0\n    prompt = (\n        \"The BEFORE image shows a PowerPoint slide with a blue box on the right containing certain content. \"\n        \"Compare to the AFTER image. Is all the content that was inside the blue box (e.g., aside, Protocols that maintain state are complex!, past history (state) must be maintained, if server/client crashes, their views of “state” may be inconsistent, must be reconciled) completely absent from the modified slide? \"\n        \"Answer 'Yes' if all content is gone, 'No' otherwise.\"\n    )\n    result = vlm_call(prompt, [orig_img, mod_img], temperature=0, max_tokens=16)\n    if 'yes' in result.lower():\n        return \"All blue box content is removed.\", 1.0\n    return \"Some blue box content remains.\", 0.0\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "Required bullet point present with correct text",
+        "description": "Verifies that the bullet point 'Stateless protocols are simpler to implement' appears on slide 12.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import pptx\n    from pptx import Presentation\n    import re\n    slide_number = 12\n    expected_text = 'Stateless protocols are simpler to implement'\n    try:\n        prs = Presentation(modified_ppt_path)\n        slide = prs.slides[slide_number-1]\n        found = False\n        for shape in slide.shapes:\n            if not shape.has_text_frame:\n                continue\n            text = shape.text_frame.text.strip()\n            # Check for bullet and text\n            if expected_text.lower() in text.lower():\n                for paragraph in shape.text_frame.paragraphs:\n                    if expected_text.lower() in paragraph.text.strip().lower():\n                        # Check if it's a bullet (has bullet or numbering level > 0)\n                        if paragraph.level >= 0: # Any level is okay\n                            found = True\n                            break\n            if found:\n                break\n        if found:\n            return \"Bullet point with correct text is present.\", 1.0\n        return \"Required bullet point is missing or incorrect.\", 0.0\n    except Exception as e:\n        return f\"Error: {e}\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No other slide content changed",
+        "description": "Checks visually that only the intended changes (blue box removal and bullet addition) have occurred, with all other elements unchanged.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 12\n    orig_img = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not orig_img or not mod_img:\n        return \"Missing slide screenshot(s)\", 0.0\n    prompt = (\n        \"You are given BEFORE and AFTER images of a PowerPoint slide. \"\n        \"Other than the following changes: the removal of a blue box on the right and its contents, \"\n        \"and the addition of the bullet point 'Stateless protocols are simpler to implement', are there any other differences between the slides? \"\n        \"Answer 'No' if there are no other differences, 'Yes' if there are other changes.\"\n    )\n    result = vlm_call(prompt, [orig_img, mod_img], temperature=0, max_tokens=16)\n    if 'no' in result.lower():\n        return \"No unintended changes detected.\", 1.0\n    return \"Unintended changes found on slide 12.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No other slides changed",
+        "description": "Checks that no slides except slide 12 were altered in any way.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check PowerPointDiff for any changes to slides other than 12\n    changed_slides = set()\n    for pair in ppt_diff.modified_slides:\n        before, after = pair\n        if before.slide_number != 12:\n            changed_slides.add(before.slide_number)\n    changed_slides.update(s.slide_number for s in ppt_diff.added_slides if s.slide_number != 12)\n    changed_slides.update(s.slide_number for s in ppt_diff.removed_slides if s.slide_number != 12)\n    if len(changed_slides) == 0:\n        return \"No other slides changed.\", 1.0\n    return f\"Slides changed: {sorted(list(changed_slides))}\", 0.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Slide 12: Remove the blue box on the right side along with its content and replace it with a simple bullet point 'Stateless protocols are simpler to implement'"
+  }
+}

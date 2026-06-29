@@ -1,0 +1,22 @@
+# GPT-5.x (GA `computer` tool) Configuration
+# Works for both gpt-5.5 and gpt-5.4 via the GA Responses API `computer` tool.
+
+agent_type: "gpt5x"
+model_name: "gpt-5.5"               # set to "gpt-5.4" to switch models
+endpoint: "azure"                   # "azure" or "openai"
+
+# Azure OpenAI settings (used when endpoint="azure"). Auth is via
+# DefaultAzureCredential (managed identity / az login).
+base_url: "${GPT5X_BASE_URL}"
+api_version: "2025-04-01-preview"
+
+# OpenAI settings (used when endpoint="openai")
+api_key: "${GPT5X_API_KEY}"
+
+# Display configuration (drives sandbox resolution; not sent to the model)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+reasoning_effort: "medium"  # low, medium, high

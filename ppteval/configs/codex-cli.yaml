@@ -1,0 +1,30 @@
+# Codex CLI agent configuration
+#
+# Requires the `codex` binary on PATH. Verify with: `codex --version`.
+# Authenticate with `codex login` and confirm `codex exec --help` works.
+
+agent_type: "cli"
+cli_name: "codex-cli"
+binary: "codex"
+
+model: "gpt-5.5"
+max_turns: null
+timeout_s: 1800
+
+
+extra_args: []
+env: {}
+
+# Codex CLI does not emit a dollar cost; we estimate from token usage.
+# Override per-model prices in USD per 1M tokens.
+prices:
+  gpt-5.5:
+    input: 1.25
+    output: 10.0
+  gpt-5.4:
+    input: 1.25
+    output: 10.0
+
+display_size:
+  width: 1024
+  height: 768

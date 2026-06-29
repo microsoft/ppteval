@@ -1,0 +1,611 @@
+{
+  "file": "PowerPoint/Accounting Equation.pptx",
+  "num_tasks": 55,
+  "tasks": [
+    {
+      "task_id": "Accounting Equation-001",
+      "goal": "Change the title color of 'Accounting Equation' from blue to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-002",
+      "goal": "Change the font size of the word 'DEBITS' to 16pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-003",
+      "goal": "Add a new bullet point 'Capital' after 'Expenses'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-004",
+      "goal": "Replace the word 'Liability' with 'Debt' throughout the slide content",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-005",
+      "goal": "Change all the numerical values in purple color (25,000+ 50,000 + 10,000 + 15,000) to bold formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-006",
+      "goal": "Add a text box with the content 'Key Principle' above the main title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-007",
+      "goal": "Create a table with 2 columns (Debits and Credits) and move the corresponding items from the bullet points into the table",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-008",
+      "goal": "Change the slide layout to 'Two Content' and split the Assets and Liabilities sections into two separate content areas",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-009",
+      "goal": "Change the background color of the blue text box to green while keeping the text readable",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-010",
+      "goal": "Underline the word 'Asset' in the last sentence",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-011",
+      "goal": "Change the bullet point style from regular bullets to numbered list (1, 2, 3, 4)",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-012",
+      "goal": "Add a footer to the slide containing 'Fundamental Accounting Concepts' and center-align it",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-013",
+      "goal": "Make the quoted text 'Every Debit has a Credit' italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-014",
+      "goal": "Add a new slide after this one with the title 'Summary of Accounting Terms'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-015",
+      "goal": "Insert a SmartArt graphic to represent the accounting equation (Assets = Capital + Liabilities) using a balance or equation format",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-016",
+      "goal": "Change the color of the word 'Assets' from purple to orange",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-017",
+      "goal": "Change the color of the word 'Liabilities' from green to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-018",
+      "goal": "Add a new bullet point at the end: 'The accounting equation must always balance.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-019",
+      "goal": "Insert a text box with the equation 'A = C + L' positioned below the main content",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-020",
+      "goal": "Change the font of the title 'Accounting Equation' to Arial",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-021",
+      "goal": "Make the word 'Capital' bold in the final equation",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-022",
+      "goal": "Create a shape (rectangle) around the final accounting equation 'Assets = Capital + Liabilities'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-023",
+      "goal": "Increase the line spacing of the main paragraph text to 1.5",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-024",
+      "goal": "Change 'Mr. A' to 'Mr. Smith' throughout the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-025",
+      "goal": "Add slide numbering at the bottom right corner",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-026",
+      "goal": "Change the value 'Rs. 100,000/-' for Cash in DEBITS to 'Rs. 120,000/-'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-027",
+      "goal": "Align all the rupee amounts to the right",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-028",
+      "goal": "Change 'Rs. 50,000/-' for Building to 'Rs. 60,000/-'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-029",
+      "goal": "Convert the DEBITS and CREDITS sections into a two-column table format",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-030",
+      "goal": "Make all currency amounts (Rs. values) bold",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-031",
+      "goal": "Change the color of the word 'CREDITS' from green to purple",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-032",
+      "goal": "Add a third section called 'BALANCE' below CREDITS showing the equation balances",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-033",
+      "goal": "Change the font size of all Rs. values to 14pt",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-034",
+      "goal": "Replace 'Mr. A' with 'Mr. Johnson' in both CREDITS and the equation",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-035",
+      "goal": "Add borders around the DEBITS and CREDITS sections",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-036",
+      "goal": "Change the equation format 'Cash + Building+ Furniture+ Vehicle' to use proper spacing: 'Cash + Building + Furniture + Vehicle'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-037",
+      "goal": "Change the final total '100,000' to bold formatting",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-038",
+      "goal": "Create a visual calculation breakdown using text boxes showing each step of the addition (25,000 + 50,000 = 75,000, etc.)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-039",
+      "goal": "Change all instances of 'Rupees' to 'Rs.' for consistency",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-040",
+      "goal": "Put quotes around the word 'Asset' in the last sentence",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-041",
+      "goal": "Change the color of the mathematical operators (+ and =) to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-042",
+      "goal": "Insert a calculator icon next to the equation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-043",
+      "goal": "Change '25,000/-' to '25,000' (remove the /- suffix)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-044",
+      "goal": "Add a subtitle 'Practical Example' below the main title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-045",
+      "goal": "Create a flowchart showing the logic: Left Hand Side → Right Hand Side → Balance",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-046",
+      "goal": "Make the text 'All Debits are always equal to All Credits' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-047",
+      "goal": "Change the bullet points to use arrow symbols instead of regular bullets",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-048",
+      "goal": "Change the heading 'ASSETS' from green to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-049",
+      "goal": "Swap the positions of the INCOME and EXPENSES sections",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-050",
+      "goal": "Add a new slide after this one titled 'Quiz Questions' with 3 sample questions",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-051",
+      "goal": "Add quotation marks around 'Every Debit has a Credit'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-052",
+      "goal": "Add a new bullet point under LIABILITIES: 'Bank loans and mortgages'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-053",
+      "goal": "Insert a SmartArt hierarchy diagram showing the classification of accounts",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-054",
+      "goal": "Change the background color of the EXPENSES section to light yellow",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Accounting Equation-055",
+      "goal": "Add a new slide at the beginning with a table of contents listing all 7 topics",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Accounting Equation.pptx",
+      "misc": {}
+    }
+  ]
+}

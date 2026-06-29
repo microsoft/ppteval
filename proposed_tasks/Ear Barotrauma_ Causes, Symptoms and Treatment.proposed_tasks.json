@@ -1,0 +1,446 @@
+{
+  "file": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+  "num_tasks": 40,
+  "tasks": [
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-001",
+      "goal": "Change the title from 'Ear Barotrauma: Causes, Symptoms and Treatment' to 'Understanding Ear Barotrauma'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-002",
+      "goal": "Add your name as the author below the title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-003",
+      "goal": "Change the font color of the heading 'What is Ear Barotrauma' to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-004",
+      "goal": "Add a text box with the caption 'Normal vs Blocked Eustachian Tube' below the anatomical diagrams",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-005",
+      "goal": "Increase the font size of the main paragraph text by 2 points",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-006",
+      "goal": "Change the background color of the slide from orange to a professional blue gradient",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-007",
+      "goal": "Replace the existing anatomical diagram with a new image of the ear anatomy (user would need to insert from file)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-008",
+      "goal": "Add bullet points to format the causes text into a bulleted list",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-009",
+      "goal": "Make the heading 'Symptoms of Ear Barotrauma:' bold and increase font size to 28pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-010",
+      "goal": "Convert the numbered list of symptoms into a bulleted list format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-011",
+      "goal": "Change the hyperlink color for 'Dizziness & feelings of unbalance' from blue to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-012",
+      "goal": "Add a new text box with the heading 'Prevention Tips' and insert 3 bullet points with ear care recommendations",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:13"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-013",
+      "goal": "Check the checkboxes for both 'First aid' and 'Emergency Treatment'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-014",
+      "goal": "Remove the phone number '1800-121-4408(Toll Free)' from the contact information",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-015",
+      "goal": "Remove the source citation 'Source - Hearing Solutions' from the bottom of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-016",
+      "goal": "Add a new slide after slide 2 with the title 'Who is at Risk?' and add placeholder text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-017",
+      "goal": "Create a SmartArt graphic to visually represent the causes of ear barotrauma instead of using plain text",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-018",
+      "goal": "Add italic formatting to the text about babies and young kids crying on airplanes",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-019",
+      "goal": "Add a footer to the slide with the text 'Medical Education Series - Slide 13'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:13"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-020",
+      "goal": "Change the word 'consult' hyperlink text to 'contact us'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-021",
+      "goal": "Insert a medical icon or logo related to ear/hearing in the top-right corner of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-022",
+      "goal": "Add a third checkbox option with the text 'Follow-up care: Schedule appointment with ENT specialist'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-023",
+      "goal": "Change the font style of 'Equal Air Pressure' and 'Unequal Air Pressure' labels to Arial Black",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-024",
+      "goal": "Replace the ear anatomy diagram with a simplified infographic showing the ear parts",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-025",
+      "goal": "Add a call-out text box highlighting the key phrase 'tube is known as eustachian tube'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-026",
+      "goal": "Highlight the text 'Inner, Middle and External Ear' by applying yellow highlighting",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-027",
+      "goal": "Change the bullet points from black circles to checkmarks for the list under 'Here some points of Ear Barotrauma'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-028",
+      "goal": "Make the hyperlink text 'tinnitus' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-029",
+      "goal": "Resize the ear anatomy illustration on the right side to be 50% smaller",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-030",
+      "goal": "Add a text box below the ear diagram with the caption 'Cross-section view of the human ear'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-031",
+      "goal": "Change the star symbols (★) to numbered list format (1, 2, 3, etc.)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-032",
+      "goal": "Uncheck the Surgery checkbox and add a strikethrough effect to the word 'Surgery'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-033",
+      "goal": "Change the font color of item 5 'Hearing loss' to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-034",
+      "goal": "Create a table to organize the treatment options instead of using bullet points",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-035",
+      "goal": "Add a border around the ear illustration on the right side",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-036",
+      "goal": "Delete the entire slide (if it's identical to slide 14)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-037",
+      "goal": "Add slide transition effect 'Fade' when moving from slide 1 to slide 2",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-038",
+      "goal": "Group the bullet point text and the ear anatomy illustration together as one object",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-039",
+      "goal": "Increase the line spacing of the Surgery paragraph text to 1.5",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Ear Barotrauma_ Causes, Symptoms and Treatment-040",
+      "goal": "Add a numbered list format to organize the three types of barotrauma (Inner, Middle, External)",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Ear Barotrauma_ Causes, Symptoms and Treatment.pptx",
+      "misc": {}
+    }
+  ]
+}

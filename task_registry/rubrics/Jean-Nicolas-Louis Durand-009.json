@@ -1,0 +1,65 @@
+{
+  "root": {
+    "name": "Change all bullet points on slide 5 to numbered list format",
+    "description": "Evaluates whether the agent correctly converted all bulleted lists on slide 5 to numbered lists, made no extraneous changes, and preserved slide content integrity.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "All bulleted lists on slide 5 are converted to numbered lists",
+        "description": "Checks if every bulleted list on slide 5 is now a numbered list.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 5\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (f\"Slide {slide_number} screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"You are shown the before and after images of a PowerPoint slide. \"\n        \"Are all bullet points on this slide converted to a numbered list format in the after slide? \"\n        \"Start the answer with YES or NO. If NO, explain what you see.\"\n    )\n    result = vlm_call(prompt, images=[before, after], temperature=0.2, max_tokens=10)\n    if 'yes' in result.lower():\n        return (f\"All bullet points on slide {slide_number} are converted to a numbered list format.\", 1.0)\n    else:\n        return (f\"Not all bullet points converted to numbered list: {result}\", 0.0)"
+        }
+      },
+      {
+        "name": "No extraneous changes made to other slides",
+        "description": "Checks that no unintended modifications were made to slides other than slide 5.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    changed_slides = set()\n    changed_slides.update(s.slide_number for s in ppt_diff.added_slides)\n    changed_slides.update(s.slide_number for s in ppt_diff.removed_slides)\n    changed_slides.update(s1.slide_number for (s1, s2) in ppt_diff.modified_slides)\n    changed_slides.discard(5)\n    if changed_slides:\n        return f\"Extraneous changes detected on slides: {sorted(list(changed_slides))}\", 0.0\n    return \"No extraneous changes to other slides.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No extraneous formatting changes on slide 5",
+        "description": "Checks that only the list formatting was changed on slide 5, with no unintended formatting changes (e.g., font, color, alignment, etc.).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[4]\n    mod_slide = mod_prs.slides[4]\n    orig_shapes = [s for s in orig_slide.shapes if s.has_text_frame]\n    mod_shapes = [s for s in mod_slide.shapes if s.has_text_frame]\n    # Compare number of shapes\n    if len(orig_shapes) != len(mod_shapes):\n        return \"Number of text shapes changed on slide 5.\", 0.0\n    # Compare formatting of each paragraph\n    diffs = 0\n    total = 0\n    for orig_shape, mod_shape in zip(orig_shapes, mod_shapes):\n        for op, mp in zip(orig_shape.text_frame.paragraphs, mod_shape.text_frame.paragraphs):\n            total += 1\n            # Check font size, color, bold, italic, alignment\n            if op.font and mp.font:\n                if op.font.size != mp.font.size or op.font.bold != mp.font.bold or op.font.italic != mp.font.italic or op.alignment != mp.alignment:\n                    diffs += 1\n    score = 1.0 if total == 0 else 1.0 - (diffs / total)\n    if diffs == 0:\n        return \"No extraneous formatting changes detected on slide 5.\", score\n    else:\n        return f\"{diffs} of {total} paragraphs had extraneous formatting changes.\", score\n"
+        }
+      },
+      {
+        "name": "Original text content on slide 5 is preserved (except for list formatting)",
+        "description": "Checks that the text content in slide 5 remains unchanged except for bullet-to-number list formatting.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[4]\n    mod_slide = mod_prs.slides[4]\n    orig_texts = []\n    mod_texts = []\n    for shape in orig_slide.shapes:\n        if shape.has_text_frame:\n            orig_texts.append(\"\\n\".join([p.text.strip() for p in shape.text_frame.paragraphs]))\n    for shape in mod_slide.shapes:\n        if shape.has_text_frame:\n            mod_texts.append(\"\\n\".join([p.text.strip() for p in shape.text_frame.paragraphs]))\n    # Remove numbering/bulleting for comparison\n    import re\n    def clean_list_item(text):\n        return re.sub(r\"^(\\d+[.) ]|[•\\-–—·*])\", \"\", text).strip()\n    orig_clean = [\"\\n\".join([clean_list_item(line) for line in t.split(\"\\n\")]) for t in orig_texts]\n    mod_clean = [\"\\n\".join([clean_list_item(line) for line in t.split(\"\\n\")]) for t in mod_texts]\n    unchanged = sum(1 for a, b in zip(orig_clean, mod_clean) if a == b)\n    total = max(len(orig_clean), len(mod_clean))\n    if unchanged == total:\n        return \"Text content preserved except list formatting.\", 1.0\n    else:\n        score = unchanged / total if total > 0 else 0.0\n        return f\"{unchanged} of {total} text blocks unchanged except formatting.\", score\n"
+        }
+      },
+      {
+        "name": "No extraneous changes to slide transitions or animations",
+        "description": "Checks that transitions and animations were not added, removed, or modified anywhere in the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        return \"Animations were changed.\", 0.0\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        return \"Transitions were changed.\", 0.0\n    return \"No extraneous changes to transitions or animations.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change all bullet points on slide 5 to numbered list format.",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

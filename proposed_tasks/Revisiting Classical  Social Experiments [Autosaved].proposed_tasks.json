@@ -1,0 +1,446 @@
+{
+  "file": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+  "num_tasks": 40,
+  "tasks": [
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-001",
+      "goal": "Change the title text from 'REVISITING CLASSICAL SOCIAL EXPERIMENTS' to 'EXPLORING CLASSICAL SOCIAL EXPERIMENTS'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-002",
+      "goal": "Change the author name from 'SYED TABRAIZ BUKHARI' to 'JANE SMITH'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-003",
+      "goal": "Add a fourth circle with the label 'Ethical Considerations' to the existing three circles on the Ingredients slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-004",
+      "goal": "Change the color of the 'Social Facilitation' circle from pink to green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-005",
+      "goal": "Add a sixth experiment circle labeled 'Stanford Prison Experiment' with appropriate researcher name",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-006",
+      "goal": "Change the slide title from 'NORMAN TRIPLETT EXPERIMENT OF SOCIAL FACILITATION' to 'THE TRIPLETT STUDY ON SOCIAL FACILITATION'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-007",
+      "goal": "Convert the bullet point list to a numbered list with proper formatting",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-008",
+      "goal": "Add a subtitle below the main title that says 'A Comprehensive Review'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-009",
+      "goal": "Change the text 'Ingredients of a Classical Study' to 'Elements of a Classical Study'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-010",
+      "goal": "Rearrange the five experiment circles into two rows instead of one row",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-011",
+      "goal": "Add a new bullet point at the end: 'Published findings in 1898'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-012",
+      "goal": "Replace the text descriptions under each circle with more detailed explanations (2-3 lines each)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-013",
+      "goal": "Change the layout from three circles horizontally to a triangle arrangement",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-014",
+      "goal": "Change the background color from purple to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-015",
+      "goal": "Add a subtitle under the main title: 'The Foundation of Social Psychology'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-016",
+      "goal": "Create a table below the circles listing each experiment with columns for Researcher, Year, and Key Finding",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-017",
+      "goal": "Change the font size of the bullet points to be larger",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-018",
+      "goal": "Add icons or symbols inside each of the three circles",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-019",
+      "goal": "Add a footer with the current date and page numbers to all slides",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-020",
+      "goal": "Center align the title text",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-021",
+      "goal": "Add a slide transition effect of 'Fade' to this slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-022",
+      "goal": "Delete the 'Attitudes Vs Actions' circle and its associated text",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-023",
+      "goal": "Insert a new slide after this one with the title 'Milgram's Obedience Study'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-024",
+      "goal": "Add an entrance animation to the title text with 'Fly In' effect",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-025",
+      "goal": "Change the bullet point style from dots to squares",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-026",
+      "goal": "Group all five experiment circles together as a single object",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-027",
+      "goal": "Add a text box with 'These are the key elements' positioned below the circles",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-028",
+      "goal": "Make the author name bold and italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-029",
+      "goal": "Create a SmartArt diagram from the bullet points using a process flow",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-030",
+      "goal": "Add a border around the circular design element",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-031",
+      "goal": "Duplicate this slide to create slide 6",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-032",
+      "goal": "Insert an image placeholder in the bottom left corner",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-033",
+      "goal": "Create hyperlinks from each experiment name to corresponding Wikipedia pages",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-034",
+      "goal": "Change the text color of the title to white",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-035",
+      "goal": "Convert the slide to a two-column layout with bullet points in the left column",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-036",
+      "goal": "Add custom animation sequence where circles appear one by one with 0.5 second delays",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-037",
+      "goal": "Remove the roll number '20' from the author information",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-038",
+      "goal": "Add a progress bar or timeline graphic at the bottom of the slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-039",
+      "goal": "Create a master slide template that can be applied to other slides",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Revisiting Classical  Social Experiments [Autosaved]-040",
+      "goal": "Add a period at the end of each bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx",
+      "misc": {}
+    }
+  ]
+}

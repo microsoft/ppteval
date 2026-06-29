@@ -1,0 +1,39 @@
+{
+  "root": {
+    "name": "apply_fly_in_animation_to_references_text",
+    "description": "Evaluates whether the text on the references slide appears with a 'Fly In' animation from the left.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "references_text_animated_with_fly_in_from_left",
+        "description": "Checks that all text on the references slide has 'Fly In' animation from the left.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Identify the references slide id\n    slide_ids = set()\n    for slide in ppt_diff.added_slides + [s2 for _, s2 in ppt_diff.modified_slides]:\n        if slide.title and \"references\" in slide.title.lower():\n            slide_ids.add(slide.slide_id)\n    if not slide_ids:\n        from pptx import Presentation\n\n        try:\n            pres = Presentation(modified_ppt_path)\n            for i, slide in enumerate(pres.slides):\n                for sh in slide.shapes:\n                    if sh.has_text_frame and \"references\" in sh.text.lower():\n                        slide_ids.add(slide.slide_id)\n        except Exception:\n            pass\n    if not slide_ids:\n        return \"No references slide id found. Cannot check animations.\", 0.0\n    # Find all text elements on references slide(s)\n    from pptx import Presentation\n\n    pres = Presentation(modified_ppt_path)\n    text_elements = []\n    references_slide_numbers = []\n\n    for i, slide in enumerate(pres.slides):\n        if hasattr(slide, \"slide_id\") and str(slide.slide_id) in slide_ids:\n            references_slide_numbers.append(i + 1)\n            for sh in slide.shapes:\n                if sh.has_text_frame and sh.text.strip():\n                    text_elements.append(sh.text.strip().replace(\"\\n\", ''))\n    # If no text found, fail\n    if not text_elements:\n        return \"No text found on references slide to animate.\", 0.0\n    # For each text element, check if an appropriate animation was applied\n    # We'll match by slide_id and try to match text (if available)\n    animated_texts = []\n    for anim in ppt_diff.added_animations + [\n        a2 for _, a2 in ppt_diff.modified_animations\n    ]:\n        if anim.slide_id in slide_ids:\n            if (\n                anim.trigger == \"click\"\n                and anim.effect_type.lower() == \"fly_in_from_left\"\n            ):\n                if anim.element_text is not None:\n                    animated_texts.append(anim.element_text.strip())\n    # Score: proportion of reference slide text that was animated correctly\n    text_elements = set(text_elements)\n    matched = set(animated_texts)\n\n    # Ignore the page number.\n    unmatched = set(text_elements) - matched - set({'34'})\n\n    if not matched:\n        return f\"No references text was animated with Fly In from left.\", 0.0\n    if not unmatched:\n        return \"All references text correctly animated with Fly In from left.\", 1.0\n    partial = len(matched) / max(1, len(text_elements))\n    return (\n        f\"Some references text not animated with Fly In from left: {unmatched}\",\n        partial,\n    )\n\n"
+        },
+        "score": 1.0,
+        "reason": "All references text correctly animated with Fly In from left."
+      },
+      {
+        "name": "no_unnecessary_animations_added",
+        "description": "Checks that no other slides or elements had new animations added.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Identify references slide ids\n    slide_ids = set()\n    for slide in ppt_diff.added_slides + [s2 for _, s2 in ppt_diff.modified_slides]:\n        if slide.title and 'references' in slide.title.lower():\n            slide_ids.add(slide.slide_id)\n    # All added animations should be only on references slide\n    extraneous = []\n    for anim in ppt_diff.added_animations:\n        if anim.slide_id not in slide_ids:\n            extraneous.append(anim)\n    if not extraneous:\n        return \"No unnecessary animations added to other slides.\", 1.0\n    return f\"Found {len(extraneous)} unnecessary animations added.\", 0.0\n"
+        },
+        "score": 1.0,
+        "reason": "No unnecessary animations added to other slides."
+      }
+    ],
+    "score": 1.0,
+    "reason": "The criterion received a perfect score because the references slide text was successfully animated with the required Fly In effect from the left direction, which was the critical requirement. Additionally, the implementation was done cleanly without adding any unwanted animations to other slides or elements, demonstrating precise execution of the task."
+  },
+  "metadata": {
+    "task": "Apply animation effects: make the text content appear with 'Fly In' animation from the left on the references slide"
+  }
+}

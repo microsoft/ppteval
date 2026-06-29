@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "Change presentation title font size to 48pt",
+    "description": "Evaluates whether the presentation title font size was successfully changed to 48pt without introducing extraneous changes",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title font size changed to 48pt",
+        "description": "Verifies that the presentation title font size has been changed to exactly 48pt",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Check ONLY the overall presentation title (the title placeholder on the first slide\n    that has one). Passes iff its effective font size is 48pt across all non-empty runs.\n\n    Returns:\n      (message, score) where score is 1.0 on success, else 0.0\n    \"\"\"\n    from pptx import Presentation\n    from pptx.enum.shapes import PP_PLACEHOLDER\n\n    TARGET_PT = 48.0\n    TOL = 0.5  # tolerate tiny rounding diffs\n\n    def approx_eq(x, y, tol=TOL):\n        try:\n            return abs(float(x) - float(y)) <= tol\n        except Exception:\n            return False\n\n    def get_title_shape(slide):\n        # Prefer the library helper\n        t = getattr(slide.shapes, \"title\", None)\n        if t is not None:\n            return t\n        # Fallback: find a placeholder of type TITLE or CENTER_TITLE\n        for sh in slide.shapes:\n            try:\n                if getattr(sh, \"is_placeholder\", False) and sh.is_placeholder:\n                    ph_type = sh.placeholder_format.type\n                    if ph_type in (PP_PLACEHOLDER.TITLE, PP_PLACEHOLDER.CENTER_TITLE):\n                        return sh\n            except Exception:\n                continue\n        return None\n\n    def gather_title_sizes_pt(title_shape):\n        \"\"\"\n        Collect effective point sizes for non-empty runs in the title.\n        Prefer run.font.size; if None, fall back to paragraph.font.size.\n        Returns a list of floats; may be empty if all sizes are inherited from master/layout.\n        \"\"\"\n        sizes = []\n        tf = getattr(title_shape, \"text_frame\", None)\n        if not tf:\n            return sizes\n\n        for para in tf.paragraphs:\n            # paragraph-level fallback\n            psize = getattr(getattr(para, \"font\", None), \"size\", None)\n            p_pt = float(psize.pt) if psize is not None else None\n\n            for run in para.runs:\n                txt = (run.text or \"\").strip()\n                if not txt:\n                    continue\n                rsize = getattr(getattr(run, \"font\", None), \"size\", None)\n                if rsize is not None:\n                    try:\n                        sizes.append(float(rsize.pt))\n                        continue\n                    except Exception:\n                        pass\n                if p_pt is not None:\n                    sizes.append(p_pt)\n        return sizes\n\n    # ---- main logic ----\n    try:\n        pres = Presentation(modified_ppt_path)\n    except Exception as e:\n        return f\"Failed to open presentation: {e}\", 0.0\n\n    title_shape = None\n    slide_no = None\n    for idx, slide in enumerate(pres.slides, start=1):\n        t = get_title_shape(slide)\n        if t is not None:\n            title_shape = t\n            slide_no = idx\n            break\n\n    if title_shape is None:\n        return \"No overall title found (no slide has a title placeholder).\", 0.0\n\n    sizes = gather_title_sizes_pt(title_shape)\n    if not sizes:\n        # Nothing explicitly set at run/paragraph level\n        return (f\"Overall title on slide {slide_no} has no explicit font size \"\n                f\"(inherited from layout/master) — cannot verify 48pt.\", 0.0)\n\n    # Normalize and dedupe with a little rounding to reduce noise\n    uniq = sorted({round(s, 1) for s in sizes})\n\n    # If multiple sizes used in the title, require that all are ~48pt\n    if all(approx_eq(s, TARGET_PT) for s in uniq):\n        return f\"Overall title on slide {slide_no} is 48pt.\", 1.0\n\n    # Otherwise, fail and report what we saw\n    if len(uniq) == 1:\n        return f\"Overall title on slide {slide_no} is {uniq[0]}pt, not 48pt.\", 0.0\n    else:\n        return (f\"Overall title on slide {slide_no} has mixed sizes {uniq}pt (expected 48pt).\",\n                0.0)\n"
+        }
+      },
+      {
+        "name": "No extraneous changes made",
+        "description": "Ensures that only the title font size was changed and no other modifications were made to the presentation",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No unintended slide modifications",
+            "description": "Verifies that no slides were added, removed, or had their content modified beyond the title font size change",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for slide additions/removals\n    if ppt_diff.added_slides:\n        return f\"Unexpected slides were added: {len(ppt_diff.added_slides)} slides\", 0.0\n    \n    if ppt_diff.removed_slides:\n        return f\"Unexpected slides were removed: {len(ppt_diff.removed_slides)} slides\", 0.0\n    \n    # Check for slide modifications (should be minimal - only title font changes)\n    if ppt_diff.modified_slides:\n        # This is expected since we're changing title font, but let's verify it's reasonable\n        modified_count = len(ppt_diff.modified_slides)\n        if modified_count > 10:  # Reasonable threshold\n            return f\"Too many slides were modified: {modified_count} slides\", 0.5\n        else:\n            return f\"Acceptable number of slide modifications: {modified_count} slides\", 1.0\n    \n    return \"No unexpected slide changes detected\", 1.0\n"
+            }
+          },
+          {
+            "name": "No animation or transition changes",
+            "description": "Verifies that no animations or transitions were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    issues = []\n    \n    if ppt_diff.added_animations:\n        issues.append(f\"{len(ppt_diff.added_animations)} animations were added\")\n    \n    if ppt_diff.removed_animations:\n        issues.append(f\"{len(ppt_diff.removed_animations)} animations were removed\")\n    \n    if ppt_diff.modified_animations:\n        issues.append(f\"{len(ppt_diff.modified_animations)} animations were modified\")\n    \n    if ppt_diff.added_transitions:\n        issues.append(f\"{len(ppt_diff.added_transitions)} transitions were added\")\n    \n    if ppt_diff.removed_transitions:\n        issues.append(f\"{len(ppt_diff.removed_transitions)} transitions were removed\")\n    \n    if ppt_diff.modified_transitions:\n        issues.append(f\"{len(ppt_diff.modified_transitions)} transitions were modified\")\n    \n    if issues:\n        return f\"Unexpected animation/transition changes: {'; '.join(issues)}\", 0.0\n    \n    return \"No unexpected animation or transition changes\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the presentation title font size to 48pt"
+  }
+}

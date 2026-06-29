@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Change numbered list to Roman numerals on slide 8",
+    "description": "Evaluates whether the agent successfully changed the numbered list on slide 8 to use Roman numerals (I, II, III, IV) without making unintended modifications",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Roman numeral list format implemented correctly",
+        "description": "Verifies that the numbered list on slide 8 has been changed to use Roman numerals in the correct format (I, II, III, IV)",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check that the list has now been changed to use Roman numerals\n    try:\n        orig_slide_8 = None\n        mod_slide_8 = None\n        \n        # Find slide 8 screenshots\n        for screenshot in original_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                orig_slide_8 = screenshot.image_path\n                break\n        \n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                mod_slide_8 = screenshot.image_path\n                break\n        \n        if not orig_slide_8 or not mod_slide_8:\n            raise ScreenshotsUnavailableError(\"Could not find slide 8 screenshots for comparison; flagging task for verification retry.\")\n        \n        prompt = \"\"\"Compare the first image (original) and the second image (modified) and evaluate whether the list has been changed to use Roman numerals.\n        Respond with either \"SUCCESS\" if the list has been changed to use Roman numerals, or \"FAILURE\" followed by a brief explanation of what you observe.\"\"\"\n        \n        response = vlm_call(prompt, [orig_slide_8, mod_slide_8], temperature=0.3)\n        \n        # Parse the score from the response\n        import re\n        score_match = re.search(r'(SUCCESS|FAILURE)', response)\n        if score_match:\n            score = float(score_match.group(1) == 'SUCCESS')\n            return f\"Roman numeral list format implemented correctly: {response}\", score\n        else:\n            return f\"Could not parse score from VLM response: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error comparing Roman numeral list format: {str(e)}\", 0"
+        },
+        "score": 0.0,
+        "reason": "Roman numeral list format implemented correctly: FAILURE - Both images appear to be identical, with the list still using Arabic numerals (1., 2., 3., 4.) instead of Roman numerals. No changes have been made to convert the numbering system."
+      },
+      {
+        "name": "List structure and content preserved",
+        "description": "Ensures that the list items' content and overall structure were preserved, only changing the numbering format",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    \n    try:\n        # Get original slide 8\n        orig_prs = Presentation(original_ppt_path)\n        orig_slide_8 = orig_prs.slides[7]\n        \n        # Get modified slide 8\n        mod_prs = Presentation(modified_ppt_path)\n        mod_slide_8 = mod_prs.slides[7]\n        \n        # Extract text content from both slides, removing numbering\n        def extract_list_content(slide):\n            all_text = []\n            for shape in slide.shapes:\n                if hasattr(shape, 'text'):\n                    text = shape.text.strip()\n                    if text:\n                        # Remove common numbering patterns (1., 2., I., II., etc.)\n                        cleaned = re.sub(r'^\\s*(\\d+\\.|[IVX]+\\.|[a-z]\\.|[A-Z]\\.)', '', text, flags=re.MULTILINE)\n                        cleaned = re.sub(r'^\\s*[\u2022\u00b7\u2023\u25aa\u25ab]', '', cleaned, flags=re.MULTILINE)  # Remove bullet points\n                        all_text.append(cleaned.strip())\n            return all_text\n        \n        orig_content = extract_list_content(orig_slide_8)\n        mod_content = extract_list_content(mod_slide_8)\n        \n        # Remove empty strings\n        orig_content = [c for c in orig_content if c]\n        mod_content = [c for c in mod_content if c]\n        \n        if not orig_content:\n            return \"No text content found in original slide 8\", 0.0\n            \n        if not mod_content:\n            return \"No text content found in modified slide 8\", 0.0\n        \n        # Check if content is substantially preserved\n        # Simple approach: check if most content words are preserved\n        orig_words = set(' '.join(orig_content).lower().split())\n        mod_words = set(' '.join(mod_content).lower().split())\n        \n        if len(orig_words) == 0:\n            return \"Original slide had no meaningful content\", 0.5\n        \n        overlap = len(orig_words.intersection(mod_words))\n        preservation_ratio = overlap / len(orig_words)\n        \n        if preservation_ratio >= 0.8:\n            return f\"List content well preserved ({preservation_ratio:.2f} word overlap)\", 1.0\n        elif preservation_ratio >= 0.6:\n            return f\"List content mostly preserved ({preservation_ratio:.2f} word overlap)\", 0.8\n        elif preservation_ratio >= 0.4:\n            return f\"Some list content preserved ({preservation_ratio:.2f} word overlap)\", 0.5\n        else:\n            return f\"List content poorly preserved ({preservation_ratio:.2f} word overlap)\", 0.2\n            \n    except Exception as e:\n        return f\"Error comparing list content: {str(e)}\", 0.0\n"
+        },
+        "score": 1.0,
+        "reason": "List content well preserved (1.00 word overlap)"
+      },
+      {
+        "name": "No unintended changes to other slides",
+        "description": "Verifies that no modifications were made to slides other than slide 8",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if there were any slide additions or removals\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        return f\"Unintended slide changes: {len(ppt_diff.added_slides)} added, {len(ppt_diff.removed_slides)} removed\", 0.0\n    \n    # Check for modifications to slides other than slide 8\n    unintended_modifications = []\n    \n    for old_slide, new_slide in ppt_diff.modified_slides:\n        if old_slide.slide_number != 8:  # Modifications to slides other than 8\n            unintended_modifications.append(old_slide.slide_number)\n    \n    # Check for animation/transition changes on other slides\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        # Extract slide number from slide_id if possible, or skip if can't determine\n        try:\n            slide_num = int(anim.slide_id.split('_')[-1]) if '_' in anim.slide_id else None\n            if slide_num and slide_num != 8:\n                unintended_modifications.append(f\"animation on slide {slide_num}\")\n        except:\n            pass  # Skip if can't parse slide number\n    \n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        try:\n            slide_num = int(trans.slide_id.split('_')[-1]) if '_' in trans.slide_id else None\n            if slide_num and slide_num != 8:\n                unintended_modifications.append(f\"transition on slide {slide_num}\")\n        except:\n            pass\n    \n    if unintended_modifications:\n        return f\"Found unintended changes to: {set(unintended_modifications)}\", 0.3\n    else:\n        return \"No unintended changes detected to other slides\", 1.0\n"
+        },
+        "score": 1.0,
+        "reason": "No unintended changes detected to other slides"
+      },
+      {
+        "name": "Visual formatting preserved",
+        "description": "Ensures that the visual formatting of the list (font, spacing, indentation) is maintained",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to compare visual formatting between original and modified slide 8\n    try:\n        orig_slide_8 = None\n        mod_slide_8 = None\n        \n        # Find slide 8 screenshots\n        for screenshot in original_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                orig_slide_8 = screenshot.image_path\n                break\n        \n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                mod_slide_8 = screenshot.image_path\n                break\n        \n        if not orig_slide_8 or not mod_slide_8:\n            raise ScreenshotsUnavailableError(\"Could not find slide 8 screenshots for comparison; flagging task for verification retry.\")\n        \n        prompt = \"\"\"Compare these two slides and evaluate whether the visual formatting of the list has been preserved. \n        Look specifically at:\n        1. Font size and style\n        2. Line spacing\n        3. Indentation and alignment\n        4. Overall layout and positioning\n        \n        The second image should show the same list but with Roman numerals instead of regular numbers.\n        Rate how well the visual formatting is preserved on a scale of 0-1, where:\n        - 1.0 = Formatting perfectly preserved, only numbering style changed\n        - 0.8 = Minor formatting differences\n        - 0.6 = Noticeable but acceptable formatting changes\n        - 0.4 = Significant formatting changes\n        - 0.2 = Major formatting issues\n        - 0.0 = Formatting completely broken or list missing\n        \n        Respond with just the score (0.0-1.0) followed by a brief explanation.\"\"\"\n        \n        response = vlm_call(prompt, [orig_slide_8, mod_slide_8], temperature=0.3)\n        \n        # Parse the score from the response\n        import re\n        score_match = re.search(r'(0\\.[0-9]|1\\.0|0|1)', response)\n        if score_match:\n            score = float(score_match.group(1))\n            return f\"Visual formatting assessment: {response}\", score\n        else:\n            return f\"Could not parse score from VLM response: {response}\", 0.5\n            \n    except Exception as e:\n        return f\"Error comparing visual formatting: {str(e)}\", 0.5"
+        },
+        "score": 0.0,
+        "reason": "Visual formatting assessment: 0.0\n\nThe two slides are identical - both use regular Arabic numerals (1, 2, 3, 4) instead of Roman numerals. There is no change in numbering style from the first to the second slide, which means the conversion to Roman numerals was not performed at all."
+      }
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a failing score because the most critical requirement - converting the numbered list to Roman numerals - was not accomplished at all. Both the before and after slides show identical Arabic numerals (1, 2, 3, 4) instead of the required Roman numerals (I, II, III, IV), indicating that no conversion was performed. While the list content was preserved and no unintended changes were made to other slides, the complete failure to execute the primary task of changing the numbering format resulted in the overall failure of this criterion."
+  },
+  "metadata": {
+    "task": "On slide 8, change the numbered list to use Roman numerals (I, II, III, IV)"
+  }
+}

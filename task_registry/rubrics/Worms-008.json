@@ -1,0 +1,89 @@
+{
+  "root": {
+    "name": "Change the background color of Slide 4 to light blue",
+    "description": "Evaluates whether the agent correctly changed the background color of Slide 4 to light blue, and that no undesired changes were made elsewhere.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct slide background color is set",
+        "description": "Checks that Slide 4's background color is set to a light blue shade.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.dml.color import RGBColor\n    import os\n    import numpy as np\n    \n    # Utility function to get the RGB tuple from a color object\n    def get_rgb_tuple(color):\n        if hasattr(color, 'rgb') and color.rgb is not None:\n            return tuple(color.rgb)\n        return None\n    \n    # Known RGB values for 'light blue' (could be expanded for tolerance)\n    LIGHT_BLUE_RGBS = [\n        (173, 216, 230),  # lightblue (web)\n        (191, 239, 255),  # pptx theme variant\n        (0, 176, 240),    # pptx 'light blue' accent\n        (180, 210, 255),  # another plausible variant\n    ]\n    COLOR_TOLERANCE = 20  # Accept color within this Euclidean RGB distance\n    \n    # Helper: check if rgb matches any known light blue\n    def is_light_blue(rgb):\n        if rgb is None:\n            return False\n        for ref_rgb in LIGHT_BLUE_RGBS:\n            if np.linalg.norm(np.array(rgb) - np.array(ref_rgb)) <= COLOR_TOLERANCE:\n                return True\n        return False\n    \n    # Load the modified presentation\n    if not os.path.exists(modified_ppt_path):\n        return (\"Modified PPT not found.\", 0.0)\n    prs = Presentation(modified_ppt_path)\n    slide = None\n    for s in prs.slides:\n        if hasattr(s, 'slide_number') and s.slide_number == 4:\n            slide = s\n            break\n    if slide is None:\n        # Fallback: 0-based index\n        if len(prs.slides) >= 4:\n            slide = prs.slides[3]\n        else:\n            return (\"Slide 4 does not exist in the modified presentation.\", 0.0)\n    # Check background color\n    bg = slide.background\n    fill = bg.fill\n    if not fill or fill.type is None:\n        return (\"Slide 4 background has no fill.\", 0.0)\n    \n    rgb = None\n    if fill.type == 1:  # solid\n        rgb = get_rgb_tuple(fill.fore_color)\n    elif fill.type == 3:  # pattern\n        rgb = get_rgb_tuple(fill.fore_color)\n    # else: could be gradient/picture/other, not a solid color\n    if rgb is None:\n        return (\"Slide 4 background color cannot be determined; not a solid (RGB) color.\", 0.0)\n    if is_light_blue(rgb):\n        return (f\"Slide 4 background color is light blue (RGB: {rgb}).\", 1.0)\n    else:\n        return (f\"Slide 4 background color is not light blue (RGB: {rgb}).\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No undesired changes to other slides' backgrounds",
+        "description": "Checks that no backgrounds of slides other than Slide 4 were changed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff and python-pptx to compare backgrounds of all slides except slide 4\n    from pptx import Presentation\n    import os\n    \n    if not os.path.exists(original_ppt_path) or not os.path.exists(modified_ppt_path):\n        return (\"Presentation file(s) not found.\", 0.0)\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    num_slides = min(len(orig.slides), len(mod.slides))\n    undesired_changes = []\n    for i in range(num_slides):\n        if i == 3:  # Slide 4 (0-based)\n            continue\n        o_bg = orig.slides[i].background\n        m_bg = mod.slides[i].background\n        o_fill = o_bg.fill\n        m_fill = m_bg.fill\n        # Compare fill types and RGB values (if solid)\n        if o_fill.type != m_fill.type:\n            undesired_changes.append(i+1)\n            continue\n        if o_fill.type == 1 and m_fill.type == 1:\n            o_rgb = getattr(o_fill.fore_color, 'rgb', None)\n            m_rgb = getattr(m_fill.fore_color, 'rgb', None)\n            if o_rgb != m_rgb:\n                undesired_changes.append(i+1)\n    if undesired_changes:\n        return (f\"Backgrounds of slides {undesired_changes} were changed.\", 0.0)\n    return (\"No undesired background changes detected on other slides.\", 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous modifications to presentation",
+        "description": "Checks that changes are limited to background color of Slide 4 and that no other content or metadata is modified.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No slides added or removed",
+            "description": "Checks that no slides were added to or removed from the presentation.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        return (\"Slides were added or removed.\", 0.0)\n    return (\"No slides were added or removed.\", 1.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No content changes on any slide",
+            "description": "Checks that there were no changes to text, images, shapes, or other content on any slide except for the background color of Slide 4.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import os\n    \n    if not os.path.exists(original_ppt_path) or not os.path.exists(modified_ppt_path):\n        return (\"Presentation file(s) not found.\", 0.0)\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    num_slides = min(len(orig.slides), len(mod.slides))\n    # Only allow background color change on slide 4\n    for i in range(num_slides):\n        if i == 3:  # Slide 4 is allowed to change background\n            # Check other content: text, shapes, images\n            o_slide = orig.slides[i]\n            m_slide = mod.slides[i]\n            # Compare shapes count\n            if len(o_slide.shapes) != len(m_slide.shapes):\n                return (\"Shapes were added or removed on Slide 4.\", 0.0)\n            # Compare text in shapes\n            for o_shape, m_shape in zip(o_slide.shapes, m_slide.shapes):\n                if hasattr(o_shape, 'text') and hasattr(m_shape, 'text'):\n                    if o_shape.text != m_shape.text:\n                        return (\"Text was changed on Slide 4 (besides background).\", 0.0)\n            # Could add more types as needed\n            continue\n        # All other slides: content must be identical\n        o_slide = orig.slides[i]\n        m_slide = mod.slides[i]\n        if len(o_slide.shapes) != len(m_slide.shapes):\n            return (f\"Shapes changed on slide {i+1}.\", 0.0)\n        for o_shape, m_shape in zip(o_slide.shapes, m_slide.shapes):\n            if hasattr(o_shape, 'text') and hasattr(m_shape, 'text'):\n                if o_shape.text != m_shape.text:\n                    return (f\"Text changed on slide {i+1}.\", 0.0)\n    return (\"No content changes on any slide except background color on Slide 4.\", 1.0)\n"
+            },
+            "score": 1.0
+          },
+          {
+            "name": "No animations or transitions modified",
+            "description": "Checks that no animations or transitions were added, removed, or modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        return (\"Animations were added, removed, or modified.\", 0.0)\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        return (\"Transitions were added, removed, or modified.\", 0.0)\n    return (\"No animations or transitions were modified.\", 1.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous visual changes to Slide 4",
+        "description": "Checks that, apart from the background color, Slide 4's visual appearance (content, layout, etc.) remains unchanged.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to visually compare Slide 4 except for background color\n    # Compare original and modified screenshots for Slide 4\n    orig_img = None\n    mod_img = None\n    for s in original_ppt_screenshots:\n        if s.slide_number == 4:\n            orig_img = s.image_path\n            break\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 4:\n            mod_img = s.image_path\n            break\n    if not orig_img or not mod_img:\n        return (\"Slide 4 screenshot missing in original or modified.\", 0.0)\n    prompt = (\n        \"Compare these two images of the same PowerPoint slide. Ignore any difference in background color. \"\n        \"Are there *any* other visible changes to the slide's content, layout, or appearance (such as text, images, shapes, or formatting)? \"\n        \"If there are no other visible changes except background color, answer YES. Otherwise, answer NO and briefly describe the differences.\"\n    )\n    vlm_resp = vlm_call(prompt, [orig_img, mod_img], temperature=0.0, max_tokens=128).strip().lower()\n    if vlm_resp.startswith('yes'):\n        return (\"No extraneous visual changes to Slide 4 besides background color.\", 1.0)\n    else:\n        return (f\"Visual difference(s) detected on Slide 4 besides background color: {vlm_resp}\", 0.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Change the background color of Slide 4 to light blue"
+  }
+}

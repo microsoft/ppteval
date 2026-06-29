@@ -1,0 +1,151 @@
+{
+  "root": {
+    "name": "add_agenda_slide_with_bullet_list",
+    "description": "Evaluates if a new 'Agenda' slide is correctly added with specified bullet points between slides 1 and 2.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "agenda_slide_added_correctly",
+        "description": "Checks if a slide titled 'Agenda' is added at the correct position (between slide 1 and 2).",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "agenda_slide_position",
+            "description": "Verifies 'Agenda' slide is inserted at index 2 (between original slides 1 and 2).",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    modified = Presentation(modified_ppt_path)\n    original = Presentation(original_ppt_path)\n    modified_slides = modified.slides\n    original_slides = original.slides\n    modified_slide_ids = [slide.slide_id for slide in modified_slides]\n    original_slide_ids = [slide.slide_id for slide in original_slides]\n    new_slides = [slide for slide in modified_slides if slide.slide_id not in original_slide_ids]\n    deleted_slides = [slide for slide in original_slides if slide.slide_id not in modified_slide_ids]\n\n    # Check if title exists before accessing text\n    if not modified_slides[1].shapes.title:\n        return (\"'Agenda' slide not found at position 2.\", 0.0)\n    # Check that the title has a text attribute\n    if not hasattr(modified_slides[1].shapes.title, \"text\"):\n        return (\"'Agenda' slide not found at position 2.\", 0.0)\n    # Check if the title text matches \"Agenda\"\n    if modified_slides[1].shapes.title.text.lower().strip() != \"agenda\":\n        return (\"'Agenda' slide not found at position 2.\", 0.0)\n    return (\"'Agenda' slide correctly added at position 2.\", 1.0)\n\n\nif __name__ == \"__main__\":\n    global original_ppt_path, modified_ppt_path\n    original_ppt_path = \"data/files/PowerPoint/Obesity.pptx\"\n    modified_ppt_path = \"data/files/PowerPoint/Obesity-2.pptx\"\n    score, reason = compute_score()\n    print(f\"Score: {score}, Reason: {reason}\")\n"
+            },
+            "score": 0.0,
+            "reason": "'Agenda' slide not found at position 2."
+          },
+          {
+            "name": "slide_present",
+            "description": "Verifies a slide titled 'Agenda' exists in the modified presentation.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    modified = Presentation(modified_ppt_path)\n    original = Presentation(original_ppt_path)\n    modified_slides = modified.slides\n    original_slides = original.slides\n    modified_slide_ids = [slide.slide_id for slide in modified_slides]\n    original_slide_ids = [slide.slide_id for slide in original_slides]\n    new_slides = [slide for slide in modified_slides if slide.slide_id not in original_slide_ids]\n    deleted_slides = [slide for slide in original_slides if slide.slide_id not in modified_slide_ids]\n    for slide in new_slides:\n        # Check if title exists before accessing text\n        if not slide.shapes.title:\n            continue\n        # Check that the title has a text attribute\n        if not hasattr(slide.shapes.title, \"text\"):\n            continue\n        # Check if the title text matches \"Agenda\"\n        if slide.shapes.title.text.lower().strip() != \"agenda\":\n            continue\n        else:\n            return 'Agenda slide found in added slides.', 1.0\n    return 'Agenda slide not found.', 0.0\n"
+            },
+            "score": 0.0,
+            "reason": "Agenda slide not found."
+          },
+          {
+            "name": "agenda_slide_title",
+            "description": "Checks if the new slide is titled 'Agenda'.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    modified = Presentation(modified_ppt_path)\n    original = Presentation(original_ppt_path)\n    modified_slides = modified.slides\n    original_slides = original.slides\n    modified_slide_ids = [slide.slide_id for slide in modified_slides]\n    original_slide_ids = [slide.slide_id for slide in original_slides]\n    new_slides = [slide for slide in modified_slides if slide.slide_id not in original_slide_ids]\n    for slide in new_slides:\n        # Check if title exists before accessing text\n        if not slide.shapes.title:\n            continue\n        # Check that the title has a text attribute\n        if not hasattr(slide.shapes.title, \"text\"):\n            continue\n        # Check if the title text matches \"Agenda\"\n        if slide.shapes.title.text.lower().strip() == \"agenda\":\n            return 'Agenda slide found in added slides.', 1.0\n    return (\"No slide titled 'Agenda' found.\", 0.0)\n"
+            },
+            "score": 0.0,
+            "reason": "No slide titled 'Agenda' found."
+          }
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a score of zero because no agenda slide was found in the presentation at all. All three critical sub-criteria failed completely - there is no slide titled \"Agenda\" anywhere in the presentation, which means it obviously cannot be positioned correctly between the original first and second slides. Since the fundamental requirement of adding an agenda slide was not met, the criterion fails entirely."
+      },
+      {
+        "name": "agenda_bullet_content_correct",
+        "description": "Verifies that the Agenda slide contains the correct bullet points as required.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "agenda_bullet_count",
+            "description": "Checks that there are exactly 3 bullet points in the Agenda slide.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    # Find Agenda slide by title\n    agenda_slide = None\n\n    # First try title placeholders:\n    for slide in prs.slides:\n        if slide.shapes.title and slide.shapes.title.text.strip().lower() == 'agenda':\n            agenda_slide = slide\n            break\n    # If not found, check all shapes for text 'Agenda'\n    if not agenda_slide:\n        for slide in prs.slides:\n            title_shapes = [sh for sh in slide.shapes if sh.has_text_frame and sh.text_frame.text.strip().lower() == 'agenda']\n            if title_shapes:\n                agenda_slide = slide\n                break\n    if not agenda_slide:\n        return 'Agenda slide not found in modified presentation.', 0.0\n    # Find all bullet points in the slide (exclude title)\n    bullet_count = 0\n    for shape in agenda_slide.shapes:\n        if shape.has_text_frame and shape.text_frame.text.strip().lower() != 'agenda':\n            for para in shape.text_frame.paragraphs:\n                if para.level == 0 and para.text.strip():\n                    bullet_count += 1\n    if bullet_count == 3:\n        return 'Agenda slide has 3 bullet points.', 1.0\n    return f'Agenda slide has {bullet_count} bullet points.', 0.0\n"
+            },
+            "score": 0.0,
+            "reason": "Agenda slide not found in modified presentation."
+          },
+          {
+            "name": "agenda_bullet_texts",
+            "description": "Checks that the bullet texts match the required items ('Obesity definition', 'Global statistics', 'Impact on health').",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    required = ['obesity definition', 'global statistics', 'impact on health']\n    prs = Presentation(modified_ppt_path)\n    # Find Agenda slide by title\n    # First try title placeholders:\n    agenda_slide = None\n    for slide in prs.slides:\n        if slide.shapes.title and slide.shapes.title.text.strip().lower() == 'agenda':\n            agenda_slide = slide\n            break\n    # If not found, check all shapes for text 'Agenda'\n    if not agenda_slide:\n        for slide in prs.slides:\n            title_shapes = [sh for sh in slide.shapes if sh.has_text_frame and sh.text_frame.text.strip().lower() == 'agenda']\n            if title_shapes:\n                agenda_slide = slide\n                break\n    if not agenda_slide:\n        return 'Agenda slide not found in modified presentation.', 0.0\n    \n    import re as _re\n    _norm = lambda s: _re.sub(r\"\\s+\", \" \", (s or \"\")).strip().lower()\n    required_n = [_norm(x) for x in required]\n    found = []\n    for shape in agenda_slide.shapes:\n        if shape.has_text_frame and _norm(shape.text_frame.text) != \"agenda\":\n            for para in shape.text_frame.paragraphs:\n                text = _norm(para.text)\n                if text:\n                    found.append(text)\n    missing = [item for item in required_n if item not in found]\n    if not missing:\n        return 'All required bullet points present on Agenda slide.', 1.0\n    return f'Missing bullet points: {missing}', 0.0\n"
+            },
+            "score": 0.0,
+            "reason": "Agenda slide not found in modified presentation."
+          }
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a failing score because the Agenda slide is completely missing from the modified presentation. Since both sub-criteria are critical and depend on the existence of an Agenda slide, neither the bullet point count nor the required bullet text content ('Obesity definition', 'Global statistics', 'Impact on health') could be evaluated. Without the fundamental presence of the Agenda slide, it's impossible to verify any of the required bullet point specifications."
+      },
+      {
+        "name": "agenda_slide_content_correct",
+        "description": "Verifies the content of the 'Agenda' slide: three bullets: 'Obesity definition', 'Global statistics', 'Impact on health'.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "agenda_slide_bullet_points",
+            "description": "Checks if bullet list contains exactly the three required items.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    import os\n    prs = Presentation(modified_ppt_path)\n    agenda_slide = None\n    # First try title placeholders:\n    for slide in prs.slides:\n        if slide.shapes.title and slide.shapes.title.text.strip().lower() == 'agenda':\n            agenda_slide = slide\n            break\n    # If not found, check all shapes for text 'Agenda'\n    if not agenda_slide:\n        for slide in prs.slides:\n            title_shapes = [sh for sh in slide.shapes if sh.has_text_frame and sh.text_frame.text.strip().lower() == 'agenda']\n            if title_shapes:\n                agenda_slide = slide\n                break\n    if not agenda_slide:\n        return 'Agenda slide not found in modified presentation.', 0.0\n    \n    slide = agenda_slide  # slide_number is 1-based\n    # Find all paragraphs in all shapes\n    for shape in slide.shapes:\n        # Skip title shape\n        if shape == slide.shapes.title:\n            continue\n        bullet_texts = []\n    \n        if hasattr(shape, \"text_frame\") and shape.text_frame:\n            for para in shape.text_frame.paragraphs:\n                if para.level == 0 or para.level == 1:   # Accept both top-level and first indent\n                    text = para.text.strip()\n                    if text:\n                        bullet_texts.append(text.lower())\n        required_bullets = [\n            \"obesity definition\",\n            \"global statistics\",\n            \"impact on health\"\n        ]\n        found = [any(rb == bt for bt in bullet_texts) for rb in required_bullets]\n        if any(found) and not all(found):\n            missing = [rb for rb, f in zip(required_bullets, found) if not f]\n            return (f\"Missing bullet points: {', '.join(missing)}.\", 0.0)\n        \n        elif all(found):\n            # Ensure no extra bullet points\n            if len([x for x in bullet_texts if x.strip()]) != 3:\n                return (f\"Agenda slide has {len(bullet_texts)} bullet points instead of 3.\", 0.0)\n            else:\n                return (\"Agenda slide has exactly the required bullet points.\", 1.0)\n    return 'No bullet points found on Agenda slide.', 0.0\n"
+            },
+            "score": 0.0,
+            "reason": "Agenda slide not found in modified presentation."
+          }
+        ],
+        "score": 0.0,
+        "reason": "The agenda slide content criterion received a failing score because the agenda slide itself is completely missing from the presentation. Since the slide cannot be found, it's impossible to verify whether it contains the three required bullet points: \"Obesity definition\", \"Global statistics\", and \"Impact on health\". Without the fundamental presence of an agenda slide, the content requirements cannot be evaluated or satisfied."
+      },
+      {
+        "name": "no_extraneous_modifications",
+        "description": "Checks for absence of unintended changes: no extra slides, bullets, or unrelated edits.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "no_extra_slides_added",
+            "description": "Verifies no slides (except 'Agenda') were added.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    from pptx import Presentation\n    modified = Presentation(modified_ppt_path)\n    original = Presentation(original_ppt_path)\n    modified_slides = modified.slides\n    original_slides = original.slides\n    modified_slide_ids = [slide.slide_id for slide in modified_slides]\n    original_slide_ids = [slide.slide_id for slide in original_slides]\n    new_slides = [slide for slide in modified_slides if slide.slide_id not in original_slide_ids]\n    deleted_slides = [slide for slide in original_slides if slide.slide_id not in modified_slide_ids]\n\n    extra = []\n    for slide in new_slides:\n        if slide.shapes.title:\n            if slide.shapes.title and slide.shapes.title.text.lower().strip() == \"agenda\":\n                continue\n            else:\n                extra.append(slide.shapes.title.text or f\"Slide {slide.slide_number}\")\n    if extra:\n        return (f\"Extra slides added: {', '.join(extra)}.\", 0.0)\n    return (\"No extra slides added.\", 1.0)\n"
+            },
+            "score": 1.0,
+            "reason": "No extra slides added."
+          },
+          {
+            "name": "no_unintended_slide_modifications",
+            "description": "Checks that slides other than the new 'Agenda' are not modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score():\n    if len(ppt_diff.modified_slides) > 0:\n        return \"Unintended slide modifications detected.\", 0.0\n    return \"No unintended slide modifications detected.\", 1.0\n"
+            },
+            "score": 1.0,
+            "reason": "No unintended slide modifications detected."
+          }
+        ],
+        "score": 1.0,
+        "reason": "The presentation successfully avoided any unintended modifications, with both sub-criteria performing perfectly. No extra slides were added beyond the required Agenda slide, and all existing slides remained unchanged from their original state. This clean implementation demonstrates careful attention to preserving the original content while only making the specifically requested additions."
+      }
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a failing score because the fundamental requirement was completely unmet - no agenda slide was added to the presentation at all. Since all three critical sub-criteria depend on the existence of an agenda slide titled \"Agenda\" positioned between the original first and second slides, they all failed when no such slide could be found anywhere in the presentation. Without the basic presence of the agenda slide, it was impossible to evaluate whether it contained the required bullet points or was positioned correctly, making this a complete failure to fulfill the core task requirement."
+  },
+  "metadata": {
+    "task": "Add a bullet point list with three items: 'Obesity definition', 'Global statistics', and 'Impact on health' as a new slide between 1 and 2, titled \"Agenda\""
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "root": {
+    "name": "Add new bullet point to slide 5",
+    "description": "Evaluates whether a new bullet point 'Published findings in 1898' was correctly added at the end of slide 5's bullet list.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Bullet point text correctness",
+        "description": "Checks if the new bullet point text exactly matches 'Published findings in 1898'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import os\n    slide_number = 5\n    target_text = 'Published findings in 1898'\n    prs = Presentation(modified_ppt_path)\n    try:\n        slide = prs.slides[slide_number-1]\n    except IndexError:\n        return f\"Slide {slide_number} does not exist in modified PPT.\", 0.0\n    bullet_texts = []\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            for para in shape.text_frame.paragraphs:\n                if para.text.strip():\n                    bullet_texts.append(para.text.strip())\n    matched = [t for t in bullet_texts if t == target_text]\n    if matched:\n        return \"Bullet point text exactly matches.\", 1.0\n    return \"Could not find exact bullet point text.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Bullet point position correctness",
+        "description": "Checks if the new bullet point was added at the end of the existing bullet list on slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    slide_number = 5\n    target_text = 'Published findings in 1898'\n    prs = Presentation(modified_ppt_path)\n    try:\n        slide = prs.slides[slide_number-1]\n    except IndexError:\n        return f\"Slide {slide_number} does not exist in modified PPT.\", 0.0\n    bullet_texts = []\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            for para in shape.text_frame.paragraphs:\n                if para.text.strip():\n                    bullet_texts.append(para.text.strip())\n\n    # Check the second to last text element, as the footer is also present as a text frame\n    if bullet_texts and bullet_texts[-2] == target_text:\n        return \"Bullet point correctly added at the end.\", 1.0\n    elif target_text in bullet_texts:\n        return \"Bullet point present but not at end.\", 0.0\n    else:\n        return \"Bullet point not found.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes",
+        "description": "Checks that no unrelated content, slides, animations, or transitions were added, removed, or modified other than the specified bullet point addition.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only expect one modification: addition of the bullet on slide 5.\n    unrelated = False\n    reason = []\n    # Check for unrelated slide changes\n    if ppt_diff.added_slides or ppt_diff.removed_slides or ppt_diff.modified_slides:\n        for s in ppt_diff.added_slides:\n            reason.append(f\"Unexpected added slide: {s.slide_number}\")\n        for s in ppt_diff.removed_slides:\n            reason.append(f\"Unexpected removed slide: {s.slide_number}\")\n        for s_old, s_new in ppt_diff.modified_slides:\n            if s_old.slide_number != 5:\n                reason.append(f\"Unexpected modification on slide {s_old.slide_number}\")\n    # Check for unrelated animations/transitions\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        reason.append(\"Unexpected animation change.\")\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        reason.append(\"Unexpected transition change.\")\n    # Allow only modification of text on slide 5 for the correct bullet\n    # If there are modifications to slide 5, check if only bullet list is changed, not layout/title/notes\n    # We do not penalize text modification if it is the correct bullet addition\n    if reason:\n        return \"; \".join(reason), 0.0\n    return \"No extraneous changes.\", 1.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "In slide 5, add a new bullet point at the end which says: 'Published findings in 1898'"
+  }
+}

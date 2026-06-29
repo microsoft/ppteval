@@ -1,0 +1,95 @@
+{
+  "root": {
+    "name": "Checklist Conversion to Two-Column Layout on Slide 8",
+    "description": "Evaluates if the checklist on slide 8 has been correctly converted into a two-column layout, preserving content, saving space, and avoiding extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Checklist Content Preserved",
+        "description": "The checklist items from the original slide 8 are all present in the modified slide, with no missing or altered items.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Checklist Items Modified",
+            "description": "Checks that no checklist items have been inadvertently modified (content-wise).",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    def extract_checklist_items(slide) -> list:\n        items = []\n        for shape in slide.shapes:\n            if shape.has_text_frame:\n                for paragraph in shape.text_frame.paragraphs:\n                    text = paragraph.text.strip()\n                    if text:\n                        items.append(text)\n        return items\n\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[7]\n    mod_slide = mod_prs.slides[7]\n    orig_items = set(extract_checklist_items(orig_slide))\n    mod_items = set(extract_checklist_items(mod_slide))\n    modified = set()\n    for o in orig_items:\n        if o not in mod_items:\n            for m in mod_items:\n                # If there is a similar item, but not identical, consider as modified\n                if o.lower() in m.lower() or m.lower() in o.lower():\n                    modified.add((o, m))\n    if modified:\n        return f\"Checklist items modified: {modified}\", 0.0\n    return \"No checklist items modified.\", 1.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Two-Column Layout Applied",
+        "description": "Checks that the checklist on slide 8 is displayed in a two-column layout, rather than a single column as in the original.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Checklist Rendered as Two Columns",
+            "description": "Verifies that the checklist items are visually rendered in two columns on slide 8.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 5 screenshot\n    img = None\n    for ss in modified_ppt_screenshots:\n        if ss.slide_number == 8:\n            img = ss.image_path\n            break\n    if not img:\n        return \"No screenshot of slide 8 found.\", 0.0\n    # Use VLM to check if the checklist is rendered as two-column layout\n    prompt = \"Does the slide image show a checklist rendered as a two-column layout? Reply 'yes' or 'no'.\"\n    result = vlm_call(prompt, [img], temperature=0.0, max_tokens=10)\n    if 'yes' in result.lower():\n        return \"Checklist is rendered as a two-column layout.\", 1.0\n    return f\"VLM response: {result}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Checks that no slides except slide 8 were modified in content, layout, or style.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Content or Layout Changes on Other Slides",
+            "description": "No content, layout, or style changes were made to slides other than slide 8.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check modifications outside slide 8\n    modified_ids = set()\n    for (s1, s2) in ppt_diff.modified_slides:\n        if s1.slide_number != 8:\n            modified_ids.add(s1.slide_number)\n    for s in ppt_diff.added_slides:\n        if s.slide_number != 8:\n            modified_ids.add(s.slide_number)\n    for s in ppt_diff.removed_slides:\n        if s.slide_number != 8:\n            modified_ids.add(s.slide_number)\n    if modified_ids:\n        return f\"Slides modified other than slide 8: {sorted(modified_ids)}\", 0.0\n    return \"No content or layout changes on other slides.\", 1.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Animations or Transitions Changed",
+        "description": "Checks that no animations or transitions were added, removed, or changed on slide 8 or elsewhere.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Animations or Transitions Added/Removed/Modified on Slide 8",
+            "description": "No animation or transition changes on slide 8.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    affected = False\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if anim.slide_id == ppt_diff.modified_slides[0][1].slide_id:\n            affected = True\n    for (old, new) in ppt_diff.modified_animations:\n        if old.slide_id == ppt_diff.modified_slides[0][1].slide_id:\n            affected = True\n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if trans.slide_id == ppt_diff.modified_slides[0][1].slide_id:\n            affected = True\n    for (old, new) in ppt_diff.modified_transitions:\n        if old.slide_id == ppt_diff.modified_slides[0][1].slide_id:\n            affected = True\n    if affected:\n        return \"Animations or transitions changed on slide 8.\", 0.0\n    return \"No animations or transitions changed on slide 8.\", 1.0\n"
+            }
+          },
+          {
+            "name": "No Animations or Transitions Changed on Other Slides",
+            "description": "No animation or transition changes on slides other than 8.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    affected = set()\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if anim.slide_id is not None and int(anim.slide_id) != 8:\n            affected.add(anim.slide_id)\n    for (old, new) in ppt_diff.modified_animations:\n        if old.slide_id is not None and int(old.slide_id) != 8:\n            affected.add(old.slide_id)\n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if trans.slide_id is not None and int(trans.slide_id) != 8:\n            affected.add(trans.slide_id)\n    for (old, new) in ppt_diff.modified_transitions:\n        if old.slide_id is not None and int(old.slide_id) != 8:\n            affected.add(old.slide_id)\n    if affected:\n        return f\"Animations or transitions changed on slides other than 8: {affected}\", 0.0\n    return \"No animations or transitions changed on other slides.\", 1.0\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Convert the entire checklist on slide 8 into a two-column layout to save space"
+  }
+}

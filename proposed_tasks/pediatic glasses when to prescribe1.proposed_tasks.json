@@ -1,0 +1,446 @@
+{
+  "file": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+  "num_tasks": 40,
+  "tasks": [
+    {
+      "task_id": "pediatic glasses when to prescribe1-001",
+      "goal": "Change the presentation title from 'Pediatric glasses, when to prescribe?' to 'Pediatric Glasses: Clinical Guidelines'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-002",
+      "goal": "Modify the author name from 'Ahmed M. Elkomy' to 'Dr. Ahmed M. Elkomy'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-003",
+      "goal": "Change the institution from 'Tanta University' to 'Cairo University'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-004",
+      "goal": "Change the orange star icon to a blue circle shape",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-005",
+      "goal": "Add a new team member to the contributors slide with the name 'Dr. Sarah Johnson' and role 'Pediatric Ophthalmologist'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-006",
+      "goal": "Change the section heading from 'Myopia' to 'Nearsightedness (Myopia)'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:18"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-007",
+      "goal": "Change the section heading from 'Astigmatism' to 'Astigmatism in Children'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:22"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-008",
+      "goal": "Change the section heading from 'Anisometropia' to 'Anisometropia Management'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:26"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-009",
+      "goal": "Modify the table on the 'When & What to prescribe?' slide by adding a third column titled 'Special Considerations'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:31"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-010",
+      "goal": "Replace the final slide with a new 'References' slide containing a bulleted list of 5 academic references",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:35"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-011",
+      "goal": "Change the slide layout from the current layout to a 'Two Content' layout",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-012",
+      "goal": "In the data table, change all values in the first column to be bold and colored blue",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-013",
+      "goal": "Add a new row to the existing table with sample data for 'Age 10-12' category",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-014",
+      "goal": "Change the font size of the main text content to 16pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-015",
+      "goal": "Replace the current image with a different medical diagram (any available medical image)",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:15"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-016",
+      "goal": "Modify the table structure by adding a new column titled 'Age Range' and populate it with appropriate age ranges",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-017",
+      "goal": "Change the background color of the conclusion slide to light blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:34"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-018",
+      "goal": "Add a text box with the content 'Key Learning Objectives' in the top-left corner of the slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-019",
+      "goal": "Apply a different design theme to the entire presentation while maintaining the current color scheme",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-020",
+      "goal": "Change the table borders to be thicker (2pt) and colored dark green",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-021",
+      "goal": "Add bullet points to the existing text content on the myopia slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-022",
+      "goal": "Insert a new slide after slide 20 with the title 'Myopia Prevention Strategies'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:20"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-023",
+      "goal": "Create a SmartArt graphic to replace the existing text content showing the progression of astigmatism treatment",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-024",
+      "goal": "Change all text on the slide to be center-aligned",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:27"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-025",
+      "goal": "Add a footer to the slide containing the text 'Confidential Medical Information'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:28"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-026",
+      "goal": "Convert the existing content to a comparison chart with two columns showing 'Before Treatment' and 'After Treatment'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-027",
+      "goal": "Increase the font size of the slide title to 32pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:32"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-028",
+      "goal": "Add slide transitions: apply 'Fade' transition to this slide with 2-second duration",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-029",
+      "goal": "Merge two cells in the existing table and add the heading 'Combined Analysis'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-030",
+      "goal": "Change the text color of all table headers to white with dark blue background",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-031",
+      "goal": "Sort the table data in ascending order based on the first column values",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-032",
+      "goal": "Add a chart based on the table data showing age distribution",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:13"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-033",
+      "goal": "Delete the current image and replace it with a text box containing 'Image Placeholder - Eye Examination'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-034",
+      "goal": "Apply animation effects: make the text content appear with 'Fly In' animation from the left",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:17"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-035",
+      "goal": "Create a new slide layout and apply it to this slide, rearranging content into a three-column format",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:21"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-036",
+      "goal": "Change the slide background to a light gray color",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:24"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-037",
+      "goal": "Insert a hyperlink on the text 'More Information' that links to slide 35",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:25"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-038",
+      "goal": "Replace the current content with a flowchart showing the decision-making process for prescribing glasses",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:29"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-039",
+      "goal": "Add a text box in the bottom right corner with the text 'Page 30 of 35'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:30"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "pediatic glasses when to prescribe1-040",
+      "goal": "Apply a custom color scheme: change the accent color to purple throughout the slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:34"
+      ],
+      "file_path": "PowerPoint/pediatic glasses when to prescribe1.pptx",
+      "misc": {}
+    }
+  ]
+}

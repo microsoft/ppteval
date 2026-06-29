@@ -1,0 +1,21 @@
+# GPT-5.4 variant of the GPT-5.x (GA `computer` tool) configuration.
+
+agent_type: "gpt5x"
+model_name: "gpt-5.4"
+endpoint: "azure"
+
+# Azure OpenAI settings (used when endpoint="azure"). Auth is via
+# DefaultAzureCredential (managed identity / az login).
+base_url: "${GPT5X_BASE_URL}"
+api_version: "2025-04-01-preview"
+
+# OpenAI settings (used when endpoint="openai")
+api_key: "${GPT5X_API_KEY}"
+
+# Display configuration (drives sandbox resolution; not sent to the model)
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters
+reasoning_effort: "medium"

@@ -1,0 +1,117 @@
+{
+  "root": {
+    "name": "Add Traditional Weapons Slide After Slide 4",
+    "description": "Evaluates whether the agent successfully added a new slide with title 'Traditional Weapons' after slide 4 in the Pre-Colonial Filipino Culture presentation",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Slide Addition",
+        "description": "Verifies that a new slide was added to the presentation",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "New Slide Exists",
+            "description": "Checks if exactly one new slide was added to the presentation",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added_slides = len(ppt_diff.added_slides)\n    \n    if added_slides == 1:\n        return \"Exactly one new slide was added as expected\", 1.0\n    elif added_slides == 0:\n        return \"No new slide was added\", 0.0\n    else:\n        return f\"Too many slides added: {added_slides} slides instead of 1\", 0.0\n"
+            }
+          },
+          {
+            "name": "Slide Position",
+            "description": "Verifies that the new slide was added after slide 4 (i.e., at position 5)",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n\n    if len(ppt_diff.added_slides) != 1:\n        return \"Cannot check position - no single slide was added\", 0.0\n\n    prs = Presentation(modified_ppt_path)\n\n    if len(prs.slides) < 5:\n        return \"Presentation has fewer than 5 slides, new slide not at position 5\", 0.0\n\n    target = 'traditional weapons'\n\n    # Get the slide at position 5 (0-indexed 4)\n    new_slide = prs.slides[4]\n    for shape in new_slide.shapes:\n        if hasattr(shape, 'text') and target in shape.text.lower():\n            return \"New slide correctly positioned at slide 5 with expected title\", 1.0\n\n    # If we can't find the title at slide 5, check any slide\n    for slide in prs.slides:\n        for shape in slide.shapes:\n            if hasattr(shape, 'text') and target in shape.text.lower():\n                slide_num = list(prs.slides).index(slide) + 1\n                if slide_num == 5:\n                    return \"New slide correctly positioned at slide 5\", 1.0\n                else:\n                    return f\"New slide with correct title found but at position {slide_num}, not 5\", 0.0\n\n    return \"Could not verify slide position - title not found\", 0.0"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Slide Content",
+        "description": "Evaluates the content of the newly added slide",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Slide Title",
+            "description": "Verifies that the new slide has the correct title 'Traditional Weapons'",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    if len(ppt_diff.added_slides) != 1:\n        return \"Cannot check title - no single slide was added\", 0.0\n    \n    prs = Presentation(modified_ppt_path)\n    \n    # Look for the title 'Traditional Weapons' in any slide\n    target_title = 'Traditional Weapons'\n    \n    for slide in prs.slides:\n        for shape in slide.shapes:\n            if hasattr(shape, 'text'):\n                text = shape.text.strip()\n                if text.lower() == target_title.lower():\n                    return f\"Found exact title match: '{text}'\", 1.0\n                elif target_title.lower() in text.lower():\n                    return f\"Found title containing target text: '{text}'\", 0.8\n    \n    return \"Title 'Traditional Weapons' not found in any slide\", 0.0\n"
+            }
+          },
+          {
+            "name": "Content Appropriateness",
+            "description": "Evaluates if the slide content is appropriate for the presentation context (Pre-Colonial Filipino Culture)",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    if len(ppt_diff.added_slides) != 1:\n        return \"Cannot evaluate content - no single slide was added\", 0.0\n    \n    prs = Presentation(modified_ppt_path)\n    \n    # Find the slide with 'Traditional Weapons' title\n    target_slide = None\n    for slide in prs.slides:\n        for shape in slide.shapes:\n            if hasattr(shape, 'text') and 'Traditional Weapons' in shape.text:\n                target_slide = slide\n                break\n        if target_slide:\n            break\n    \n    if not target_slide:\n        return \"Cannot find slide with Traditional Weapons title\", 0.0\n    \n    # Extract all text from the slide\n    slide_text = \"\"\n    for shape in target_slide.shapes:\n        if hasattr(shape, 'text'):\n            slide_text += shape.text + \" \"\n    \n    slide_text = slide_text.strip()\n    \n    if len(slide_text) == 0 or slide_text.lower() == 'traditional weapons':\n        return \"Slide has minimal content - just the title\", 0.5\n    \n    # Use LLM to evaluate content appropriateness\n    prompt = f\"\"\"Evaluate if the following slide content is appropriate for a presentation about Pre-Colonial Filipino Culture, specifically for a slide titled 'Traditional Weapons'.\n    \n    Slide content: {slide_text}\n    \n    Rate the appropriateness on a scale of 0-1 where:\n    - 1.0: Highly relevant and appropriate content about pre-colonial Filipino traditional weapons\n    - 0.8: Mostly relevant content with minor issues\n    - 0.6: Somewhat relevant but could be more specific to Filipino culture\n    - 0.4: Generic content about weapons, not specifically Filipino\n    - 0.2: Barely relevant content\n    - 0.0: Completely inappropriate or irrelevant content\n    \n    Respond with just the score (0.0 to 1.0) and a brief reason.\"\"\"\n    \n    response = llm_call(prompt, temperature=0.3)\n    \n    try:\n        # Extract score from response\n        import re\n        score_match = re.search(r'([0-1]\\.[0-9]+|[0-1])', response)\n        if score_match:\n            score = float(score_match.group(1))\n            return f\"Content appropriateness evaluated: {response.strip()}\", score\n        else:\n            return f\"Could not parse score from LLM response: {response}\", 0.5\n    except:\n        return f\"Error evaluating content appropriateness: {response}\", 0.5\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Extraneous Changes",
+        "description": "Ensures that no unintended modifications were made to existing slides or presentation structure",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Slide Modifications",
+            "description": "Verifies that existing slides were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    modified_slides = len(ppt_diff.modified_slides)\n    \n    if modified_slides == 0:\n        return \"No existing slides were modified\", 1.0\n    else:\n        return f\"Found {modified_slides} modified slides - some existing content may have been changed\", 0.5\n"
+            }
+          },
+          {
+            "name": "No Slide Removals",
+            "description": "Ensures no existing slides were removed",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    removed_slides = len(ppt_diff.removed_slides)\n    \n    if removed_slides == 0:\n        return \"No slides were removed\", 1.0\n    else:\n        return f\"Found {removed_slides} removed slides - this is not expected\", 0.0\n"
+            }
+          },
+          {
+            "name": "No Animation Changes",
+            "description": "Ensures no animations were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    total_animation_changes = (len(ppt_diff.added_animations) + \n                             len(ppt_diff.removed_animations) + \n                             len(ppt_diff.modified_animations))\n    \n    if total_animation_changes == 0:\n        return \"No animation changes detected\", 1.0\n    else:\n        return f\"Found {total_animation_changes} animation changes - may be unintended\", 0.7\n"
+            }
+          },
+          {
+            "name": "No Transition Changes",
+            "description": "Ensures no slide transitions were added, removed, or modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    total_transition_changes = (len(ppt_diff.added_transitions) + \n                              len(ppt_diff.removed_transitions) + \n                              len(ppt_diff.modified_transitions))\n    \n    if total_transition_changes == 0:\n        return \"No transition changes detected\", 1.0\n    else:\n        return f\"Found {total_transition_changes} transition changes - may be unintended\", 0.7\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a new slide after slide 4 with the title 'Traditional Weapons'. For context, the presentation is about Pre-Colonial Filipino Culture."
+  }
+}

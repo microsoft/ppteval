@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "change_section_heading_myopia_to_nearsightedness",
+    "description": "Evaluates if the section heading on slide 18 was correctly changed from 'Myopia' to 'Nearsightedness (Myopia)' without introducing errors or extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "heading_text_correctly_changed",
+        "description": "Checks if the heading 'Myopia' on slide 18 was changed to 'Nearsightedness (Myopia)'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use python-pptx to check slide 18 title text in modified PPT\n    from pptx import Presentation\n    import re\n    PR = Presentation(modified_ppt_path)\n    orig_PR = Presentation(original_ppt_path)\n    slide_idx = 17 # 0-based\n    if slide_idx >= len(PR.slides):\n        return (\"Slide 18 does not exist in modified presentation.\", 0.0)\n    slide = PR.slides[slide_idx]\n    # Try to find any shape containing the words \"Myopia\" and \"Nearsightedness\"\n    title_text = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame.text:\n            text = shape.text_frame.text.strip()\n            if \"myopia\" in text.lower() and \"nearsightedness\" in text.lower():\n                title_text = text\n                break\n    \n    if not title_text:\n        return (\"Could not find a heading on slide 18 in modified presentation.\", 0.0)\n    # Check for exact required heading\n    required_heading = \"Nearsightedness (Myopia)\"\n    if title_text == required_heading:\n        return (\"Heading correctly changed to 'Nearsightedness (Myopia)'.\", 1.0)\n    elif title_text.lower().strip() == required_heading.lower():\n        return (\"Heading text matches ignoring case.\", 0.9)\n    elif re.sub(r'\\s+', '', title_text.lower()) == re.sub(r'\\s+', '', required_heading.lower()):\n        return (\"Heading matches with minor whitespace errors.\", 0.8)\n    elif \"myopia\" in title_text.lower() and \"nearsightedness\" in title_text.lower():\n        return (\"Heading contains both 'Nearsightedness' and 'Myopia' but formatting is off.\", 0.7)\n    elif \"myopia\" in title_text.lower():\n        return (\"Heading still says just 'Myopia'.\", 0.0)\n    else:\n        return (f\"Heading on slide 18 is incorrect: '{title_text}'\", 0.0)\n"
+        }
+      },
+      {
+        "name": "no_extraneous_slide_modifications",
+        "description": "Ensures that no other content on slide 18 was unnecessarily changed (other than the heading).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to look for modifications to slide 18 other than heading\n    # We'll compare original and modified slide objects for slide 18\n    orig_slide = None\n    mod_slide = None\n    for slide in ppt_diff.modified_slides:\n        s1, s2 = slide\n        if s1.slide_number == 18 or s2.slide_number == 18:\n            orig_slide = s1\n            mod_slide = s2\n            break\n    if orig_slide is None and mod_slide is None:\n        # If slide wasn't modified at all, that's OK\n        return (\"No other modifications detected on slide 18.\", 1.0)\n    # Compare notes, layout_type, and element_count\n    if orig_slide and mod_slide:\n        diffs = []\n        if (orig_slide.layout_type != mod_slide.layout_type):\n            diffs.append(\"Layout type changed.\")\n        if (orig_slide.notes or '').strip() != (mod_slide.notes or '').strip():\n            diffs.append(\"Slide notes changed.\")\n        if abs(orig_slide.element_count - mod_slide.element_count) > 1:\n            # Allowing for heading split or merge\n            diffs.append(f\"Element count changed from {orig_slide.element_count} to {mod_slide.element_count}.\")\n        if not diffs:\n            return (\"Only heading changed on slide 18.\", 1.0)\n        return (\"Some extraneous changes on slide 18: \" + \", \".join(diffs), 0.6)\n    return (\"Unable to compare slides for extraneous changes.\", 0.7)\n"
+        }
+      },
+      {
+        "name": "no_other_slides_changed",
+        "description": "Checks that slides other than slide 18 were not modified, added, or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for changes to slides other than 18\n    changed_slides = set()\n    for slide in ppt_diff.added_slides + ppt_diff.removed_slides:\n        changed_slides.add(slide.slide_number)\n    for s1, s2 in ppt_diff.modified_slides:\n        if s1.slide_number != 18:\n            changed_slides.add(s1.slide_number)\n    changed_slides = {n for n in changed_slides if n != 18}\n    if not changed_slides:\n        return (\"No slides other than 18 were changed.\", 1.0)\n    else:\n        return (f\"Slides changed other than 18: {sorted(list(changed_slides))}\", 0.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Change the section heading from 'Myopia' to 'Nearsightedness (Myopia)' on slide 18"
+  }
+}

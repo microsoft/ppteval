@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add the text box 'Roll Movement Demonstration' below the main title on slide 5",
+    "description": "Evaluates whether the agent adds the required text box with correct content and positioning on slide 5, with no extraneous modifications.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text Box Creation and Content Correctness",
+        "description": "Check that a new text box containing exactly 'Roll Movement Demonstration' was inserted on slide 5, and ONLY on slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find added text boxes on slide 5\n    added_tb = [el for slide in ppt_diff.added_slides if slide.slide_number == 5]\n    # Alternatively check modified elements on slide 5 for new text box\n    # Instead, we use python-pptx to inspect the post-modification file\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[4] # zero-indexed\n    found = None\n    for shp in slide.shapes:\n        if shp.has_text_frame:\n            text = shp.text_frame.text.strip()\n            if text == \"Roll Movement Demonstration\":\n                found = shp\n                break\n    if found:\n        return \"Text box with required content found on slide 5.\", 1.0\n    else:\n        return \"Required text box not found on slide 5.\", 0.0\n"
+        }
+      },
+      {
+        "name": "Text Box Position: Below Main Title",
+        "description": "Check that the 'Roll Movement Demonstration' text box is positioned visually below the main title on slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \n    def is_mostly_below(shape_a, shape_b, tol=0.1):\n        \"\"\"\n        Returns True if shape_a is mostly below shape_b.\n        tol is a fraction of shape_b's height tolerated for overlap.\n        \"\"\"\n        top_a = shape_a.top\n        bottom_b = shape_b.top + shape_b.height\n        overlap_allowed = tol * shape_b.height\n        return top_a > bottom_b - overlap_allowed\n    \n    def is_visually_below(shape_a, shape_b):\n        center_a = shape_a.top + shape_a.height / 2\n        center_b = shape_b.top + shape_b.height / 2\n        return center_a > center_b\n    \n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[4] # zero-indexed\n    titlebox = None\n    targetbox = None\n    for shp in slide.shapes:\n        if shp.has_text_frame:\n            text = shp.text_frame.text.strip()\n            if text == \"Roll Movement Demonstration\":\n                targetbox = shp\n            if text == slide.shapes.title.text if slide.shapes.title else None:\n                titlebox = shp\n    if not targetbox:\n        return \"'Roll Movement Demonstration' text box not found on slide 5.\", 0.0\n    if not titlebox:\n        return \"Main title not found on slide 5.\", 0.5 # Can't judge position perfectly\n    # Check y-coordinate (pptx uses .top in EMUs)\n    try:\n        tolerance = 0.35\n        if is_mostly_below(targetbox, titlebox, tol=tolerance):\n            return \"Text box is below the title (allowing slight overlap).\", 1.0\n        if is_visually_below(targetbox, titlebox):\n            return \"Text box appears below the title by center alignment, but might have some overlap.\", 0.6\n        return \"Text box is NOT below the main title.\", 0.0\n    except Exception as e:\n        return f\"Exception in position check: {e}\", 0.0\n"
+        }
+      },
+      {
+        "name": "No Extraneous Modifications on Slide 5",
+        "description": "Checks that no other elements or formatting besides the required text box were modified or added on slide 5.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Collect all diffs affecting slide 5\n    extraneous = []\n    # Elements: Only the required text box should be added.\n    # We use python-pptx to count added/deleted/modified shapes\n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    slide_orig = prs_orig.slides[4]\n    slide_mod = prs_mod.slides[4]\n    orig_texts = set(shp.text_frame.text.strip() for shp in slide_orig.shapes if shp.has_text_frame)\n    mod_texts = set(shp.text_frame.text.strip() for shp in slide_mod.shapes if shp.has_text_frame)\n    new_texts = mod_texts - orig_texts\n    # Should only be the required string\n    if any((t for t in new_texts if t != \"Roll Movement Demonstration\")):\n        return \"Extraneous text boxes were added to slide 5.\", 0.0\n    # If other shapes were added, check type (e.g., images, charts, etc.)\n    orig_shape_cnt = len(slide_orig.shapes)\n    mod_shape_cnt = len(slide_mod.shapes)\n    if mod_shape_cnt > orig_shape_cnt + 1:\n        return \"More than one new shape was added.\", 0.0\n    # Could also check for formatting changes, but keep simple\n    return \"No extraneous modifications detected on slide 5.\", 1.0\n"
+        }
+      },
+      {
+        "name": "No Modifications on Other Slides",
+        "description": "Checks that only slide 5 is changed; all other slides are untouched.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Look for modifications outside slide 5 in ppt_diff\n    changed_or_added_slides = set()\n    for (sl1, sl2) in ppt_diff.modified_slides:\n        if sl2.slide_number != 5:\n            changed_or_added_slides.add(sl2.slide_number)\n    for sl in ppt_diff.added_slides:\n        if sl.slide_number != 5:\n            changed_or_added_slides.add(sl.slide_number)\n    for sl in ppt_diff.removed_slides:\n        changed_or_added_slides.add(sl.slide_number)\n    if changed_or_added_slides:\n        return f\"Slides changed other than slide 5: {list(changed_or_added_slides)}\", 0.0\n    return \"No modifications detected outside slide 5.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 5, Add the text box 'Roll Movement Demonstration' below the main title"
+  }
+}

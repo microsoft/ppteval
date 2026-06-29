@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "add_text_box_with_hyperlink_to_slide_1",
+    "description": "Evaluates if a text box with 'More Information' was added to slide 1 and correctly hyperlinked to slide 34.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "text_box_added_slide_1",
+        "description": "Checks if a text box containing 'More Information' was added to slide 1.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    for before, after in ppt_diff.modified_slides:\n        if after.slide_number == 1:\n            # Check if element_count increased\n            if after.element_count > before.element_count:\n                # Use python-pptx to get text boxes on slide 1\n                from pptx import Presentation\n                prs = Presentation(modified_ppt_path)\n                slide = prs.slides[0]\n                found = False\n                for shape in slide.shapes:\n                    if shape.has_text_frame:\n                        text = shape.text_frame.text.strip()\n                        if \"More Information\" in text:\n                            found = True\n                            break\n                if found:\n                    return \"Text box with 'More Information' found on slide 1.\", 1.0\n                else:\n                    return \"Text box with 'More Information' not found on slide 1.\", 0.0\n    return \"No added or modified text box with 'More Information' found on slide 1.\", 0.0\n"
+        }
+      },
+      {
+        "name": "hyperlink_added_to_text",
+        "description": "Checks if the text 'More Information' on slide 1 is hyperlinked to slide 34.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    global modified_ppt_path\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    found = False\n    correct_link = False\n    \n    # Get the slide ID for slide 34 (index 33, since 0-based)\n    target_slide_id = None\n    if len(prs.slides) > 33:  # Make sure slide 34 exists\n        target_slide_id = prs.slides[33].slide_id\n        print(\"target_slide_id\", target_slide_id)\n        print(\"target_slide_id type\", type(target_slide_id))\n    \n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            for paragraph in shape.text_frame.paragraphs:\n                for run in paragraph.runs:\n                    if \"More Information\" in run.text:\n                        found = True\n                        hlink = run.hyperlink\n                        \n                        print(\"hlink\", hlink)\n                        print(\"hlink address\", hlink.address)\n\n                        \n                        if hlink:\n                            try:\n                                slide_part = slide.part\n                                # Check all relationships in the slide\n                                for rel_id, rel in slide_part.rels.items():\n                                    if hasattr(rel, 'target_part'):\n                                        target_part = rel.target_part\n                                        if hasattr(target_part, 'slide_id'):\n                                            slide_id = target_part.slide_id\n                                            print(\"slide_id\", slide_id)\n                                            print(\"slide_id type\", type(slide_id))\n                                            if slide_id == target_slide_id:\n                                                correct_link = True\n                                                break\n                            except:\n                                # If we can't access relationships, skip\n                                pass\n                        break\n    \n    if not found:\n        return \"No text run with 'More Information' found on slide 1.\", 0.0\n    if not correct_link:\n        return \"'More Information' text found but hyperlink does not link to slide 34.\", 0.0\n    return \"'More Information' text correctly hyperlinked to slide 34.\", 1.0\n"
+        }
+      },
+      {
+        "name": "no_extraneous_changes",
+        "description": "Checks for absence of unrelated changes to slides, content, or hyperlinks.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Acceptable changes: add one text box to slide 1, add hyperlink, no other slides added/removed/modified\n    extraneous = False\n    # Slides added/removed other than required\n    if len(ppt_diff.added_slides) > 0:\n        for slide in ppt_diff.added_slides:\n            if slide.slide_number != 1:\n                extraneous = True\n    if len(ppt_diff.removed_slides) > 0:\n        extraneous = True\n    # Check for other text boxes added to other slides\n    for before, after in ppt_diff.modified_slides:\n        if after.slide_number != 1:\n            if after.element_count != before.element_count:\n                extraneous = True\n    # Check for animations, transitions, hyperlinks added other than required\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        extraneous = True\n    if ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions:\n        extraneous = True\n    if extraneous:\n        return \"Extraneous changes detected in PowerPoint beyond the required text box and hyperlink.\", 0.0\n    return \"No extraneous changes detected.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a text box to slide 1 with the text \"More Information\", and then add a hyperlink on the text 'More Information' that links to slide 34"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "root": {
+    "name": "slide_5_paragraph_to_bullets",
+    "description": "Evaluates if slide 5's paragraph was split into two bullet points as specified.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "slide_5_bullets_present",
+        "description": "Verifies two correct bullet points now exist on slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check whether both specified bullet points are present on slide 5\n    # Find slide 5 screenshot (supports object with attributes or dict with keys)\n    slide_5_image = None\n    \n    if len(ppt_diff.modified_slides) + len(ppt_diff.added_slides) == 0:\n        return 'No modifications detected on slide 5.', 0.0\n    \n    for s in modified_ppt_screenshots:\n        try:\n            s_num = getattr(s, 'slide_number', None)\n            if s_num is None and isinstance(s, dict):\n                s_num = s.get('slide_number')\n            if s_num == 5:\n                slide_5_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_5_image:\n        # Infra-vs-model disambiguation: if slide exists in modified pptx,\n        # the missing screenshot is an infra failure (raise to retry).\n        from pptx import Presentation as _Pres\n        try:\n            _slide_count = len(_Pres(modified_ppt_path).slides)\n        except Exception:\n            _slide_count = 0\n        if _slide_count >= 5:\n            raise ScreenshotsUnavailableError(\"Slide 5 screenshot not found; flagging task for verification retry.\")\n        return 'Slide 5 screenshot not found.', 0.0\n\n    prompt = (\n        \"Look at this PowerPoint slide (slide 5) and read the bullet points.\\n\"\n        \"We expect exactly these two bullet sentences to appear as bullets:\\n\"\n        \"1) 'Early Life: A child's risk of becoming obese may begin before birth'\\n\"\n        \"2) 'Pregnant women who use tobacco, gain excessive weight, or have diabetes increase their children's obesity risk'\\n\"\n        \"Do both of these exact bullet sentences appear on the slide (ignore indentation issues)? Respond with:\\n\"\n        \"- YES if both appear,\\n\"\n        \"- PARTIAL if only one appears,\\n\"\n        \"- NONE if neither appears.\\n\"\n        \"Include a brief justification after the above response.\"\n    )\n\n    try:\n        response = vlm_call(images=[slide_5_image], prompt=prompt, temperature=0.1, max_tokens=200)\n        resp = str(response).strip()\n        if 'YES' in resp and 'PARTIAL' not in resp and 'NONE' not in resp:\n            return response, 1.0\n        elif 'PARTIAL' in resp or ('YES' in resp and 'NO' in resp):\n            return response, 0.5\n        elif 'NONE' in resp or 'NO' in resp:\n            return response, 0.0\n        else:\n            return f'Unclear response from VLM: {response}', 0.0\n    except Exception as e:\n        return f'Error during VLM check: {str(e)}', 0.0"
+        }
+      },
+      {
+        "name": "slide_5_no_extraneous_changes",
+        "description": "Checks for absence of unintended changes on slide 5 (e.g., unrelated text/formatting changes).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score():\n    # Check for modifications to slide 5 other than bullet/text changes\n    extraneous = False\n    for s1, s2 in ppt_diff.modified_slides:\n        if s1.slide_number == 5 or s2.slide_number == 5:\n            # Compare layout_type, notes, element_count\n            # Ignore title, since that's often the paragraph.\n            if (s1.layout_type != s2.layout_type) or (s1.notes != s2.notes) or (s1.element_count != s2.element_count):\n                extraneous = True\n    if extraneous:\n        return 'Extraneous changes detected on slide 5.', 0.0\n    return 'No extraneous changes detected on slide 5.', 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Convert the paragraph on slide 5 into two bullet points: 'Early Life: A child's risk of becoming obese may even begin before birth' and 'Pregnant women who use tobacco, gain excessive weight, or have diabetes give birth to children who have an increased risk of being obese during their preschool years'"
+  }
+}

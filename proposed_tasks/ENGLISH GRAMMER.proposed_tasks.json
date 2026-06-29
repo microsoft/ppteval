@@ -1,0 +1,446 @@
+{
+  "file": "PowerPoint/ENGLISH GRAMMER.pptx",
+  "num_tasks": 40,
+  "tasks": [
+    {
+      "task_id": "ENGLISH GRAMMER-001",
+      "goal": "Fix the spelling error in the title by changing 'GRAMMER' to 'GRAMMAR'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-002",
+      "goal": "Change the background color of the title slide from purple to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-003",
+      "goal": "Make the author name 'KARMESH THAKKAR' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-004",
+      "goal": "Change the color of the header 'PRESENT SIMPLE' to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-005",
+      "goal": "Add a new bullet point under 'EXAMPLES' section with the text '3. She visits her grandmother every Sunday.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-006",
+      "goal": "Create a new table with header 'Question Form' that shows the question form examples for present simple tense",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-007",
+      "goal": "Change the background color of all the colored boxes from purple/maroon to green",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-008",
+      "goal": "Add a new bullet point under the second section: '3. If you add salt to water, it dissolves.'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-009",
+      "goal": "Insert a new section with header 'To express opinions or feelings:' and add one example",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-010",
+      "goal": "Correct the grammar error in the first bullet point: change 'don't generally have' to 'generally don't have'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-011",
+      "goal": "Change the font size of all section headers to be larger than the current text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-012",
+      "goal": "Add a new example under 'To talk about temporary situations': '3. I am working part-time while studying.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-013",
+      "goal": "Change the word 'living' to bold in all the examples where it appears",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-014",
+      "goal": "Create a new section called 'To talk about future plans:' with two examples of present continuous used for future plans",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-015",
+      "goal": "Reorder the sections so that 'To talk about actions happening at the moment of speaking' comes first",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-016",
+      "goal": "Add a new example under the SENSES category: '3. I can hear music playing.'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-017",
+      "goal": "Create a new category called 'MEASUREMENT' with one example: 'This bag weighs five kilograms.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-018",
+      "goal": "Fix the grammar in the DESCRIPTION section by adding a period at the end of the sentence",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-019",
+      "goal": "Change all category headers to use italic formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-020",
+      "goal": "Correct the grammar in the second example by changing 'How did the burglar break in without anybody hearing him?' to 'How did the burglar break in without anybody hearing him?'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-021",
+      "goal": "Add a new section 'To talk about past states:' with the example 'She was very tired yesterday.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-022",
+      "goal": "Add a missing example under 'To talk about past repeated actions' section: '2. Every summer, we traveled to the beach.'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-023",
+      "goal": "Create a comparison table showing the difference between Past Simple and Present Perfect tenses with 3 examples each",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-024",
+      "goal": "Add a third example under the 'To provide the background scene' section: '3. They were walking in the park when it started to rain.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-025",
+      "goal": "Fix the grammar in the formula by changing 'Was/were.... + verb + ing?' to 'Was/were + verb + ing?'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-026",
+      "goal": "Create a new section called 'To show interrupted actions' with examples demonstrating this use of past continuous",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-027",
+      "goal": "Change the table format to have alternating row colors (light and dark) for better readability",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-028",
+      "goal": "Add a third example: '3. We used to go camping every summer when I was young.'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-029",
+      "goal": "Add a section explaining the difference between 'used to' and 'would' with at least one example for each",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-030",
+      "goal": "Correct the capitalization in the first example by changing 'she used to' to 'She used to'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-031",
+      "goal": "Create a note box explaining that 'would' cannot be used for past states, only past habits",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-032",
+      "goal": "Add a new usage section 'To talk about life experiences:' with the example 'I have traveled to many countries.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-033",
+      "goal": "Correct the spacing in the third example by adding proper spacing around the question mark",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-034",
+      "goal": "Add a third column to the comparison table titled 'WHEN TO USE' with brief explanations for each tense",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-035",
+      "goal": "Fix the grammar error in the Present Perfect example by changing '(At some point before now and I may make more notes)' to clearer text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-036",
+      "goal": "Bold all the tense names in the comparison table headers",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-037",
+      "goal": "Add a new example under the comparison: 'I have been working on this project for months.' vs 'I have completed five projects.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-038",
+      "goal": "Fix the spacing in the formula by ensuring consistent formatting",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-039",
+      "goal": "Create a timeline diagram showing the relationship between past perfect continuous and past simple actions",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "ENGLISH GRAMMER-040",
+      "goal": "Add a fourth example: '4. She had been cooking dinner when the guests arrived.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/ENGLISH GRAMMER.pptx",
+      "misc": {}
+    }
+  ]
+}

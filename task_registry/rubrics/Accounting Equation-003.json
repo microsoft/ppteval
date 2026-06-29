@@ -1,0 +1,87 @@
+{
+  "root": {
+    "name": "Add 'Capital' bullet after 'Expenses' on slide 5",
+    "description": "Evaluates whether the agent correctly added a new bullet point 'Capital' immediately after an 'Expenses' bullet on slide 5 and avoided any undesired changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Bullet 'Capital' added after 'Expenses' on slide 5",
+        "description": "Checks that a new bullet point with text 'Capital' appears after 'Expenses' on slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "'Capital' bullet exists on slide 5",
+            "description": "Checks that there is a bullet with the exact text 'Capital' present on slide 5.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use python-pptx to find slide 5\n    from pptx import Presentation\n    import re\n    pres = Presentation(modified_ppt_path)\n    if len(pres.slides) < 5:\n        return (\"Slide 5 is missing in the presentation.\", 0)\n    slide = pres.slides[4]  # slide number is 1-based\n    bullet_found = False\n    bullet_shapes = []\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for paragraph in shape.text_frame.paragraphs:\n            for run in paragraph.runs:\n                text = run.text.strip()\n                if text == 'Capital':\n                    bullet_found = True\n    if bullet_found:\n        return (\"'Capital' bullet found on slide 5.\", 1)\n    else:\n        return (\"'Capital' bullet not found on slide 5.\", 0)\n"
+            }
+          },
+          {
+            "name": "'Capital' bullet appears after 'Expenses' bullet",
+            "description": "Checks that 'Capital' appears immediately after 'Expenses' in the bullet list on slide 5, in visual order.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres = Presentation(modified_ppt_path)\n    if len(pres.slides) < 5:\n        return (\"Slide 5 is missing in the presentation.\", 0)\n    slide = pres.slides[4]\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        \n        # Collect all paragraphs with their levels\n        paragraphs = []\n        for p in shape.text_frame.paragraphs:\n            if p.text.strip():\n                paragraphs.append((p.text.strip(), p.level))\n        \n        # Find Expenses bullet and then find Capital bullet after it at the same level\n        expenses_index = -1\n        for i, (text, level) in enumerate(paragraphs):\n            if text == 'Expenses' and level == 1:\n                expenses_index = i\n                break\n        \n        if expenses_index >= 0:\n            # Look for Capital bullet after Expenses at level 1 (main bullet level)\n            for i in range(expenses_index + 1, len(paragraphs)):\n                text, level = paragraphs[i]\n                if level == 1 and text == 'Capital':\n                    return (\"'Capital' bullet appears after 'Expenses' bullet on slide 5.\", 1)\n    \n    return (\"'Capital' bullet is not placed after 'Expenses' on slide 5.\", 0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No undesired changes to slide 5",
+        "description": "Ensures that no extra content (added or removed bullets besides 'Capital') was changed on slide 5.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No other bullets modified/added/removed on slide 5 except 'Capital'",
+            "description": "Checks that only 'Capital' was added as a bullet, and no other bullet changes occurred.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    pres_orig = Presentation(original_ppt_path)\n    pres_mod = Presentation(modified_ppt_path)\n    if len(pres_orig.slides) < 5 or len(pres_mod.slides) < 5:\n        return (\"Slide 5 missing in one of the presentations.\", 0)\n    slide_orig = pres_orig.slides[4]\n    slide_mod = pres_mod.slides[4]\n    def extract_bullets(slide):\n        bullets = []\n        for shape in slide.shapes:\n            if not shape.has_text_frame:\n                continue\n            for paragraph in shape.text_frame.paragraphs:\n                txt = paragraph.text.strip()\n                if txt:\n                    bullets.append(txt)\n        return bullets\n    orig_bullets = extract_bullets(slide_orig)\n    mod_bullets = extract_bullets(slide_mod)\n    # Remove 'Capital' from list for diff check\n    mod_bullets_minus_capital = [b for b in mod_bullets if b != 'Capital']\n    # Now compare\n    if orig_bullets == mod_bullets_minus_capital:\n        return (\"No other bullets were modified on slide 5 except 'Capital' was added.\", 1)\n    else:\n        return (\"Other bullets were modified/added/removed on slide 5.\", 0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No extraneous changes elsewhere",
+        "description": "Checks that no other slides or content (elements, text, order, animations, transitions) were modified except to add 'Capital' bullet on slide 5.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to other slides",
+            "description": "Checks that slides other than 5 have not been added, deleted, or modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    changed_slides = set()\n    for s in ppt_diff.added_slides:\n        if s.slide_number != 5:\n            changed_slides.add(s.slide_number)\n    for s in ppt_diff.removed_slides:\n        if s.slide_number != 5:\n            changed_slides.add(s.slide_number)\n    for mod in ppt_diff.modified_slides:\n        orig, mod_ = mod\n        if orig.slide_number != 5:\n            changed_slides.add(orig.slide_number)\n    if changed_slides:\n        return (f\"Slides other than 5 modified/added/removed: {sorted(changed_slides)}\", 0)\n    return (\"No changes to slides other than 5.\", 1)\n"
+            }
+          },
+          {
+            "name": "No new added/modified/removed transitions or animations",
+            "description": "Ensures that no transitions or animations have been added, removed, or modified anywhere in the presentation.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for animation additions/removals which are not allowed for this task\n    if ppt_diff.added_animations or ppt_diff.removed_animations:\n        return (\"Extraneous animations were added or removed.\", 0)\n    \n    # For transitions, we'll be more lenient as some tools modify these during save\n    # Only flag if there are major changes (additions, not just removals)\n    if ppt_diff.added_transitions:\n        return (\"Extraneous transitions were added.\", 0)\n    \n    return (\"No extraneous animations or transitions were added.\", 1)\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a new bullet point 'Capital' after 'Expenses' on slide 5"
+  }
+}

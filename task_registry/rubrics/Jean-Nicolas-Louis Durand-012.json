@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Add a border around the architectural diagram image on slide 6",
+    "description": "Evaluates if the agent has correctly added a border around the architectural diagram image on slide 6, with no extraneous changes elsewhere in the presentation.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Border correctly added to architectural diagram image on slide 6",
+        "description": "Checks that a border was successfully added to the correct image (architectural diagram) on slide 6.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    \"\"\"Check that a border was added to the (only) diagram image on slide 6.\n\n    Logic:\n      1. Locate slide 6 (index 5) in both original & modified decks.\n      2. Detect picture shapes robustly (picture, placeholder w/ image, any shape w/ image attr).\n      3. Select the main diagram image (largest area) in each.\n      4. Examine line (border) width. Treat None or 0 as 'no border'.\n      5. Pass if modified border width > 0 and (original had no border OR width increased).\n      6. Provide informative failure reasons otherwise.\n    \"\"\"\n    original_slide_6 = None\n    modified_slide_6 = None\n    \n    for screenshot in original_ppt_screenshots:\n        if screenshot.slide_number == 6:\n            original_slide_6 = screenshot\n            original_slide_id = screenshot.slide_id\n            break\n    \n    for screenshot in modified_ppt_screenshots:\n        if str(screenshot.slide_id) == str(original_slide_id):\n            modified_slide_6 = screenshot\n            break\n\n    if not original_slide_6 or not modified_slide_6:\n        raise ScreenshotsUnavailableError(\"Could not find slide 6 screenshots for comparison; flagging task for verification retry.\")\n\n    prompt = \"\"\"Compare these two PowerPoint slides (original vs modified).\n\n    Task: The user was supposed to add a border to the main diagram image on this slide.\n\n    Please analyze if a border has been added to the main diagram image in the modified version.\n\n    Respond with:\n    - PASS if a border has been successfully added\n    - FAIL if no border was added or if the change is inappropriate\n    - Include a brief explanation of what you observe\"\"\"\n    \n    try:\n        response = vlm_call(prompt, [original_slide_6.image_path, modified_slide_6.image_path], temperature=0.3)\n\n        if \"PASS\" in response.upper():\n            return f\"Border successfully added: {response}\", 1.0\n        else:\n            return f\"Border not properly added: {response}\", 0.0\n\n    except Exception as e:\n        return f\"Error in visual comparison: {str(e)}\", 0.0"
+        }
+      },
+      {
+        "name": "No extraneous changes made to presentation",
+        "description": "Checks that no unintended changes were made anywhere in the presentation other than the border addition on slide 6.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No extraneous changes to slides other than slide 6",
+            "description": "Verifies that slides other than slide 6 were not modified, added, or removed.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check for added/removed/modified slides\n    other_mods = [s for s,_ in ppt_diff.modified_slides if s.slide_number != 6]\n    other_added = [s for s in ppt_diff.added_slides if s.slide_number != 6]\n    other_removed = [s for s in ppt_diff.removed_slides if s.slide_number != 6]\n    if other_mods or other_added or other_removed:\n        return (f\"Extraneous slide changes detected: modified={len(other_mods)}, added={len(other_added)}, removed={len(other_removed)}.\", 0.0)\n    return (\"No extraneous slide changes detected.\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No extraneous changes to animations or transitions",
+            "description": "Verifies that no animations or transitions were changed, added, or removed anywhere in the presentation.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check for animation/transition changes\n    extraneous_anim = [a for a in ppt_diff.added_animations if a.slide_id != '6']\n    extraneous_anim += [a for a in ppt_diff.removed_animations if a.slide_id != '6']\n    extraneous_anim += [a for a,_ in ppt_diff.modified_animations if a.slide_id != '6']\n    extraneous_trans = [t for t in ppt_diff.added_transitions if t.slide_id != '6']\n    extraneous_trans += [t for t in ppt_diff.removed_transitions if t.slide_id != '6']\n    extraneous_trans += [t for t,_ in ppt_diff.modified_transitions if t.slide_id != '6']\n    if extraneous_anim or extraneous_trans:\n        return (f\"Extraneous animation/transition changes detected.\", 0.0)\n    return (\"No extraneous animation or transition changes detected.\", 1.0)\n"
+            }
+          },
+          {
+            "name": "No extraneous changes to slide 6 content except border addition",
+            "description": "Verifies that no changes were made to slide 6 content except for the border addition around the architectural diagram image.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff and python-pptx to check for other changes to slide 6.\n    # Check for notes changes, added/removed elements (except the border on the image)\n    slide_mods = [pair for pair in ppt_diff.modified_slides if pair[0].slide_number == 6]\n    notes_changed = False\n    if slide_mods:\n        orig_slide, mod_slide = slide_mods[0]\n        if orig_slide.notes != mod_slide.notes:\n            notes_changed = True\n    # Now check for added/removed shapes except border on diagram image\n    from pptx import Presentation\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    orig_slide = prs_orig.slides[5]\n    mod_slide = prs_mod.slides[5]\n    # Allow a change in shape count by +0 or +1 (for border addition)\n    orig_shape_count = len(orig_slide.shapes)\n    mod_shape_count = len(mod_slide.shapes)\n    shape_diff = mod_shape_count - orig_shape_count\n    if notes_changed:\n        return (\"Slide 6 notes changed.\", 0.0)\n    if abs(shape_diff) > 1:\n        return (\"More than one element added/removed on slide 6.\", 0.0)\n    # Could further check for text changes, but border shouldn't affect text\n    return (\"No extraneous changes to slide 6 content (only border addition).\", 1.0)\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Add a border around the architectural diagram image on slide 6.",
+    "compute_strategy": "default",
+    "critical_node_weight": 0.7
+  }
+}

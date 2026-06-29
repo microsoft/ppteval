@@ -1,0 +1,193 @@
+{
+  "file": "PowerPoint/Aircraft_surface.pptx",
+  "num_tasks": 17,
+  "tasks": [
+    {
+      "task_id": "Aircraft_surface-001",
+      "goal": "Change the title 'AIRCRAFT SURFACE' to 'AIRCRAFT FUNDAMENTALS'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-002",
+      "goal": "Add a new subtitle text box below the author name that says 'An Introduction to Flight Dynamics'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-003",
+      "goal": "Change the bullet point 'Lateral Axis' to 'Lateral (Side-to-Side) Axis'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-004",
+      "goal": "Add a new bullet point at the end of the list that says 'All three axes intersect at the aircraft's center of gravity'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-005",
+      "goal": "Change the bullet point text from 'Ailerons' to 'Ailerons - Primary Flight Control Surfaces'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-006",
+      "goal": "Change the title from 'Longitudinal Axis (2 of 3)' to 'Longitudinal Axis - Roll Movement (2 of 3)'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-007",
+      "goal": "Add a new text box below the image that says 'Ailerons control the roll movement of the aircraft'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-008",
+      "goal": "Change the bullet point 'Axis of Roll' to 'Axis of Roll - Banking Motion'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-009",
+      "goal": "Add the text 'Roll Movement Demonstration' as a subtitle below the main title",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-010",
+      "goal": "Change 'Elevators' to 'Elevators - Pitch Control Surfaces'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-011",
+      "goal": "Add a new text box that says 'Elevators control the pitch attitude of the aircraft' positioned below the aircraft diagram",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-012",
+      "goal": "Change 'Axis of Pitch.' to 'Axis of Pitch - Nose Up/Down Movement'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-013",
+      "goal": "Replace the 'Click to add text' placeholder with 'Elevator movement controls aircraft pitch attitude'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-014",
+      "goal": "Change 'Rudder' to 'Rudder - Yaw Control Surface'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-015",
+      "goal": "Add a text box stating 'The rudder controls yaw movement around the vertical axis' positioned below the aircraft diagram",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-016",
+      "goal": "Replace the 'Click to add text' placeholder with 'Left rudder causes left yaw, right rudder causes right yaw'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Aircraft_surface-017",
+      "goal": "Change 'Axis of Yaw' to 'Axis of Yaw - Left/Right Turning Movement'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Aircraft_surface.pptx",
+      "misc": {}
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "root": {
+    "name": "Create flowchart representing 'Left Hand Side → Right Hand Side → Balance' on slide 3",
+    "description": "Evaluates whether a flowchart depicting the accounting equation logic flow (Left Hand Side → Right Hand Side → Balance) is accurately created on slide 3 with correct shapes, labels, clarity, and layout.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Flowchart presence on slide 3",
+        "description": "Checks if a flowchart has been added to slide 3.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Extract elements added or modified on slide 3\n    slide_3_id = None\n    for slide in ppt_diff.added_slides + [t[1] for t in ppt_diff.modified_slides]:\n        if slide.slide_number == 3:\n            slide_3_id = slide.slide_id\n            break\n    if not slide_3_id:\n        return \"Slide 3 not present in the modified file.\", 0.0\n    \n    # Check for flowchart presence on slide 3\n    from pptx import Presentation\n    from pptx.enum.shapes import MSO_SHAPE_TYPE\n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) < 3:\n        return \"Modified file has less than 3 slides.\", 0.0\n    \n    slide = prs.slides[2]  # Slide 3 (0-indexed)\n    \n    # Count shapes and connectors for flowchart detection\n    shape_count = 0\n    connector_count = 0\n    \n    for shape in slide.shapes:\n        if shape.is_placeholder:\n            continue\n            \n        if shape.shape_type == MSO_SHAPE_TYPE.AUTO_SHAPE:\n            shape_count += 1\n        elif shape.shape_type == MSO_SHAPE_TYPE.LINE:\n            # Lines can be connectors/arrows\n            connector_count += 1\n    \n    # A flowchart needs at least 2 shapes (boxes/rectangles) and 1 connector (arrow)\n    if shape_count >= 2 and connector_count >= 1:\n        return f\"Flowchart detected with {shape_count} shapes and {connector_count} connectors on slide 3.\", 1.0\n    elif shape_count >= 2:\n        return f\"Found {shape_count} shapes but only {connector_count} connectors. May be missing arrows.\", 0.5\n    else:\n        return f\"Insufficient flowchart elements: {shape_count} shapes, {connector_count} connectors.\", 0.0\n"
+        },
+        "score": 1.0,
+        "reason": "Flowchart detected with 3 shapes and 2 connectors on slide 3."
+      },
+      {
+        "name": "Flowchart logic correctness",
+        "description": "Checks that the flowchart displays the progression: 'Left Hand Side → Right Hand Side → Balance', with correct order and labeling for each step.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    if len(prs.slides) < 3:\n        return \"Modified presentation does not have 3 slides.\", 0.0\n    \n    slide = prs.slides[2]  # Slide 3\n    \n    # Collect all text from shapes\n    texts = []\n    for shape in slide.shapes:\n        if hasattr(shape, 'text') and shape.text:\n            text = shape.text.strip().lower()\n            if text:\n                texts.append(text)\n    \n    # Check for required flowchart components (exact, case-insensitive match of full shape text)\n    required_terms = [\"left hand side\", \"right hand side\", \"balance\"]\n    texts_set = set(texts)  # exact matches (already lowercased & stripped)\n    found_terms = []\n    for required_term in required_terms:\n        for text in texts_set:\n            if required_term in text:\n                found_terms.append(required_term)\n                break\n    \n    missing_terms = [term for term in required_terms if term not in found_terms]\n\n    total = len(required_terms)\n    found_count = len(found_terms)\n\n    # Partial credit: proportion of required terms present\n    score = found_count / total\n\n    if found_count == total:\n        return (\n            f\"Flowchart contains all required components (exact matches): {', '.join(found_terms)}\",\n            1.0,\n        )\n    elif found_count == 0:\n        return (\n            \"Flowchart is missing all required components: \"\n            + \", \".join(required_terms),\n            0.0,\n        )\n    else:\n        return (\n            \"Flowchart partially complete. Found: \"\n            + (\", \".join(found_terms) if found_terms else \"<none>\")\n            + \"; Missing: \"\n            + \", \".join(missing_terms)\n            + f\" (score {score:.2f})\",\n            score,\n        )\n"
+        },
+        "score": 1.0,
+        "reason": "Flowchart contains all required components (exact matches): left hand side, right hand side, balance"
+      },
+      {
+        "name": "Appropriate flowchart shapes used",
+        "description": "Checks if conventional flowchart shapes (rectangles for steps, arrows/connectors for flow) are used on slide 3.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.enum.shapes import MSO_SHAPE_TYPE, MSO_AUTO_SHAPE_TYPE\n    \n    prs = Presentation(modified_ppt_path)\n    \n    if len(prs.slides) < 3:\n        return \"Modified presentation does not have 3 slides.\", 0.0\n    \n    slide = prs.slides[2]  # Slide 3\n    \n    # Count specific appropriate shapes for flowchart\n    rounded_rectangles = 0  # Rounded rectangles (preferred for flowchart steps)\n    other_step_shapes = 0   # Other valid step shapes (rectangles, etc.)\n    arrow_connectors = 0    # Line connectors/arrows\n    \n    for shape in slide.shapes:\n        if shape.is_placeholder:\n            continue\n            \n        if shape.shape_type == MSO_SHAPE_TYPE.AUTO_SHAPE:\n            # Check if it's specifically a rounded rectangle (best for flowcharts)\n            if hasattr(shape, 'auto_shape_type') and shape.auto_shape_type == MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE:\n                rounded_rectangles += 1\n            # Or other valid flowchart step shapes\n            elif hasattr(shape, 'auto_shape_type') and shape.auto_shape_type in [\n                MSO_AUTO_SHAPE_TYPE.RECTANGLE, \n                MSO_AUTO_SHAPE_TYPE.FLOWCHART_PROCESS,\n                MSO_AUTO_SHAPE_TYPE.FLOWCHART_DECISION,\n                MSO_AUTO_SHAPE_TYPE.FLOWCHART_TERMINATOR\n            ]:\n                other_step_shapes += 1\n        elif shape.shape_type == MSO_SHAPE_TYPE.LINE:\n            # These are line connectors/arrows (ideal for flowchart connections)\n            arrow_connectors += 1\n    \n    total_step_shapes = rounded_rectangles + other_step_shapes\n    \n    # Evaluate flowchart shape appropriateness\n    if rounded_rectangles >= 3 and arrow_connectors >= 2:\n        return f\"Excellent flowchart shapes: {rounded_rectangles} rounded rectangles and {arrow_connectors} arrow connectors.\", 1.0\n    elif total_step_shapes >= 3 and arrow_connectors >= 2:\n        return f\"Good flowchart shapes: {total_step_shapes} step shapes ({rounded_rectangles} rounded) and {arrow_connectors} connectors.\", 0.9\n    elif total_step_shapes >= 2 and arrow_connectors >= 1:\n        return f\"Adequate flowchart shapes: {total_step_shapes} step shapes ({rounded_rectangles} rounded) and {arrow_connectors} connectors.\", 0.8\n    elif total_step_shapes >= 2:\n        return f\"Found {total_step_shapes} step shapes but only {arrow_connectors} connectors. Missing arrows.\", 0.6\n    elif arrow_connectors >= 1:\n        return f\"Found {arrow_connectors} connectors but only {total_step_shapes} step shapes. Need more boxes.\", 0.4\n    else:\n        return f\"Insufficient flowchart shapes: {total_step_shapes} step shapes, {arrow_connectors} connectors.\", 0.0\n"
+        },
+        "score": 1.0,
+        "reason": "Excellent flowchart shapes: 3 rounded rectangles and 2 arrow connectors."
+      },
+      {
+        "name": "Text clarity and readability",
+        "description": "Checks if flowchart text is easy to read (reasonable font size, stands out from background).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    \n    if len(prs.slides) < 3:\n        return \"Modified presentation does not have 3 slides.\", 0.0\n    \n    slide = prs.slides[2]  # Slide 3\n    \n    # Check text readability in flowchart shapes\n    readable_shapes = 0\n    total_text_shapes = 0\n    \n    for shape in slide.shapes:\n        if shape.is_placeholder:\n            continue\n            \n        if hasattr(shape, \"text\") and shape.text and shape.text.strip():\n            total_text_shapes += 1\n            \n            # Check if text is readable (basic criteria: has text and is not too small)\n            try:\n                # If we can read the text and it's meaningful, consider it readable\n                text = shape.text.strip()\n                if len(text) > 2:  # More than just 1-2 characters\n                    readable_shapes += 1\n                    \n                # Additional check for font size if available\n                try:\n                    for paragraph in shape.text_frame.paragraphs:\n                        for run in paragraph.runs:\n                            if run.font.size and run.font.size.pt >= 12:\n                                # Already counted as readable, but this confirms good size\n                                break\n                except:\n                    pass  # Font size check failed, but text is still readable\n                    \n            except Exception:\n                continue\n    \n    if total_text_shapes == 0:\n        return \"No text shapes found in flowchart.\", 0.0\n    \n    ratio = readable_shapes / total_text_shapes\n    \n    if ratio >= 0.8:\n        return f\"Flowchart text is clear and readable ({readable_shapes}/{total_text_shapes} shapes).\", 1.0\n    elif ratio >= 0.5:\n        return f\"Most flowchart text is readable ({readable_shapes}/{total_text_shapes} shapes).\", 0.8\n    else:\n        return f\"Flowchart text clarity needs improvement ({readable_shapes}/{total_text_shapes} shapes).\", 0.5\n"
+        },
+        "score": 1.0,
+        "reason": "Flowchart text is clear and readable (3/3 shapes)."
+      },
+      {
+        "name": "Flowchart positioning on slide",
+        "description": "Checks that the flowchart is well positioned (centred, not overlapping other content, fits slide area).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    \n    if len(prs.slides) < 3:\n        return \"Modified presentation does not have 3 slides.\", 0.0\n    \n    slide = prs.slides[2]  # Slide 3\n    slide_width = prs.slide_width\n    slide_height = prs.slide_height\n    \n    # Get bounding box of all non-placeholder flowchart shapes\n    lefts = []\n    tops = []\n    rights = []\n    bottoms = []\n    \n    for shape in slide.shapes:\n        if shape.is_placeholder:\n            continue\n        lefts.append(shape.left)\n        tops.append(shape.top)\n        rights.append(shape.left + shape.width)\n        bottoms.append(shape.top + shape.height)\n    \n    if not lefts:\n        return \"No flowchart shapes found for positioning analysis.\", 0.0\n    \n    # Calculate bounding box of all flowchart elements\n    min_left = min(lefts)\n    max_right = max(rights)\n    min_top = min(tops)\n    max_bottom = max(bottoms)\n    \n    flowchart_width = max_right - min_left\n    flowchart_height = max_bottom - min_top\n    \n    # Check if flowchart fits within slide bounds (with some tolerance)\n    tolerance = 0.02  # 2% tolerance for slide boundaries\n    margin_w = slide_width * tolerance\n    margin_h = slide_height * tolerance\n    \n    fits_bounds = (min_left >= -margin_w and max_right <= slide_width + margin_w and \n                   min_top >= -margin_h and max_bottom <= slide_height + margin_h)\n    \n    # Check if reasonably positioned (not crammed into corners)\n    flowchart_center_x = min_left + flowchart_width / 2\n    flowchart_center_y = min_top + flowchart_height / 2\n    slide_center_x = slide_width / 2\n    slide_center_y = slide_height / 2\n    \n    # Allow for reasonable positioning (not necessarily perfectly centered)\n    reasonable_x = abs(flowchart_center_x - slide_center_x) < slide_width * 0.4\n    reasonable_y = abs(flowchart_center_y - slide_center_y) < slide_height * 0.4\n    \n    if fits_bounds and reasonable_x and reasonable_y:\n        return \"Flowchart is well-positioned on the slide.\", 1.0\n    elif fits_bounds:\n        return \"Flowchart fits within slide bounds but positioning could be improved.\", 0.8\n    elif reasonable_x and reasonable_y:\n        return \"Flowchart is reasonably positioned but may extend beyond slide boundaries.\", 0.6\n    else:\n        return \"Flowchart positioning needs improvement - check bounds and centering.\", 0.4\n"
+        },
+        "score": 1.0,
+        "reason": "Flowchart is well-positioned on the slide."
+      }
+    ],
+    "score": 1.0,
+    "reason": "The criterion received a perfect score because all essential requirements were successfully met. A properly structured flowchart was created on slide 3 with the correct logical sequence from \"Left Hand Side\" to \"Right Hand Side\" to \"Balance\", using appropriate rounded rectangle shapes connected by arrow connectors. The flowchart demonstrates excellent technical execution with clear, readable text and proper positioning on the slide, fulfilling both the critical structural requirements and the presentation quality standards."
+  },
+  "metadata": {
+    "task": "# Task: Create a flowchart showing the logic: Left Hand Side → Right Hand Side → Balance\n\n**Task ID:** Accounting Equation-045  \n**Difficulty:** HARD  \n**Target Slide:** Slide 3  \n\n## Objective\nCreate a flowchart that visually represents the accounting equation logic flow:\nLeft Hand Side → Right Hand Side → Balance\n\n## Success Criteria\n1. A flowchart should be present on slide 3\n2. The flowchart should show the progression: Left Hand Side → Right Hand Side → Balance\n3. The flowchart should use appropriate shapes (e.g., rectangles, arrows)\n4. The text should be clear and readable\n5. The flowchart should be properly positioned on the slide\n\n"
+  }
+}

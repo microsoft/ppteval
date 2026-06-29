@@ -1,0 +1,27 @@
+# CUA (Computer Use Agent) Configuration
+# OpenAI Computer Use Agent for GUI automation
+
+# Model configuration
+agent_type: "cua"
+model_name: "openai/computer-use-preview"  # OpenAI model name
+endpoint: "azure"  # "azure" or "openai"
+
+# Azure OpenAI settings (required if endpoint="azure")
+base_url: "${CUA_BASE_URL}"
+api_version: "2025-04-01-preview"
+
+# OpenAI settings (required if endpoint="openai")
+api_key: "${CUA_API_KEY}"
+
+# Display configuration (drives environment resolution)
+display_size:
+  width: 1024
+  height: 768
+
+# Environment type
+environment: "browser"  # "browser", "windows", or "linux"
+
+# Model parameters
+temperature: 0.7
+top_p: 1.0
+truncation: "auto"  # "auto" or "none"

@@ -1,0 +1,303 @@
+{
+  "file": "PowerPoint/application+layer+slide.pptx.pptx",
+  "num_tasks": 27,
+  "tasks": [
+    {
+      "task_id": "application+layer+slide.pptx-001",
+      "goal": "Change the title text 'Application Layer' to 'Network Application Layer' and make it bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-002",
+      "goal": "Add a new bullet point '• Pure P2P' as the fourth item in the application architectures list",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-003",
+      "goal": "Replace the word 'server' in red text with 'host server' throughout the slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-004",
+      "goal": "Change the color of 'Skype' text from red to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-005",
+      "goal": "Add a new text box at the bottom of the slide that says 'Note: Sockets provide an interface for communication'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-006",
+      "goal": "Remove the diagram on the right side of the slide and replace it with a simple text list showing 'Client Socket → Internet → Server Socket'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-007",
+      "goal": "Change the font size of the question 'Q: does IP address of host suffice for identifying the process?' to be larger (18pt)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-008",
+      "goal": "Add a new bullet point showing 'Port number: 443' under the HTTPS example section",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-009",
+      "goal": "Change the color of 'TCP service:' text from red to green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-010",
+      "goal": "Add a new bullet point explaining 'Objects include CSS files, JavaScript files, images, videos'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-011",
+      "goal": "Replace the existing diagram with a simpler flowchart showing 'Browser → HTTP Request → Web Server → HTTP Response → Browser'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-012",
+      "goal": "Center-align the title text 'Application Layer'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-013",
+      "goal": "Add numbering (1., 2., 3.) to the three bullet points in the list",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-014",
+      "goal": "Change the background color of the slide to light blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-015",
+      "goal": "Create a simple table with two columns: 'Application' and 'Architecture Type' and list Skype and Instant messaging",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-016",
+      "goal": "Add a red border around the Client process definition box",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-017",
+      "goal": "Change 'Sockets' title text color to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-018",
+      "goal": "Add a subtitle 'Port Numbers and Process Identification' below the main title",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-019",
+      "goal": "Create a simple diagram showing IP address (128.119.245.12) connected to Port 80",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-020",
+      "goal": "Make the question text 'Q: why bother? Why is there a UDP?' italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-021",
+      "goal": "Replace the URL example with 'https://university.edu/courses/networking.html'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-022",
+      "goal": "Change the slide title from 'HTTP overview' to 'HTTP Protocol Overview'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-023",
+      "goal": "Change the title 'HTTP overview (continued)' to just 'HTTP Protocol Details'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-024",
+      "goal": "Remove the blue box on the right side and replace it with a simple bullet point 'Stateless protocols are simpler to implement'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-025",
+      "goal": "Change 'Uses TCP:' text color from red to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-026",
+      "goal": "Create a simple flowchart showing the TCP connection process: 'Client → TCP Connection → HTTP Request → HTTP Response → Connection Closed'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "application+layer+slide.pptx-027",
+      "goal": "Add a new section titled 'Key Features:' with bullet points about HTTP being stateless",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/application+layer+slide.pptx.pptx",
+      "misc": {}
+    }
+  ]
+}

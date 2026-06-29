@@ -1,0 +1,45 @@
+{
+  "root": {
+    "name": "Center align the title text on slide 4",
+    "description": "Evaluates whether the agent has correctly center aligned the title text on slide 4, without making unnecessary changes to other elements or slides.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title text on slide 4 is center aligned",
+        "description": "Checks that the title text box on slide 4 is set to center alignment.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    from pptx.enum.text import PP_ALIGN\n    prs = Presentation(modified_ppt_path)\n    slide = None\n    # Find slide 4 (zero-based index)\n    try:\n        slide = prs.slides[3]\n    except IndexError:\n        return (\"Slide 4 does not exist in the presentation.\", 0.0)\n    # Try to find the title shape\n    title_shape = None\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame and shape.text_frame.text.strip():\n            # Heuristic: check if it's the title placeholder\n            if shape.is_placeholder and shape.placeholder_format.type == 1: # TITLE\n                title_shape = shape\n                break\n    if not title_shape:\n        # Fallback: find the largest textbox on slide\n        max_area = 0\n        for shape in slide.shapes:\n            if shape.has_text_frame and shape.text_frame.text.strip():\n                area = shape.width * shape.height\n                if area > max_area:\n                    max_area = area\n                    title_shape = shape\n    if not title_shape:\n        return (\"No title text box found on slide 4.\", 0.0)\n    para = title_shape.text_frame.paragraphs[0]\n    if para.alignment == PP_ALIGN.CENTER:\n        return (\"Title text is center aligned on slide 4.\", 1.0)\n    else:\n        return (\"Title text is not center aligned on slide 4.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No unnecessary changes made to other slides or non-title elements on slide 4",
+        "description": "Ensures that only the title text box alignment was changed on slide 4 and no extraneous content was added, removed, or modified elsewhere.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No changes to slides other than slide 4",
+            "description": "Checks that slides other than slide 4 were not added, removed, or modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    modified_slide_ids = set()\n    for s1, s2 in ppt_diff.modified_slides:\n        modified_slide_ids.add(s1.slide_id)\n    for slide in ppt_diff.added_slides:\n        if slide.slide_number != 4:\n            return (f\"Slide {slide.slide_number} was added.\", 0.0)\n    for slide in ppt_diff.removed_slides:\n        if slide.slide_number != 4:\n            return (f\"Slide {slide.slide_number} was removed.\", 0.0)\n    for s1, s2 in ppt_diff.modified_slides:\n        if s1.slide_number != 4:\n            return (f\"Slide {s1.slide_number} was modified.\", 0.0)\n    return (\"No non-slide-4 slides changed.\", 1.0)\n"
+            },
+            "score": 1.0
+          }
+        ],
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Center align the title text on slide 4"
+  }
+}

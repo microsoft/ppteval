@@ -1,0 +1,36 @@
+# UI-TARS 1.5 7B served by vLLM (OpenAI-compatible /v1/chat/completions).
+#
+# Spin up the model with e.g.
+#   vllm serve ByteDance-Seed/UI-TARS-1.5-7B \
+#       --served-model-name uitars-1.5-7b --api-key $TOKEN ...
+# and expose it via an SSH local-forward / devtunnel.
+#
+# Then point ppteval at the local forward:
+#   UITARS_VLLM_BASE_URL=http://127.0.0.1:18005/v1
+#   UITARS_VLLM_API_KEY=<token>
+
+agent_type: "uitars-vllm"
+model_name: "uitars-1.5-7b"
+
+base_url: "${UITARS_VLLM_BASE_URL}"
+api_key: "${UITARS_VLLM_API_KEY}"
+
+# Display resolution presented to the model. The screenenv container is
+# launched at this resolution and the model is expected to emit
+# coordinates in the same pixel grid.
+display_size:
+  width: 1024
+  height: 768
+
+# Model parameters. UI-TARS is fairly deterministic at temp=0.
+temperature: 0.0
+top_p: 1.0
+max_tokens: 1024
+
+# Request settings
+max_retries: 5
+timeout_seconds: 120
+
+# How many past (screenshot, response) pairs to send back with each call.
+# Matches the OSWorld UI-TARS reference impl (~3 turns).
+max_image_history_length: 3

@@ -1,0 +1,53 @@
+{
+  "root": {
+    "name": "Add Text Box with 'Updated Presentation' to Top-Right of Title Slide",
+    "description": "Evaluates whether the agent correctly adds a text box containing 'Updated Presentation' to the top-right corner of the first slide (title slide) in the PowerPoint presentation.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text Box Presence",
+        "description": "Checks if a new text box was added to slide 1.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for added shapes/textboxes on slide 1\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    original_prs = Presentation(original_ppt_path)\n    original_slide = original_prs.slides[0]\n    \n    # Get all text in textboxes for original and modified\n    def get_textboxes(slide):\n        return [shape for shape in slide.shapes if shape.has_text_frame and shape.text_frame and shape.text.strip()]\n\n    orig_texts = set(shape.text.strip() for shape in get_textboxes(original_slide))\n    mod_textboxes = get_textboxes(slide)\n    mod_texts = set(shape.text.strip() for shape in mod_textboxes)\n    added_texts = mod_texts - orig_texts\n    if not added_texts:\n        return (\"No new text box detected on slide 1.\", 0.0)\n    # Save for next criterion: which text box was added\n    # We'll return 1 if any new textbox was added, else 0\n    return (\"New text box detected on slide 1.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "Text Content Correctness",
+        "description": "Checks if the newly added text box contains exactly the text 'Updated Presentation'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    original_prs = Presentation(original_ppt_path)\n    original_slide = original_prs.slides[0]\n    \n    def get_textboxes(slide):\n        return [shape for shape in slide.shapes if shape.has_text_frame and shape.text_frame and shape.text.strip()]\n    orig_texts = set(shape.text.strip() for shape in get_textboxes(original_slide))\n    mod_textboxes = get_textboxes(slide)\n    mod_texts = set(shape.text.strip() for shape in mod_textboxes)\n    added_texts = mod_texts - orig_texts\n    \n    for shape in mod_textboxes:\n        if shape.text.strip() in added_texts:\n            if shape.text.strip() == 'Updated Presentation':\n                return (\"Added text box contains exact required text.\", 1.0)\n    if added_texts:\n        return (f\"Added text box(es) found, but not with exact required text: {list(added_texts)}\", 0.0)\n    return (\"No added text box found on slide 1.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Text Box Position",
+        "description": "Checks if the text box containing 'Updated Presentation' is in the top-right corner of the slide.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    original_prs = Presentation(original_ppt_path)\n    original_slide = original_prs.slides[0]\n    \n    def get_textboxes(slide):\n        return [shape for shape in slide.shapes if shape.has_text_frame and shape.text_frame and shape.text.strip()]\n    orig_texts = set(shape.text.strip() for shape in get_textboxes(original_slide))\n    mod_textboxes = get_textboxes(slide)\n    \n    # Find the text box with exact required text that is new\n    for shape in mod_textboxes:\n        if shape.text.strip() == 'Updated Presentation' and shape.text.strip() not in orig_texts:\n            # Check its position\n            slide_width = prs.slide_width\n            slide_height = prs.slide_height\n            # Top-right: let's say within top 20% of Y and rightmost 20% of X\n            x, y = shape.left, shape.top\n            w, h = shape.width, shape.height\n            # Position is measured from top-left of shape\n            # Check y is in top 20%\n            in_top = (y + h/2) < (slide_height * 0.2)\n            # Check right edge is in rightmost 20%\n            right_edge = x + w\n            in_right = right_edge > (slide_width * 0.8)\n            if in_top and in_right:\n                return (\"Text box is in top-right corner.\", 1.0)\n            elif in_top:\n                return (\"Text box in top but not far right.\", 0.5)\n            elif in_right:\n                return (\"Text box in right but not top.\", 0.5)\n            else:\n                return (\"Text box is not in top-right corner.\", 0.0)\n    return (\"Required text box not found for position check.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes to Slide 1",
+        "description": "Checks that no other content was added, modified, or removed on slide 1 except for the required text box.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check if anything except the required text box was changed on slide 1\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    original_prs = Presentation(original_ppt_path)\n    original_slide = original_prs.slides[0]\n    def get_textboxes(slide):\n        return [shape for shape in slide.shapes if shape.has_text_frame and shape.text_frame and shape.text.strip()]\n    orig_texts = set(shape.text.strip() for shape in get_textboxes(original_slide))\n    mod_textboxes = get_textboxes(slide)\n    mod_texts = set(shape.text.strip() for shape in mod_textboxes)\n    added_texts = mod_texts - orig_texts\n    # Remove the required box from diff\n    extraneous = [t for t in added_texts if t != 'Updated Presentation']\n    # Now check for removed or modified shapes\n    orig_shapes = {(shape.left, shape.top, shape.width, shape.height, shape.text.strip()) for shape in get_textboxes(original_slide)}\n    mod_shapes = {(shape.left, shape.top, shape.width, shape.height, shape.text.strip()) for shape in get_textboxes(slide)}\n    removed = orig_shapes - mod_shapes\n    modified = [s for s in orig_shapes if s not in mod_shapes]\n    if extraneous or removed or modified:\n        return (f\"Extraneous changes detected on slide 1 (added: {extraneous}, removed/modified: {len(removed)+len(modified)} shapes)\", 0.0)\n    return (\"No extraneous changes detected on slide 1.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Slide 1: Add a text box with the text 'Updated Presentation' in the top-right corner of the title slide"
+  }
+}

@@ -1,0 +1,578 @@
+{
+  "file": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+  "num_tasks": 52,
+  "tasks": [
+    {
+      "task_id": "Stephen-Curry-LJMU-1-001",
+      "goal": "Change the title text from 'Open Research and DORA' to 'Understanding Open Research Principles'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-002",
+      "goal": "Change the presenter name from 'Stephen Curry's Talkat LJMU Community' to 'Research Excellence Workshop'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-003",
+      "goal": "Change the orange background color of the title area to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-004",
+      "goal": "Remove the hyperlink formatting from the YouTube URL",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-005",
+      "goal": "Add a subtitle below the main title that says 'A Guide to Modern Research Practices'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-006",
+      "goal": "Add a text box with the title 'Key Differences in Research Approaches' at the top of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-007",
+      "goal": "Change the background color of slide 2 to light gray",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-008",
+      "goal": "Rearrange the three main sections on slide 3 so the DORA section is on the left, the dollar sign diagram in the center, and the Open Research section on the right",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-009",
+      "goal": "Add a title at the top of slide 3 that says 'Research Assessment Framework Comparison'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-010",
+      "goal": "Change the text 'DORA' to 'DORA Framework' in the center section",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-011",
+      "goal": "Add a fourth slide to the presentation with the title 'Next Steps in Research Excellence'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-012",
+      "goal": "Group all the diagrams on the left side of slide 2 into a single grouped object",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-013",
+      "goal": "Change the handwritten text 'OPEN RESEARCH' to typed text using Arial font",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-014",
+      "goal": "Add a shape (rectangle) around the eye comparison diagrams in the center of slide 2",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-015",
+      "goal": "Create a new slide layout and apply it to slide 3",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-016",
+      "goal": "Change the background color of slide 3 to light blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-017",
+      "goal": "Center-align all text elements on slide 1",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-018",
+      "goal": "Add slide transitions between slides 1 and 2 (fade transition)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-019",
+      "goal": "Add bullet points summarizing the key differences between DORA and traditional research assessment",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-020",
+      "goal": "Increase the font size of the main title by 4 points",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-021",
+      "goal": "Add animation to make the DORA text appear with a 'fly in' effect from the left",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-022",
+      "goal": "Copy the eye diagram from slide 2 and paste it onto slide 1 as a small logo in the corner",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-023",
+      "goal": "Delete the author contact information (Note by: @dasaptaerwin CC0) from slide 1",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-024",
+      "goal": "Insert a new text box on slide 2 with the text 'Traditional vs. Modern Research Paradigms'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-025",
+      "goal": "Create a table with 2 columns and 3 rows comparing Open Research vs DORA approaches",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-026",
+      "goal": "Bold the text 'GLOBAL' at the bottom right of slide 3",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-027",
+      "goal": "Change the slide layout of slide 1 to a 'Two Content' layout",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-028",
+      "goal": "Add a footer to all slides with the text 'Research Excellence Initiative 2024'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-029",
+      "goal": "Italicize the handwritten text 'DORA'S VIEWS' on slide 2",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-030",
+      "goal": "Insert a shape (circle) and place it behind the 'DORA' text as a background element",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-031",
+      "goal": "Create a custom slide master with a different color scheme and apply it to the entire presentation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-032",
+      "goal": "Change the font of the YouTube URL to Calibri",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-033",
+      "goal": "Duplicate slide 2 and place the copy as slide 4",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-034",
+      "goal": "Add speaker notes to slide 3 explaining the key concepts shown in the diagrams",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-035",
+      "goal": "Underline the text 'Assessment' in the center DORA section",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-036",
+      "goal": "Insert a header with the text 'LJMU Research Workshop' on all slides",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-037",
+      "goal": "Create a SmartArt graphic to replace the hand-drawn comparison diagrams",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-038",
+      "goal": "Insert an image placeholder on slide 1 and position it in the bottom right corner",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-039",
+      "goal": "Apply a 3D rotation effect to the large 'DORA' text in the center of slide 3",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-040",
+      "goal": "Change the font color of 'DORA'S VIEWS' text to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-041",
+      "goal": "Create a text box with bullet points listing 3 benefits of DORA assessment methods",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-042",
+      "goal": "Set up slide timing for automatic advancement after 10 seconds",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-043",
+      "goal": "Remove the hyperlink from the YouTube URL while keeping the text",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-044",
+      "goal": "Insert a line connector between the 'OPEN RESEARCH' and 'DORA'S VIEWS' sections",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-045",
+      "goal": "Create a custom color palette and apply it to all text elements on slide 3",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-046",
+      "goal": "Resize the 'GLOBAL' text to be 20% larger",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-047",
+      "goal": "Add a drop shadow effect to the eye comparison diagrams",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-048",
+      "goal": "Convert the hand-drawn diagrams to editable shapes using PowerPoint's drawing tools",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-049",
+      "goal": "Change the slide background from white to light gray",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-050",
+      "goal": "Group all elements in the right section (Open Research area) into a single object",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-051",
+      "goal": "Create a hyperlink from the title that opens a new blank presentation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Stephen-Curry-LJMU-1-052",
+      "goal": "Add page numbers to all slides in the bottom right corner",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Stephen-Curry-LJMU-1.pptx",
+      "misc": {}
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "root": {
+    "name": "Add slide numbers to all slides except the title slide",
+    "description": "Evaluates whether the agent has correctly added slide numbers to all slides except the title slide, without introducing extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct slides have slide numbers",
+        "description": "All slides except the title slide have slide numbers added. The title slide must not have a slide number.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Non-title slides have slide numbers",
+            "description": "Each non-title slide contains a visible slide number.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import os\n    \n    # Load modified presentation\n    prs = Presentation(modified_ppt_path)\n    slide_number_count = 0\n    for idx in range(1, len(prs.slides)):\n        slide = prs.slides[idx]\n        found_number = False\n        # Check for visible slide number shape\n        for shape in slide.shapes:\n            if shape.has_text_frame:\n                text = shape.text.strip()\n                # Accept numbers that match slide index+1\n                if text == str(idx + 1):\n                    found_number = True\n                    break\n        if found_number:\n            slide_number_count += 1\n    expected = len(prs.slides) - 1\n    if expected == 0:\n        return \"No non-title slides to check.\", 1.0\n    score = slide_number_count / expected\n    if score < 1.0:\n        return f\"{slide_number_count} of {expected} non-title slides have visible slide numbers.\", score\n    return \"All non-title slides have visible slide numbers.\", score\n"
+            },
+            "score": 0.0,
+            "reason": "0 of 6 non-title slides have visible slide numbers."
+          },
+          {
+            "name": "Title slide does NOT have a slide number",
+            "description": "The title slide does not contain a visible slide number.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    prs = Presentation(modified_ppt_path)\n    # Assume slide 0 is the title slide\n    slide = prs.slides[0]\n    found_number = False\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = shape.text.strip()\n            if text == '1':\n                found_number = True\n                break\n    if found_number:\n        return \"Title slide contains a visible slide number.\", 0.0\n    return \"Title slide does not contain a visible slide number.\", 1.0\n"
+            },
+            "score": 1.0,
+            "reason": "Title slide does not contain a visible slide number."
+          }
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a failing score because none of the non-title slides contain visible slide numbers, which is a critical requirement. While the title slide correctly omits slide numbers as required, this alone cannot compensate for the complete absence of slide numbers on all other slides. Since proper slide numbering on non-title slides is essential for navigation and professionalism, the failure to include any slide numbers represents a fundamental oversight that significantly impacts the presentation's quality."
+      },
+      {
+        "name": "No extraneous changes made",
+        "description": "No other changes (e.g., extra slides, transitions, animations, or layout modifications) were introduced beyond adding slide numbers.",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No extraneous slides added or removed",
+            "description": "No slides have been added or removed.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    added = len(ppt_diff.added_slides)\n    removed = len(ppt_diff.removed_slides)\n    if added > 0 or removed > 0:\n        return f\"{added} slides added, {removed} slides removed.\", 0.0\n    return \"No slides added or removed.\", 1.0\n"
+            },
+            "score": 1.0,
+            "reason": "No slides added or removed."
+          },
+          {
+            "name": "No extraneous transitions or animations added/removed/modified",
+            "description": "No transitions or animations were added, removed, or modified.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    changes = sum([\n        len(ppt_diff.added_animations), len(ppt_diff.removed_animations), len(ppt_diff.modified_animations),\n        len(ppt_diff.added_transitions), len(ppt_diff.removed_transitions), len(ppt_diff.modified_transitions)\n    ])\n    if changes > 0:\n        return f\"{changes} animation/transition changes detected.\", 0.0\n    return \"No extraneous animation/transition changes.\", 1.0\n"
+            },
+            "score": 1.0,
+            "reason": "No extraneous animation/transition changes."
+          },
+          {
+            "name": "No extraneous layout or element changes",
+            "description": "No significant changes to slide layout, content, or elements other than adding slide numbers.",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide modifications that add a slide number shape are permitted\n    count_bad = 0\n    for (orig, mod) in ppt_diff.modified_slides:\n        # Compare element counts\n        if mod.element_count > orig.element_count:\n            # If the difference is more than 1, likely extraneous content\n            if mod.element_count - orig.element_count > 1:\n                count_bad += 1\n        elif mod.element_count < orig.element_count:\n            count_bad += 1\n    if count_bad > 0:\n        return f\"{count_bad} slides have extraneous layout/element changes.\", 0.0\n    return \"No extraneous layout/element changes other than slide numbers.\", 1.0\n"
+            },
+            "score": 1.0,
+            "reason": "No extraneous layout/element changes other than slide numbers."
+          }
+        ],
+        "score": 1.0,
+        "reason": "The criterion received a perfect score because the evaluation confirmed that only slide numbers were added to the presentation, with no other modifications made. All three sub-criteria showed that no extraneous slides were added or removed, no transitions or animations were altered, and no layout or content elements were changed beyond the requested slide numbering. This demonstrates that the task was completed precisely as specified without any unnecessary additions or modifications."
+      }
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a failing score because the most critical requirement was not met - none of the non-title slides actually have visible slide numbers, which completely defeats the purpose of the task. While the agent did correctly avoid adding slide numbers to the title slide and made no unnecessary changes to the presentation, these positive aspects cannot compensate for the fundamental failure to add slide numbers where they were specifically required. Since slide numbering is essential for navigation and presentation professionalism, the complete absence of slide numbers on all content slides represents a critical oversight that renders the task unsuccessful."
+  },
+  "metadata": {
+    "task": "Add slide numbers to all slides except the title slide"
+  }
+}

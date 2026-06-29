@@ -1,0 +1,52 @@
+# Qwen3-VL 8B Agent Configuration
+# Uses litellm with an OpenAI-compatible endpoint
+
+# Model settings
+agent_type: "qwen3vl"
+# Served name from the self-hosted vLLM /v1/models endpoint. The litellm
+# "openai/" prefix routes through the OpenAI-compatible HTTP client; the
+# trailing token must match what vLLM advertises.
+model_name: "openai/Qwen/Qwen3-VL-8B-Instruct"
+
+# API settings — self-hosted vLLM via devtunnel.
+api_key: "${QWEN3VL_8B_API_KEY}"
+base_url: "${QWEN3VL_8B_BASE_URL}"
+
+# Model parameters — restored to legacy officearena Qwen3VLConfig defaults
+# (temperature 0.0, top_p 0.9, no top_k, max_tokens 32768). The previous values
+# (temp 0.7, top_p 0.8, top_k 20, max_tokens 4096) introduced in commit 75fb093
+# caused the model to stall on identical clicks for 28-30 steps.
+temperature: 0.0
+top_p: 0.9
+# max_tokens is the OUTPUT budget. The deployed vLLM (0.12+) pre-validates
+# max_input_tokens = max_model_len - max_tokens, so setting max_tokens equal
+# to --max-model-len (32768) makes the input budget 0 and rejects every
+# request (this caused the 0% June 22 batch). Leave unset (null) so the
+# agent omits it and vLLM auto-computes output from whatever input fits.
+# A real PPT prompt is ~10K tokens (text + 5 images), leaving ~22K for the
+# model to think+act with — far more than the <500 tok/step it ever emits.
+max_tokens: null
+
+# Thinking mode
+enable_thinking: false
+thinking_budget: 4096
+
+# Display settings
+# 1920x1080 to match opencua — PowerPoint Online's slide thumbnails are
+# unreadable at 1024x768 (~30px tall), causing the model to loop on the
+# same click. Qwen3-VL's smart_resize natively handles up to ~1080p.
+display_size:
+  width: 1920
+  height: 1080
+
+# Agent behavior
+history_n: 4
+# "relative" matches the legacy officearena default. A smoke test on 3-002 with
+# coordinate_type="absolute" showed qwen-32b collapsing from a 16+14 click/type
+# alternation to a 30x single-click loop, and qwen-8b clicking further off the
+# title text. Qwen3-VL grounds better in the 0..999 grid than in raw pixels.
+coordinate_type: "relative"
+
+# Request settings
+max_retries: 5
+timeout_seconds: 60

@@ -1,0 +1,61 @@
+{
+  "root": {
+    "name": "Move images on Slide 5: Miami-Dade report image to left, other image to right",
+    "description": "Evaluates whether, on Slide 5, the Miami-Dade report document image was moved to the left side and the other image was moved to the right side, with no extraneous or erroneous modifications.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Correct Images Moved to Correct Sides",
+        "description": "Checks that the Miami-Dade report image is on the left and the chart image is on the right of slide 5.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Miami-Dade Report Image on Left Side",
+            "description": "Checks that the Miami-Dade report image is positioned on the left half of slide 5.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to visually inspect the modified slide 5\n    slide_number = 5\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n\n    if not mod_img:\n        return (\"Slide 5 screenshot missing for after.\", 0.0)\n\n    prompt = (\n        \"You are given a screenshot of a PowerPoint slide. The slide should contain an image of a 'Miami-Dade report cover'.\\n\"\n        \"Is the 'Miami-Dade report cover' image located on the left half of the slide?\\n\"\n        \"Answer with only YES or NO.\"\n    )\n    \n    response = vlm_call(prompt, images=[mod_img], temperature=0.0, max_tokens=5)\n    \n    if 'yes' in response.lower():\n        return (\"Miami-Dade report image is on the left side.\", 1.0)\n    elif 'no' in response.lower():\n        return (\"Miami-Dade report image is not on the left side.\", 0.0)\n    else:\n        return (f\"Could not determine position of Miami-Dade report image. VLM response: {response.strip()}\", 0.0)\n"
+            }
+          },
+          {
+            "name": "Chart Image on Right Side",
+            "description": "Checks that the chart image is positioned on the right half of slide 5.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to visually inspect the modified slide 5\n    slide_number = 5\n    mod_img = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n\n    if not mod_img:\n        return (\"Slide 5 screenshot missing for after.\", 0.0)\n\n    prompt = (\n        \"You are given a screenshot of a PowerPoint slide. The slide should contain a graph related to sea level rise.\\n\"\n        \"Is this graph located on the right half of the slide?\\n\"\n        \"Answer with only YES or NO.\"\n    )\n    \n    response = vlm_call(prompt, images=[mod_img], temperature=0.0, max_tokens=5)\n    \n    if 'yes' in response.lower():\n        return (\"The graph image is on the right side.\", 1.0)\n    elif 'no' in response.lower():\n        return (\"The graph image is not on the right side.\", 0.0)\n    else:\n        return (f\"Could not determine position of the graph image. VLM response: {response.strip()}\", 0.0)\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "No Unintended Changes to Slide 5 Text or Layout (besides images)",
+        "description": "Checks that the text and non-image layout of slide 5 is unchanged except for the required image moves.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare before/after screenshots for extraneous changes\n    orig_img = [img for img in original_ppt_screenshots if img.slide_number == 5][0].image_path\n    mod_img = [img for img in modified_ppt_screenshots if img.slide_number == 5][0].image_path\n    prompt = (\n        \"Compare these two images of PowerPoint slides. Ignore the positions of the the graph and Miami report images on the slide. \"\n        \"Are there any other changes to text, formatting, or layout? Respond 'No' if no changes except the image swap.\"\n    )\n    response = vlm_call(prompt, [orig_img, mod_img], temperature=0.2, max_tokens=100).strip().lower()\n    if 'no' in response:\n        return (\"No unintended text/layout changes detected.\", 1.0)\n    else:\n        return (\"Extraneous text/layout changes detected.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "No Unintended Changes to Other Slides",
+        "description": "Checks that no changes were made to other slides in the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use ppt_diff to check for any modifications on slides other than 5\n    modified_slides = set([s[0].slide_number for s in ppt_diff.modified_slides])\n    added_slides = set([s.slide_number for s in ppt_diff.added_slides])\n    removed_slides = set([s.slide_number for s in ppt_diff.removed_slides])\n    extraneous = (modified_slides | added_slides | removed_slides) - {5}\n    if not extraneous:\n        return (\"No changes to other slides.\", 1.0)\n    else:\n        return (f\"Changes detected on slides: {sorted(list(extraneous))}\", 0.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Slide 5: Move the Miami-Dade report document image to the left side of the slide and move the graph image to the right side"
+  }
+}

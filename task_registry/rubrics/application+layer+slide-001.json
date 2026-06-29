@@ -1,0 +1,58 @@
+{
+  "root": {
+    "name": "Slide 1 Title Modification",
+    "description": "Evaluates whether the agent correctly changed the title text on Slide 1 from 'Application Layer' to 'Network Application Layer' and made it bold, without introducing extraneous modifications.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Title Text Changed Correctly",
+        "description": "Checks if the title text on Slide 1 is exactly 'Network Application Layer'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    title_shape, min_top = None, float('inf')\n    # Try to find the title shape on the title slide\n    for shape in slide.shapes:\n        if hasattr(shape, 'text_frame'):\n            if shape.top < min_top:\n                title_shape, min_top = shape, shape.top\n\n        if shape.is_placeholder and shape.placeholder_format.type == 1:  # 1 corresponds to a TITLE placeholder\n            title_shape = shape\n            break\n            \n    if not title_shape:\n        return (\"Could not find title shape on slide 1.\", 0.0)\n    text = title_shape.text_frame.text.strip().lower()\n    if text == \"network application layer\":\n        return (\"Title text is correctly set to 'Network Application Layer'.\", 1.0)\n    else:\n        return (f\"Title text is '{text}', expected 'Network Application Layer'\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Title Text Is Bold",
+        "description": "Checks if the title text on Slide 1 is fully bolded (every run is bold).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    title_shape, min_top = None, float('inf')\n    for shape in slide.shapes:\n        if shape.has_text_frame and shape.text_frame.text.strip():\n            if shape.top < min_top:\n                title_shape, min_top = shape, shape.top\n\n            if shape.is_placeholder and shape.placeholder_format.type == 1:  # TITLE\n                title_shape = shape\n                break\n    if not title_shape:\n        return (\"Could not find title shape on slide 1.\", 0.0)\n    tf = title_shape.text_frame\n    all_bold = True\n    for para in tf.paragraphs:\n        for run in para.runs:\n            # None means inherit, but for title, we expect explicit bold\n            if not run.font.bold:\n                all_bold = False\n    if all_bold:\n        return (\"Title text is fully bolded.\", 1.0)\n    else:\n        return (\"Not all title text is bolded.\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No Extraneous Slide 1 Changes",
+        "description": "Checks that no other changes (such as layout, other text, or elements) were made to Slide 1 except for the title text and its bold formatting.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only allow the title text to change, and its formatting to bold.\n    # Check ppt_diff for other modifications on slide 1\n    slide1_mods = []\n    slide1_id = None\n    for slide in ppt_diff.modified_slides:\n        # Find slide 1 by number\n        orig, mod = slide\n        if orig.slide_number == 1:\n            slide1_id = orig.slide_id\n            slide1_mods.append((orig, mod))\n    # If slide1_id is not found, check for removal/addition\n    if not slide1_id:\n        for slide in ppt_diff.removed_slides:\n            if slide.slide_number == 1:\n                return (\"Slide 1 was removed.\", 0.0)\n        for slide in ppt_diff.added_slides:\n            if slide.slide_number == 1:\n                return (\"A new Slide 1 was added (should only be edited).\", 0.0)\n        # If no changes to slide 1, that's fine\n        return (\"No extraneous changes to Slide 1.\", 1.0)\n    # Now check for element additions/removals/other changes on slide 1\n    # Check animations, transitions as well\n    for anim in ppt_diff.added_animations + ppt_diff.removed_animations:\n        if anim.slide_id == slide1_id:\n            return (\"Extraneous animation changes on Slide 1.\", 0.0)\n    for trans in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if trans.slide_id == slide1_id:\n            return (\"Extraneous transition changes on Slide 1.\", 0.0)\n    # Check for changes to non-title shapes\n    from pptx import Presentation\n    orig_prs = Presentation(original_ppt_path)\n    mod_prs = Presentation(modified_ppt_path)\n    orig_slide = orig_prs.slides[0]\n    mod_slide = mod_prs.slides[0]\n    # Compare all shapes except the title placeholder\n    def get_shapes(slide):\n        title_shape_idx, min_top = -1, float('inf')\n        for i, shape in enumerate(slide.shapes):\n            if hasattr(shape, 'text_frame'):\n                if shape.top < min_top:\n                    title_shape_idx, min_top = i, shape.top\n\n                if shape.is_placeholder and shape.placeholder_format.type == 1:  # TITLE\n                    title_shape_idx = i\n                    break\n        return [(s.shape_id, s.text if hasattr(s, 'text') else None, i == title_shape_idx, s) for i, s in enumerate(slide.shapes)]\n    orig_shapes = get_shapes(orig_slide)\n    mod_shapes = get_shapes(mod_slide)\n    for o, m in zip(orig_shapes, mod_shapes):\n        o_id, o_text, o_is_title, o_shape = o\n        m_id, m_text, m_is_title, m_shape = m\n        # Only compare non-title shapes\n        if not o_is_title:\n            # If the text is changed, that's extraneous\n            if o_text != m_text:\n                return (\"Non-title text was modified on Slide 1.\", 0.0)\n    return (\"No extraneous changes to Slide 1.\", 1.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No Changes to Other Slides",
+        "description": "Checks that no other slides were modified, added, or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for changes to any slide except slide 1\n    for slide in ppt_diff.modified_slides:\n        orig, mod = slide\n        if orig.slide_number != 1:\n            return (f\"Slide {orig.slide_number} was modified, but only Slide 1 should be changed.\", 0.0)\n    for slide in ppt_diff.added_slides:\n        if slide.slide_number != 1:\n            return (f\"Slide {slide.slide_number} was added, but only Slide 1 should be changed.\", 0.0)\n    for slide in ppt_diff.removed_slides:\n        if slide.slide_number != 1:\n            return (f\"Slide {slide.slide_number} was removed, but only Slide 1 should be changed.\", 0.0)\n    return (\"No changes to other slides.\", 1.0)\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Slide 1: Change the title text 'Application Layer' to 'Network Application Layer' and make it bold"
+  }
+}

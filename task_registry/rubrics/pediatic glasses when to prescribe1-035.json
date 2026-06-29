@@ -1,0 +1,51 @@
+{
+  "root": {
+    "name": "change_slide_layout_and_rearrange_content",
+    "description": "Evaluates if slide 14 layout was changed to 'Three Content', content rearranged into three columns, and a new comparison column added.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "slide_layout_changed",
+        "description": "Checks if slide 14's layout is set to 'Three Content'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 14 in ppt_diff.modified_slides\n    for before, after in ppt_diff.modified_slides:\n        if after.slide_number == 14:\n            if (after.layout_type or '').strip().lower() == 'three content':\n                return (\"Slide 14 layout is set to 'Three Content'\", 1.0)\n            else:\n                return (f\"Slide 14 layout is not 'Three Content', found '{after.layout_type}'\", 0.0)\n    return (\"Slide 14 not found in modified slides.\", 0.0)\n"
+        },
+        "score": 1.0,
+        "reason": "Slide 14 layout is set to 'Three Content'"
+      },
+      {
+        "name": "slide_content_rearranged_into_three_columns",
+        "description": "Checks if slide 14's content is arranged into three columns in the screenshot.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "from dotenv import load_dotenv\nload_dotenv()\nfrom ppteval.verify.ppt.verifier import vlm_call\n\n\ndef compute_score() -> tuple[str, float]:\n    # Find slide 14 screenshot\n    img = None\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 14:\n            img = s.image_path\n            break\n    if not img:\n        return (\"No screenshot for slide 14.\", 0.0)\n    prompt = (\n        'Does this slide display its main content clearly arranged into three vertical columns? '\n        'Respond YES or NO with a brief justification.'\n    )\n    resp = vlm_call(prompt, [img])\n    if 'YES' in resp:\n        return (resp, 1.0)\n    return (resp, 0.0)\n\nif __name__ == \"__main__\":\n    global original_ppt_path, modified_ppt_path, ppt_diff, modified_ppt_screenshots, original_ppt_screenshots\n    original_ppt_path = \"data/files/PowerPoint/pediatic glasses when to prescribe1.pptx\"\n    modified_ppt_path = \"data/files/PowerPoint/pediatic-9.pptx\"\n\n    from ppteval.verify.ppt.diff import PowerPointDiffEvaluator\n    from ppteval.verify.ppt.verifier import PPTVerifier\n    \n    diff_evaluator = PowerPointDiffEvaluator()\n    ppt_diff =  diff_evaluator.compare_files(\n            original_ppt_path, modified_ppt_path\n        )\n    original_ppt_screenshots = PPTVerifier._convert_screenshots_to_data_urls(diff_evaluator.generate_slide_screenshots(original_ppt_path))\n    modified_ppt_screenshots = PPTVerifier._convert_screenshots_to_data_urls(diff_evaluator.generate_slide_screenshots(modified_ppt_path))\n\n    score, reason = compute_score()\n    print(\"Score:\", score)\n    print(\"Reason:\", reason)\n"
+        },
+        "score": 1.0,
+        "reason": "YES. The slide clearly displays its main content in three distinct vertical columns: \"Unilateral refractive amblyopia\" on the left, \"Bilateral refractive amblyopia\" in the center, and \"Difference\" on the right. Each column has its own heading and bullet-pointed content arranged vertically."
+      },
+      {
+        "name": "new_comparison_column_added",
+        "description": "Checks if a new column was added comparing unilateral and bilateral differences.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 14 screenshot\n    img = None\n    for s in modified_ppt_screenshots:\n        if s.slide_number == 14:\n            img = s.image_path\n            break\n    if not img:\n        return (\"No screenshot for slide 14.\", 0.0)\n    prompt = (\n        'Does this slide contain three columns with one of the columns having relevant bullet(s) that specifically highlights or calls out the difference between unilateral and bilateral? '\n        'Respond YES or NO and briefly justify.'\n    )\n    resp = vlm_call(prompt, [img])\n    if 'YES' in resp:\n        return (resp, 1.0)\n    return (resp, 0.0)\n"
+        },
+        "score": 1.0,
+        "reason": "YES\n\nThe slide contains three columns: \"Unilateral refractive amblyopia,\" \"Bilateral refractive amblyopia,\" and \"Difference.\" The third column (\"Difference\") has a bullet point that specifically highlights the key distinction between unilateral and bilateral conditions, stating \"Unilateral affects only one eye, but bilateral af[fects both eyes]\" (text appears to be cut off but the meaning is clear)."
+      }
+    ],
+    "score": 1.0,
+    "reason": "The criterion received a perfect score because slide 14 successfully underwent all the required transformations. The slide layout was properly changed to 'Three Content', the existing content was effectively rearranged into three distinct vertical columns, and a new comparison column titled \"Difference\" was added that meaningfully contrasts unilateral and bilateral refractive amblyopia. Since all three critical sub-criteria were fully met, with the slide clearly displaying the requested three-column structure and comparative content, the overall performance was excellent."
+  },
+  "metadata": {
+    "task": "Change the slide layout to \"Three Content\" and apply it to  slide 14, rearranging content into a three-column comparison format, adding a new column that calls out the difference between unilateral and bilateral"
+  }
+}

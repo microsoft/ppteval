@@ -1,0 +1,79 @@
+{
+  "root": {
+    "name": "Add Process Box 'Proc 3' on Slide 8",
+    "description": "Evaluates whether a new purple process box labeled 'Proc 3' was successfully added to slide 8 next to existing processes",
+    "is_critical": false,
+    "metadata": {},
+    "children": [
+      {
+        "name": "New Process Box Added",
+        "description": "Verifies that a new process box with text 'Proc 3' was added to slide 8",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Process Box with 'Proc 3' Text Present",
+            "description": "Checks if there is a shape/textbox containing 'Proc 3' text on slide 8",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    \n    try:\n        ppt = Presentation(modified_ppt_path)\n        slide_8 = ppt.slides[7]  # Index 7 for slide 8\n        \n        proc3_found = False\n        for shape in slide_8.shapes:\n            if hasattr(shape, 'text_frame') and shape.text_frame:\n                text_content = shape.text_frame.text.strip().lower()\n                if 'proc 3' in text_content or 'proc3' in text_content:\n                    proc3_found = True\n                    break\n        \n        if proc3_found:\n            return \"Found shape with 'Proc 3' text on slide 8\", 1.0\n        else:\n            return \"No shape with 'Proc 3' text found on slide 8\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking for 'Proc 3' text: {str(e)}\", 0.0\n"
+            }
+          },
+          {
+            "name": "Process Box is Purple Color",
+            "description": "Verifies that the 'Proc 3' process box has purple color",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to check if the Proc 3 box is purple colored\n    try:\n        slide_8_screenshot = None\n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                slide_8_screenshot = screenshot\n                break\n        \n        if not slide_8_screenshot:\n            # Infra-vs-model disambiguation: if slide exists in modified pptx,\n            # the missing screenshot is an infra failure (raise to retry).\n            from pptx import Presentation as _Pres\n            try:\n                _slide_count = len(_Pres(modified_ppt_path).slides)\n            except Exception:\n                _slide_count = 0\n            if _slide_count >= 8:\n                raise ScreenshotsUnavailableError(\"Could not find screenshot for slide 8; flagging task for verification retry.\")\n            return \"Could not find screenshot for slide 8\", 0.0\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. Is there a process box or shape labeled 'Proc 3' that appears to be purple in color? \n        \nRespond with either:\n        - YES: if there is a 'Proc 3' box/shape that is purple colored\n        - NO: if there is no 'Proc 3' box or it is not purple colored\n        \nBe specific about what you observe.\"\"\"\n        \n        response = vlm_call(prompt, [slide_8_screenshot.image_path], temperature=0.1)\n        \n        if response.strip().upper().startswith('YES'):\n            return f\"VLM confirmed purple 'Proc 3' box: {response}\", 1.0\n        else:\n            return f\"VLM did not confirm purple 'Proc 3' box: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking purple color: {str(e)}\", 0.0"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Positioning Next to Existing Processes",
+        "description": "Verifies that the new 'Proc 3' box is positioned appropriately next to existing process boxes",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from ppteval.verify.ppt.verifier import ScreenshotsUnavailableError\n    # Use VLM to evaluate positioning relative to existing processes\n    try:\n        slide_8_screenshot = None\n        for screenshot in modified_ppt_screenshots:\n            if screenshot.slide_number == 8:\n                slide_8_screenshot = screenshot\n                break\n        \n        if not slide_8_screenshot:\n            # Infra-vs-model disambiguation: if slide exists in modified pptx,\n            # the missing screenshot is an infra failure (raise to retry).\n            from pptx import Presentation as _Pres\n            try:\n                _slide_count = len(_Pres(modified_ppt_path).slides)\n            except Exception:\n                _slide_count = 0\n            if _slide_count >= 8:\n                raise ScreenshotsUnavailableError(\"Could not find screenshot for slide 8; flagging task for verification retry.\")\n            return \"Could not find screenshot for slide 8\", 0.0\n        \n        prompt = \"\"\"Look at this PowerPoint slide image. I need to verify if a 'Proc 3' process box is positioned appropriately next to other existing process boxes.\n        \nPlease analyze:\n        1. Are there existing process boxes (likely labeled as processes like 'Proc 1', 'Proc 2', etc.)?\n        2. Is there a 'Proc 3' box positioned logically next to or near these existing processes?\n        3. Does the positioning look intentional and well-aligned with the existing process flow/layout?\n        \nRespond with:\n        - GOOD: if 'Proc 3' is well-positioned next to existing processes and is placed after 'Proc 2' and before 'Proc n'\n        - POOR: if 'Proc 3' is poorly positioned, isolated, or misaligned\n        - MISSING: if you cannot find 'Proc 3' or existing processes\n        \nExplain your reasoning.\"\"\"\n        \n        response = vlm_call(prompt, [slide_8_screenshot.image_path], temperature=0.1)\n        \n        if 'GOOD' in response.upper():\n            return f\"VLM confirmed good positioning: {response}\", 1.0\n        elif 'POOR' in response.upper():\n            return f\"VLM found poor positioning: {response}\", 0.5\n        else:\n            return f\"VLM could not confirm proper positioning: {response}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking positioning: {str(e)}\", 0.0"
+        }
+      },
+      {
+        "name": "No Unintended Changes",
+        "description": "Ensures that only the intended changes were made and no other slides or elements were modified unintentionally",
+        "is_critical": false,
+        "metadata": {},
+        "children": [
+          {
+            "name": "No Changes to Other Slides",
+            "description": "Verifies that slides other than slide 8 were not modified",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        # Check if any slides other than slide 8 were modified\n        modified_slides = ppt_diff.modified_slides\n        added_slides = ppt_diff.added_slides\n        removed_slides = ppt_diff.removed_slides\n        \n        issues = []\n        \n        # Check for added or removed slides\n        if added_slides:\n            issues.append(f\"{len(added_slides)} slides were added\")\n        if removed_slides:\n            issues.append(f\"{len(removed_slides)} slides were removed\")\n        \n        # Check for modifications to slides other than slide 8\n        other_slide_modifications = 0\n        for old_slide, new_slide in modified_slides:\n            if new_slide.slide_number != 8:\n                other_slide_modifications += 1\n        \n        if other_slide_modifications > 0:\n            issues.append(f\"{other_slide_modifications} slides other than slide 8 were modified\")\n        \n        if not issues:\n            return \"No unintended changes to other slides detected\", 1.0\n        else:\n            return f\"Unintended changes detected: {'; '.join(issues)}\", 0.0\n            \n    except Exception as e:\n        return f\"Error checking for unintended slide changes: {str(e)}\", 0.5\n"
+            }
+          },
+          {
+            "name": "No Unintended Animation/Transition Changes",
+            "description": "Verifies that no animations or transitions were added, removed, or modified unintentionally",
+            "is_critical": false,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    try:\n        issues = []\n        \n        # Check for animation changes\n        if ppt_diff.added_animations:\n            issues.append(f\"{len(ppt_diff.added_animations)} animations were added\")\n        if ppt_diff.removed_animations:\n            issues.append(f\"{len(ppt_diff.removed_animations)} animations were removed\")\n        if ppt_diff.modified_animations:\n            issues.append(f\"{len(ppt_diff.modified_animations)} animations were modified\")\n        \n        # Check for transition changes\n        if ppt_diff.added_transitions:\n            issues.append(f\"{len(ppt_diff.added_transitions)} transitions were added\")\n        if ppt_diff.removed_transitions:\n            issues.append(f\"{len(ppt_diff.removed_transitions)} transitions were removed\")\n        if ppt_diff.modified_transitions:\n            issues.append(f\"{len(ppt_diff.modified_transitions)} transitions were modified\")\n        \n        if not issues:\n            return \"No unintended animation/transition changes detected\", 1.0\n        else:\n            return f\"Unintended animation/transition changes: {'; '.join(issues)}\", 0.7\n            \n    except Exception as e:\n        return f\"Error checking animation/transition changes: {str(e)}\", 0.5\n"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "task": "On slide 8, add a new process box 'Proc 3' in purple color next to the existing processes."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "root": {
+    "name": "Replace the word 'Liability' with 'Debt' throughout the slides",
+    "description": "Evaluates whether the agent successfully replaced all occurrences of the word 'Liability' with 'Debt' on every slide, without introducing errors or unintended changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "All instances of 'Liability' are replaced with 'Debt'",
+        "description": "Checks that every occurrence of the exact word 'Liability' in all relevant slide elements has been replaced with 'Debt'.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"Score based on fraction of 'Liability' tokens replaced with 'Debt'.\n\n    Scoring logic:\n      - Count total occurrences of the exact word 'Liability' in the original presentation.\n      - Count remaining occurrences of 'Liability' in the modified presentation.\n      - Replaced = total - remaining; score = replaced / total (if total > 0).\n      - If total == 0, return full credit (nothing to replace).\n      - Provide detailed list of slides where 'Liability' still appears.\n    \"\"\"\n    from pptx import Presentation\n    import re\n\n    pattern = re.compile(r'\\bLiability\\b')\n\n    # Retrieve injected globals (runtime is expected to provide these)\n    _modified_path = globals().get('modified_ppt_path')\n    if not _modified_path:\n        return (\"modified_ppt_path not provided to scoring context.\", 0.0)\n    _original_path = globals().get('original_ppt_path')  # May be absent\n\n    # Count occurrences in original (for denominator)\n    if _original_path:\n        try:\n            orig_prs = Presentation(_original_path)\n            total_original = 0\n            for slide in orig_prs.slides:\n                for shape in slide.shapes:\n                    if hasattr(shape, 'text'):\n                        total_original += len(pattern.findall(shape.text))\n        except Exception:\n            orig_prs = None\n            total_original = None\n    else:\n        orig_prs = None\n        total_original = None\n\n    mod_prs = Presentation(_modified_path)\n    remaining = 0\n    missing_replacements = []  # Slides where Liability still present\n    for i, slide in enumerate(mod_prs.slides):\n        slide_num = i + 1\n        for shape in slide.shapes:\n            if hasattr(shape, 'text'):\n                text = shape.text\n                matches = pattern.findall(text)\n                if matches:\n                    remaining += len(matches)\n                    # Capture a snippet to aid debugging (truncate long text)\n                    snippet = text.strip().replace('\\n', ' ')\n                    if len(snippet) > 120:\n                        snippet = snippet[:117] + '...'\n                    missing_replacements.append(f\"Slide {slide_num}: '{snippet}' ({len(matches)} instance(s))\")\n\n    if total_original is None:\n        # We couldn't load the original; treat task as binary based on remaining occurrences\n        if remaining == 0:\n            return (\"All visible 'Liability' instances replaced with 'Debt' (original unavailable for exact count).\", 1.0)\n        details = '\\n'.join(missing_replacements)\n        return (f\"'Liability' still present (original unavailable for partial scoring). Remaining instances: {remaining}\\n{details}\", 0.0)\n\n    # Edge case: nothing to replace originally\n    if total_original == 0:\n        return (\"Original had no 'Liability' occurrences. Nothing to replace.\", 1.0)\n\n    replaced = total_original - remaining\n    replaced = max(replaced, 0)  # Safety\n    score = replaced / total_original if total_original > 0 else 1.0\n\n    if remaining == 0:\n        return (f\"All {total_original} 'Liability' instance(s) replaced with 'Debt'.\", 1.0)\n    else:\n        details = '\\n'.join(missing_replacements)\n        pct = f\"{score*100:.1f}%\"\n        return (\n            f\"Partial replacement: {replaced}/{total_original} 'Liability' instance(s) replaced ({pct}). Remaining {remaining} instance(s) in slides below:\\n{details}\",\n            score,\n        )\n"
+        }
+      },
+      {
+        "name": "No extraneous text changes were made",
+        "description": "Checks that no text other than exact 'Liability' was replaced or changed (except for 'Liability' becoming 'Debt').",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    import re\n    from pptx import Presentation\n\n    def _normalize(text: str) -> str:\n        \"\"\"Replace any case/plural variant of 'liability' with the matching 'debt' form.\n\n        Treats 'Liabilities' -> 'Debts', 'Liability' -> 'Debt', preserving case\n        (UPPER / Capitalised / lower). Also collapses CR/LF to LF and strips\n        trailing whitespace so cosmetic newline differences are not flagged.\n        \"\"\"\n        def repl(m):\n            word = m.group(0)\n            is_plural = word.lower().endswith('ies')\n            base = 'debts' if is_plural else 'debt'\n            if word.isupper():\n                return base.upper()\n            if word[:1].isupper():\n                return base.capitalize()\n            return base\n        out = re.sub(r'\\bliabilit(?:y|ies)\\b', repl, text, flags=re.IGNORECASE)\n        return out.replace('\\r\\n', '\\n').rstrip()\n\n    prs_orig = Presentation(original_ppt_path)\n    prs_mod = Presentation(modified_ppt_path)\n    errors = []\n    for i, (s_orig, s_mod) in enumerate(zip(prs_orig.slides, prs_mod.slides)):\n        slide_num = i + 1\n        t_orig = [sh.text for sh in s_orig.shapes if hasattr(sh, 'text')]\n        t_mod = [sh.text for sh in s_mod.shapes if hasattr(sh, 'text')]\n        for t1, t2 in zip(t_orig, t_mod):\n            if t1 == t2:\n                continue\n            expected = _normalize(t1)\n            actual = t2.replace('\\r\\n', '\\n').rstrip()\n            if expected != actual:\n                e_disp = expected if len(expected) <= 200 else expected[:200] + '...'\n                a_disp = actual if len(actual) <= 200 else actual[:200] + '...'\n                errors.append(f\"Slide {slide_num}: expected '{e_disp}' but got '{a_disp}'\")\n    if errors:\n        details = '\\n'.join(errors)\n        return (f\"Extraneous text changes found (beyond 'Liability/Liabilities' -> 'Debt/Debts'):\\n{details}\", 0.0)\n    return (\"No extraneous text changes detected.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No unintended changes to non-text elements",
+        "description": "Checks that no slides, images, animations, or transitions were added, removed, or altered in ways not required by the text replacement task.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check the ppt_diff object for extraneous non-text changes\n    # Note: We don't penalize transition changes as they can happen automatically\n    # when PowerPoint files are processed by different tools\n    msgs = []\n    if ppt_diff.added_slides or ppt_diff.removed_slides:\n        msgs.append(\"Slides were added or removed.\")\n    if ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations:\n        msgs.append(\"Animations changed.\")\n    # Removed transition checks as per instructions:\n    # \"Don't penalize transition removals or modifications that might happen automatically \n    # when the PowerPoint file is processed by different tools.\"\n    \n    # Other non-text changes would appear here if present\n    if msgs:\n        details = '\\n'.join(msgs)\n        return (f\"Unintended non-text changes detected:\\n{details}\", 0.0)\n    return (\"No critical non-text elements were changed except for required text replacement.\", 1.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Replace the word \"Liability\" with \"Debt\" throughout the slides"
+  }
+}

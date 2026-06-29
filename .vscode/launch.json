@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Debug Hydration",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "ppteval.env_setup.hydrate"
+        },        
+        {
+            "name": "Hydrate OneDrive",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "ppteval.env_setup.hydrate",
+            "args": [
+                "--local-dir",
+                "data/files"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

@@ -1,0 +1,479 @@
+{
+  "file": "PowerPoint/3.pptx",
+  "num_tasks": 43,
+  "tasks": [
+    {
+      "task_id": "3-001",
+      "goal": "Change the title text on the slide to 'Introduction to Operating Systems'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-002",
+      "goal": "Change the lecture number from 'Lecture 3' to 'Lecture 1'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-003",
+      "goal": "Add a new bullet point after 'Dual Mode' that says 'File System'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-004",
+      "goal": "Change the font color of the slide title 'Recall: Four fundamental OS concepts' to red",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-005",
+      "goal": "Add a text box in the bottom right corner with the current slide number (2/45)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-006",
+      "goal": "Change the color of the vCPU1 circle from magenta/pink to green",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-007",
+      "goal": "Add a fourth vCPU circle (vCPU4) next to the existing three circles using a different color",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-008",
+      "goal": "Change the text 'Shared Memory' to 'Memory Pool'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-009",
+      "goal": "Change the background color of the single-threaded process diagram to light blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-010",
+      "goal": "Add a third process diagram showing a single process with two threads",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-011",
+      "goal": "Add a bullet point at the end saying 'Multiple threads can share resources efficiently'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-012",
+      "goal": "Change the red text 'Can the program touch OS?' to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-013",
+      "goal": "Add a new address box in the middle showing '0500...' with Base Address",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-014",
+      "goal": "Change the color of 'Proc 2' from yellow to purple",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-015",
+      "goal": "Add a bullet point at the end saying 'PCBs enable context switching'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-016",
+      "goal": "Change the title 'Process Control Block' to 'PCB Structure and Management'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-017",
+      "goal": "Add a text box below the processor image with the caption 'Intel Skylake Die Layout'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-018",
+      "goal": "Change '28 Cores' to '32 Cores' in the bullet point",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-019",
+      "goal": "Bold the text 'Intel Skylake (2017)'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:14"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-020",
+      "goal": "Change the red border around the OS box to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-021",
+      "goal": "Add a new process box 'Proc 3' in purple color next to the existing processes",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-022",
+      "goal": "Change the text color of 'How to save registers and set up system stack?' from red to green",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-023",
+      "goal": "Change the label 'CS:' to 'Code Segment:'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-024",
+      "goal": "Add a new register 'EBP' to the processor registers section",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-025",
+      "goal": "Add arrows connecting the CS register to the code segment in the memory layout",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:16"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-026",
+      "goal": "Remove the bullet point about 'Sharing:'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:21"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-027",
+      "goal": "Change 'NO: Too simplistic for real systems' from red to orange text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:21"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-028",
+      "goal": "Bold the text 'fork()' in the first bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-029",
+      "goal": "Change the color of 'Parent' text from red to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-030",
+      "goal": "Add a code example showing a simple fork() call below the bullet points",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-031",
+      "goal": "Change the word 'Child' from red to green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:33"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-032",
+      "goal": "Change the label 'User Mode' from red to purple",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-033",
+      "goal": "Add a new layer called 'Virtual Machine' between Kernel Mode and Hardware",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-034",
+      "goal": "Resize the diagram to make it 20% larger while maintaining proportions",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:43"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-035",
+      "goal": "Change the color of 'System Call Interface' from blue to green",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:44"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-036",
+      "goal": "Add 'RISC-V' as a new hardware platform next to ARM",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:44"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-037",
+      "goal": "Add connecting lines between the User System and Software layers",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:44"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-038",
+      "goal": "Change the title 'Summary' to 'Key Takeaways'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-039",
+      "goal": "Add a new bullet point: 'Virtual Memory: Provides isolation between processes'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-040",
+      "goal": "Bold the text 'Fork, Exec, Wait, Signal'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-041",
+      "goal": "Change the font size of all bullet points to be larger",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-042",
+      "goal": "Convert the bullet points into a numbered list instead",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "3-043",
+      "goal": "Add the text 'End of Lecture 3' at the bottom of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:45"
+      ],
+      "file_path": "PowerPoint/3.pptx",
+      "misc": {}
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "root": {
+    "name": "Callout Box Around Second Checkbox Item on Slide 5",
+    "description": "Evaluates whether a callout box with no fill was correctly created around the entire second checkbox item on slide 5, and that no extraneous or incorrect elements were introduced.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Callout box existence and placement",
+        "description": "Checks that a callout box was added, is present on slide 5, and is positioned to fully surround the second checkbox item.",
+        "is_critical": true,
+        "metadata": {},
+        "children": [
+          {
+            "name": "Callout box added to slide 5",
+            "description": "Verifies that a callout shape was added to slide 5.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n\n    def is_callout(shape) -> bool:\n        # Name heuristic\n        name = getattr(shape, \"name\", \"\") or \"\"\n        if isinstance(name, str) and \"callout\" in name.lower():\n            return True\n        # Enum heuristic: AUTO_SHAPE with CALLOUT type\n        try:\n            st = getattr(shape, \"shape_type\", None)\n            if getattr(st, \"name\", None) == \"AUTO_SHAPE\":\n                auto = getattr(shape, \"auto_shape_type\", None)\n                auto_name = getattr(auto, \"name\", str(auto))\n                if isinstance(auto_name, str) and \"CALLOUT\" in auto_name:\n                    return True\n        except Exception:\n            pass\n        return False\n\n    prs = Presentation(modified_ppt_path)\n    slide_idx = 4\n    slide = prs.slides[slide_idx]\n    callout_shapes = [shape for shape in slide.shapes if is_callout(shape)]\n    if not callout_shapes:\n        return \"No callout shape found on slide 5.\", 0.0\n    return \"Callout shape found on slide 5.\", 1.0\n"
+            }
+          },
+          {
+            "name": "Callout box surrounds second checkbox item",
+            "description": "Checks that the callout fully encloses the second checkbox item on slide 5.",
+            "is_critical": true,
+            "metadata": {},
+            "scorer": {
+              "type": "function",
+              "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 5 screenshot\n    img = None\n    for ss in modified_ppt_screenshots:\n        if ss.slide_number == 5:\n            img = ss.image_path\n            break\n    if not img:\n        return \"No screenshot of slide 5 found.\", 0.0\n    # Use VLM to check if a callout surrounds the second checkbox item\n    prompt = \"Does the slide image show a callout box that completely surrounds the second checkbox item containing the text 'There is NO RELATED TEXT for the essay.'? Reply 'yes' or 'no'.\"\n    result = vlm_call(prompt, [img], temperature=0.0, max_tokens=10)\n    if 'yes' in result.lower():\n        return \"Callout box surrounds the second checkbox item.\", 1.0\n    return f\"VLM response: {result}\", 0.0\n"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Callout box has no fill",
+        "description": "Checks that the callout box has no fill (transparent inside, not colored).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"Scores whether a callout shape on slide 5 has no fill.\n\n    Notes:\n    - Avoids mutating the presentation (no calls like fill.solid()).\n    - Handles python-pptx enums safely (no .lower() on enum objects).\n    - Detects callouts by name or MSO auto-shape type containing 'CALLOUT'.\n    \"\"\"\n    from pptx import Presentation\n    \n    def is_callout(shape) -> bool:\n        # Heuristic 1: shape name contains 'callout'\n        name = getattr(shape, \"name\", \"\") or \"\"\n        if isinstance(name, str) and \"callout\" in name.lower():\n            return True\n        # Heuristic 2: auto shape type name contains 'CALLOUT'\n        try:\n            st = getattr(shape, \"shape_type\", None)\n            st_name = getattr(st, \"name\", \"\")  # Enum has .name; fallback to empty string\n            if st_name == \"AUTO_SHAPE\":\n                auto = getattr(shape, \"auto_shape_type\", None)\n                auto_name = getattr(auto, \"name\", str(auto))\n                if isinstance(auto_name, str) and \"CALLOUT\" in auto_name:\n                    return True\n        except Exception:\n            pass\n        return False\n\n    def has_no_fill(shape) -> bool:\n        try:\n            fill = getattr(shape, \"fill\", None)\n            if not fill:\n                # No fill interface available, cannot determine - assume it has fill to be conservative\n                return False\n            \n            ftype = getattr(fill, \"type\", None)\n            if ftype is None:\n                # Cannot determine fill type, assume it has fill to be conservative\n                return False\n            \n            # Get the fill type name safely\n            ftype_name = getattr(ftype, \"name\", str(ftype))\n            \n            # Only consider explicit NO_FILL types as having no fill\n            if isinstance(ftype_name, str):\n                # Check for explicit no fill types\n                if \"NO_FILL\" in ftype_name.upper():\n                    return True\n                # BACKGROUND fill type might also indicate no visible fill\n                if \"BACKGROUND\" in ftype_name.upper():\n                    return True\n            \n            # For any other fill type (SOLID, GRADIENT, PATTERN, etc.), consider it as having fill\n            return False\n            \n        except Exception:\n            # If any exception occurs, assume the shape has fill to be conservative\n            return False\n\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[4]\n    for shape in slide.shapes:\n        if is_callout(shape):\n            if has_no_fill(shape):\n                return \"Callout shape found with no fill.\", 1.0\n            return \"Callout shape has a fill.\", 0.0\n    return \"No callout shape found to check fill property.\", 0.0\n"
+        }
+      },
+      {
+        "name": "No extraneous or duplicate elements introduced",
+        "description": "Checks that no more than one callout box was added, and that no other extraneous shapes or slide elements were introduced.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n\n    def get_name(shape) -> str:\n        name = getattr(shape, \"name\", \"\")\n        return name or \"\"\n\n    def is_callout(shape) -> bool:\n        # Heuristic 1: name contains 'callout'\n        if \"callout\" in get_name(shape).lower():\n            return True\n        # Heuristic 2: auto shape type enum includes 'CALLOUT'\n        try:\n            st = getattr(shape, \"shape_type\", None)\n            if getattr(st, \"name\", None) == \"AUTO_SHAPE\":\n                auto = getattr(shape, \"auto_shape_type\", None)\n                auto_name = getattr(auto, \"name\", str(auto))\n                if isinstance(auto_name, str) and \"CALLOUT\" in auto_name:\n                    return True\n        except Exception:\n            pass\n        return False\n\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[4]\n\n    callout_count = sum(1 for shape in slide.shapes if is_callout(shape))\n    if callout_count > 1:\n        return f\"{callout_count} callout shapes found (expected 1).\", 0.0\n\n    # Check for new shapes that are not the callout. Use the same auto-shape-\n    # type-aware `is_callout` heuristic instead of relying on the shape name\n    # containing the literal substring 'callout' (PowerPoint's speech-bubble\n    # callouts have names like 'Speech Bubble: Rectangle N' even though their\n    # auto_shape_type is RECTANGULAR_CALLOUT et al.).\n    orig_prs = Presentation(original_ppt_path)\n    orig_shapes = [get_name(shape) for shape in orig_prs.slides[4].shapes]\n    extraneous = [get_name(shape) for shape in slide.shapes\n                  if get_name(shape) not in orig_shapes and not is_callout(shape)]\n    if extraneous:\n        return f\"Extraneous non-callout shapes added: {extraneous}\", 0.0\n    return \"No extraneous or duplicate shapes added.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Create a callout box with no fill around the entire second checkbox item on slide 5"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "root": {
+    "name": "Add a subtitle below the main title on slide 1 that says 'A Comprehensive Review'",
+    "description": "Evaluates whether a subtitle with the exact text 'A Comprehensive Review' was correctly added directly below the main title on slide 1, with proper placement and without introducing extraneous changes.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "A subtitle with the exact text was added to slide 1",
+        "description": "Checks that a new text box (or subtitle placeholder) with the exact text 'A Comprehensive Review' was added to slide 1.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[0]\n    found = False\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        text = shape.text_frame.text.strip()\n        if text == 'A Comprehensive Review':\n            found = True\n            break\n    if found:\n        return \"Found subtitle text 'A Comprehensive Review' on slide 1.\", 1.0\n    else:\n        return \"Subtitle text 'A Comprehensive Review' not found on slide 1.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "Subtitle is positioned directly below the main title",
+        "description": "Checks that the subtitle is visually placed directly below the main title on slide 1, with no other intervening elements.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    \"\"\"\n    Checks if the subtitle is positioned directly below the main title on slide 1 using a vision model.\n    \"\"\"\n    slide_num = 1\n    main_title = 'Revisiting Classical Social Experiments'\n    subtitle = 'A Comprehensive Review'\n    try:\n        mod_img = [s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_num][0]\n        prompt = f\"Is the subtitle '{subtitle}' positioned directly below the main title '{main_title}' and horizontally aligned? Reply Yes, Partially, or No.\"\n        result = vlm_call(prompt, [mod_img], temperature=0.0, max_tokens=10)\n        if 'yes' in result.lower():\n            return (\"Subtitle is positioned directly below the main title.\", 1.0)\n        elif 'partially' in result.lower():\n            return (\"Subtitle is below the title, but not horizontally aligned.\", 0.7)\n        else:\n            return (\"Subtitle is not visually positioned below the main title.\", 0.0)\n    except IndexError:\n        return (f\"Slide {slide_num} not found in modified presentation.\", 0.0)\n    except Exception as e:\n        return (f\"Unable to verify subtitle position: {e}\", 0.0)\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes were made to slide 1",
+        "description": "Ensures that no changes other than the addition of the subtitle were made to slide 1 (e.g., no unrelated text boxes, images, or modifications to existing content).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # We want to check that only one new text element (the subtitle) was added to slide 1, and no other elements were removed/modified/added.\n    added_elements = []\n    removed_elements = []\n    modified_elements = []\n    # Use pptx to get the shapes/texts for slide 1 in both versions\n    from pptx import Presentation\n    orig_slide = Presentation(original_ppt_path).slides[0]\n    mod_slide = Presentation(modified_ppt_path).slides[0]\n    def get_shape_signatures(slide):\n        sigs = []\n        for shape in slide.shapes:\n            if shape.has_text_frame:\n                sigs.append(('text', shape.text_frame.text.strip()))\n            elif shape.shape_type == 13:  # PICTURE\n                sigs.append(('image', getattr(shape, 'image', None)))\n            else:\n                sigs.append(('other', shape.shape_type))\n        return sigs\n    orig_sigs = set(get_shape_signatures(orig_slide))\n    mod_sigs = set(get_shape_signatures(mod_slide))\n    added = mod_sigs - orig_sigs\n    removed = orig_sigs - mod_sigs\n    # Only allowed: one new text element 'A Comprehensive Review', no others\n    if removed:\n        return f\"Unexpected elements removed from slide 1: {removed}\", 0.0\n    allowed_add = {('text', 'A Comprehensive Review')}\n    extraneous = added - allowed_add\n    if extraneous:\n        return f\"Extraneous elements added to slide 1: {extraneous}\", 0.0\n    # Make sure 'A Comprehensive Review' was actually added (redundant with other node but safe)\n    if ('text', 'A Comprehensive Review') in added:\n        return \"No extraneous changes; only the subtitle text was added.\", 1.0\n    return \"Subtitle not found added in diff.\", 0.0\n"
+        },
+        "score": 1.0
+      },
+      {
+        "name": "No extraneous changes elsewhere in the presentation",
+        "description": "Checks that no slides other than slide 1 were changed (no slides added/removed/modified, no animations or transitions changed, etc.).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Check ppt_diff for any changes outside of slide 1\n    # Check slides added/removed/modified\n    problems = []\n    for s in ppt_diff.added_slides:\n        if s.slide_number != 1:\n            problems.append(f\"Added slide {s.slide_number}\")\n    for s in ppt_diff.removed_slides:\n        if s.slide_number != 1:\n            problems.append(f\"Removed slide {s.slide_number}\")\n    for s1, s2 in ppt_diff.modified_slides:\n        if s1.slide_number != 1:\n            problems.append(f\"Modified slide {s1.slide_number}\")\n    # Check animations/transitions on other slides\n    for eff in ppt_diff.added_animations + ppt_diff.removed_animations:\n        # Need to map slide_id to number; assume slide_id for slide 1 is same in both\n        if hasattr(eff, 'slide_id'):\n            # Can't directly check number, so count as extraneous\n            problems.append(f\"Animation change on slide {eff.slide_id}\")\n    for tr in ppt_diff.added_transitions + ppt_diff.removed_transitions:\n        if hasattr(tr, 'slide_id'):\n            problems.append(f\"Transition change on slide {tr.slide_id}\")\n    if problems:\n        return \"Extraneous changes elsewhere: \" + \", \".join(problems), 0.0\n    return \"No extraneous changes elsewhere in the presentation.\", 1.0\n"
+        },
+        "score": 1.0
+      }
+    ],
+    "score": 1.0
+  },
+  "metadata": {
+    "task": "Add a subtitle below the main title on slide 1 that says 'A Comprehensive Review'"
+  }
+}

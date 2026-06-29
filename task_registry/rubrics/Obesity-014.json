@@ -1,0 +1,33 @@
+{
+  "root": {
+    "name": "bold_specific_text",
+    "description": "Evaluates whether only the text '85th and 94th percentiles' and '95th percentile' have been bolded, and no extraneous bolding occurred.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "both_phrases_bolded",
+        "description": "Checks that both target phrases are bolded in the modified presentation.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to verify on slide 4 whether both target phrases appear and are bolded\n    target_phrases = [\"85th and 94th percentiles\", \"95th percentile\"]\n    slide_4_image = None\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 4:\n                slide_4_image = s.image_path\n                break\n        except Exception:\n            continue\n    if not slide_4_image:\n        return (\"Slide 4 screenshot not found.\", 0.0)\n\n    prompt = (\n        \"Look at slide 4. Focus on these two exact phrases:\\n\"\n        \"1) '85th and 94th percentiles'\\n\"\n        \"2) '95th percentile'\\n\"\n        \"Are BOTH phrases visually bold (strong weight)?\\n\"\n        \"Respond YES if both are bold, PARTIAL if only is bold, and NONE if neither is bold or missing. Include a brief justification.\"\n    )\n    try:\n        response = vlm_call(images=[slide_4_image], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().upper()\n        if 'YES' in resp:\n            return (response, 1.0)\n        elif 'PARTIAL' in resp:\n            return (response, 0.5)\n        elif 'NO' in resp:\n            return (response, 0.0)\n        else:\n            return (f\"Unclear VLM response: {response}\", 0.0)\n    except Exception as e:\n        return (f\"Error during VLM check: {str(e)}\", 0.0)\n"
+        }
+      },
+      {
+        "name": "no_extraneous_bolding",
+        "description": "Checks that no other text except the specified phrases has been newly bolded in the presentation.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare original vs modified slide 4 and detect extraneous bolding beyond the target phrases\n    target_phrases = [\"85th and 94th percentiles\", \"95th percentile\"]\n    img_orig = None\n    img_mod = None\n    for s in original_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 4:\n                img_orig = s.image_path\n                break\n        except Exception:\n            continue\n    for s in modified_ppt_screenshots:\n        try:\n            if getattr(s, 'slide_number', None) == 4:\n                img_mod = s.image_path\n                break\n        except Exception:\n            continue\n    if not img_mod:\n        return (\"Modified slide 4 screenshot not found.\", 0.0)\n    if not img_orig:\n        return (\"Original slide 4 screenshot not found.\", 1.0)  # Can't penalize without baseline\n\n    allowed = \", \".join([f'\"{p}\"' for p in target_phrases])\n    prompt = (\n        \"Compare these two images of slide 4: first is original, second is modified.\\n\"\n        f\"Ignore bolding of the allowed phrases: {allowed}.\\n\"\n        \"Has any OTHER text been newly made bold in the modified slide compared to the original?\\n\"\n        \"Respond YES if there is extraneous bolding (beyond the allowed phrases), otherwise NO. Include a brief justification.\"\n    )\n    try:\n        response = vlm_call(images=[img_orig, img_mod], prompt=prompt, temperature=0.1)\n        resp = str(response).strip().lower()\n        if 'yes' in resp:\n            return (response, 0.0)\n        elif 'no' in resp:\n            return (response, 1.0)\n        else:\n            return (f\"Unclear VLM response: {response}\", 0.0)\n    except Exception as e:\n        return (f\"Error during VLM comparison: {str(e)}\", 0.0)\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Bold the text '85th and 94th percentiles' and '95th percentile'"
+  }
+}

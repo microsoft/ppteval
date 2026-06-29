@@ -1,0 +1,820 @@
+{
+  "file": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+  "num_tasks": 74,
+  "tasks": [
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-001",
+      "goal": "Change the title of the presentation from 'Texts and Human Experiences' to 'Literature and Human Experiences'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-002",
+      "goal": "Replace the author name 'Dianne Berlos' with 'Sarah Johnson'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-003",
+      "goal": "Change the font size of the main title 'Texts and Human Experiences' to make it larger",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-004",
+      "goal": "Change the background color of the slide to light blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-005",
+      "goal": "Change the heading from 'Paper 1- Section I' to 'Paper 1- Section A'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-006",
+      "goal": "Add a new bullet point after the existing ones that says 'Time management is crucial for success'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-007",
+      "goal": "Change the text 'SHORT ANSWERS 20 MARKS' to use bold formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-008",
+      "goal": "Create a text box with the phrase 'Important Note' and position it in the bottom right corner of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-009",
+      "goal": "Change the heading from 'Paper 1- Section II' to 'Paper 1- Section B'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-010",
+      "goal": "Change the bullet point that says 'essay' (in italics) to make it bold instead",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-011",
+      "goal": "Move the prescribed texts sidebar from the right side to the left side of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-012",
+      "goal": "Add a new bullet point at the end that says 'Consider both content and form in your response'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-013",
+      "goal": "Change the font color of 'EXTENDED RESPONSE' to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-014",
+      "goal": "Check all the checkboxes on the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-015",
+      "goal": "Change the word 'empty' (which is underlined) to 'blank' and keep the underline formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-016",
+      "goal": "Change the font color of the heading 'What you need to do before the exam' to dark blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-017",
+      "goal": "Convert all the checkbox items into a numbered list instead",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-018",
+      "goal": "Add a new checkbox item at the end that says 'Review sample essays and identify key features'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-019",
+      "goal": "Change the question mark in the heading to an exclamation point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-020",
+      "goal": "Make the text 'NO RELATED TEXT' use red font color instead of just capital letters",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-021",
+      "goal": "Make the word 'STOP' bold and italicized",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-022",
+      "goal": "Create a callout box around the entire second checkbox item about 'NO RELATED TEXT'",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-023",
+      "goal": "Add quotation marks around the word 'prepared' in the first checkbox item",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-024",
+      "goal": "Change the word 'HOW' from red color to green color",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-025",
+      "goal": "Add a new bullet point at the end that says 'Pay attention to visual elements and their placement'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-026",
+      "goal": "Change the bullet point format from solid circles to squares",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-027",
+      "goal": "Make the text 'substantial amount of reading' bold within its bullet point",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-028",
+      "goal": "Create a text box with 'Key Strategy:' and position it above the bullet points",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-029",
+      "goal": "Change the color of 'The How' from red to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-030",
+      "goal": "Replace 'FORM' (in all caps) with 'FORMAT' while keeping the same formatting",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-031",
+      "goal": "Move the example sidebar from the right side to the left side of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-032",
+      "goal": "Add italics to the word 'composer' in the bullet point",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-033",
+      "goal": "Change 'Text 1 - Image' to 'Text 1 - Visual' in the examples",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-034",
+      "goal": "Check all the checkboxes on the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-035",
+      "goal": "Add a new checkbox item at the end that says 'Alliteration and assonance'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-036",
+      "goal": "Make the heading 'Poetry' bold",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-037",
+      "goal": "Change the bullet point about 'Form and stanza structure' to include 'free verse' at the end",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-038",
+      "goal": "Convert the entire checklist into a two-column layout to save space",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-039",
+      "goal": "Check the first three checkboxes (Contrast/Juxtaposition, Salience size, and Gaze vectors)",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-040",
+      "goal": "Change 'Image/ Poster/ Cartoon:' to just 'Visual Texts:' while keeping the underline",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-041",
+      "goal": "Add a new checkbox item at the end that says 'Typography and font choices'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-042",
+      "goal": "Rearrange the checklist items in alphabetical order",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-043",
+      "goal": "Make the text 'Colour symbolism' use italic formatting",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-044",
+      "goal": "Change the color of the arrow from blue to green",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-045",
+      "goal": "Add the word 'mysterious' to the negative section of the word bank",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-046",
+      "goal": "Make the word 'WORDBANK' in the heading bold",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-047",
+      "goal": "Flip the layout so that 'Positive' appears on the left and 'Negative' on the right",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-048",
+      "goal": "Change the triangle shape to a circle",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-049",
+      "goal": "Add the word 'jubilant' to the positive section of the word bank",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-050",
+      "goal": "Change the heading from 'What to do?' to 'Study Strategies'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-051",
+      "goal": "Convert all the bullet points into a numbered list format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-052",
+      "goal": "Make the text 'HSC' bold in the third bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-053",
+      "goal": "Add a new bullet point at the end that says 'Practice time management during practice sessions'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-054",
+      "goal": "Create a text box with 'Remember:' at the beginning of the slide and format it with a different background color",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-055",
+      "goal": "Insert a new slide after slide 1 with the title 'Course Overview'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-056",
+      "goal": "Add a fade-in animation effect to the bullet points on the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-057",
+      "goal": "Change the slide layout to 'Title and Content' layout",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-058",
+      "goal": "Group the example texts (Text 1-5) and move them as a single unit to the center of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-059",
+      "goal": "Apply a different bullet style (e.g., arrows) to the poetry checklist items",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-060",
+      "goal": "Add a slide number to the bottom right corner of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-061",
+      "goal": "Create a duplicate of this slide and insert it immediately after the current slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-062",
+      "goal": "Change the line spacing of the checklist items to 1.5",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-063",
+      "goal": "Apply a different font (Arial) to the heading text",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-064",
+      "goal": "Add a hyperlink on the word 'HSC' that links to slide 1",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-065",
+      "goal": "Replace the word 'challenging' in the positive section with 'demanding'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-066",
+      "goal": "Add a company logo placeholder in the top right corner of the slide",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-067",
+      "goal": "Increase the font size of the heading by 4 points",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-068",
+      "goal": "Change the bullet points to use roman numerals (i, ii, iii)",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-069",
+      "goal": "Apply a drop shadow effect to the heading text",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-070",
+      "goal": "Underline the phrase 'name of the text' in the bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-071",
+      "goal": "Change the text alignment of all bullet points from left to justified",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:19"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-072",
+      "goal": "Create a table with two columns and convert the checklist into table format",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-073",
+      "goal": "Change the text 'COMMON' to lowercase 'common'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "HSC Careers and Expo FINAL COM MOD-074",
+      "goal": "Add a footer with the text 'HSC Preparation Guide' on all slides",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:38"
+      ],
+      "file_path": "PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx",
+      "misc": {}
+    }
+  ]
+}

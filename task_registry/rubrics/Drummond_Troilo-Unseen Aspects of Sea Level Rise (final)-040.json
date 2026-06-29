@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Add explanatory text box to Slide 11 about cumulative rainfall chart",
+    "description": "Evaluates whether the agent correctly adds a text box to Slide 11 that explains the chart shows cumulative rainfall over the storm period, ensuring clear, relevant, and non-intrusive placement.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Text box added to Slide 11",
+        "description": "Checks that a new text box has been added to Slide 11.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Look for any added shapes on slide 11\n    slide_number = 11\n    for before, after in ppt_diff.modified_slides:\n        if after.slide_number == slide_number:\n            # Compare the number of elements (shapes) before and after\n            new_elements = after.element_count - before.element_count\n            if new_elements > 0:\n                return (f\"{new_elements} element(s) added to slide 11.\", 1.0)\n            else:\n                return (\"No new elements added to slide 11.\", 0.0)\n    # If slide 11 is not found as modified, check if it's in added_slides (should not be)\n    for slide in ppt_diff.added_slides:\n        if slide.slide_number == slide_number:\n            return (\"Slide 11 appears to be newly added, which is unexpected.\", 0.0)\n    return (\"Slide 11 not found in modified slides.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Text box content explains the chart shows cumulative rainfall over the storm period",
+        "description": "Checks that the new text box contains an explanation referencing cumulative rainfall and the storm period in relation to the chart.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    slide_number = 11\n    prs = Presentation(modified_ppt_path)\n    slide = prs.slides[slide_number-1]\n    # Gather all textboxes (shapes with text not in table/chart)\n    explanations = []\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = shape.text.strip().lower()\n            # Look for key terms\n            if ('cumulative' in text and 'rainfall' in text and ('storm period' in text or 'storm' in text)):\n                explanations.append(text)\n    if explanations:\n        return (f\"Found relevant explanation textbox(es): {explanations}\", 1.0)\n    else:\n        return (\"No textbox with appropriate explanatory content found.\", 0.0)\n"
+        }
+      },
+      {
+        "name": "Explanatory text box is not obscuring chart or other slide content",
+        "description": "Ensures the new text box does not visually block the chart or other important content on the slide.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Use VLM to compare before/after screenshots, check if chart is visually obscured\n    slide_number = 11\n    before = next((s.image_path for s in original_ppt_screenshots if s.slide_number == slide_number), None)\n    after = next((s.image_path for s in modified_ppt_screenshots if s.slide_number == slide_number), None)\n    if not before or not after:\n        return (\"Slide 11 screenshot not found for before/after.\", 0.5)\n    prompt = (\n        \"Does the text box explaining 'this chart shows cumulative rainfall over the storm period' \"\n        \"obscure or cover any part of the chart or other existing content? \"\n        \"Start the answer with YES or NO. If YES, explain what is obscured.\"\n    )\n    result = vlm_call(prompt, images=[after], temperature=0.2, max_tokens=20)\n    if 'no' in result.lower():\n        return (\"Text box does not obscure chart/content.\", 1.0)\n    elif 'yes' in result.lower():\n        return (f\"Text box obscures content: {result}\", 0.0)\n    else:\n        return (f\"Unclear answer from VLM: {result}\", 0.5)\n"
+        }
+      },
+      {
+        "name": "No extraneous modifications to Slide 11",
+        "description": "Checks that only the relevant text box has been added and no unrelated changes were made to Slide 11 (e.g., chart was not deleted, styling not unnecessarily changed).",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    slide_number = 11\n    # Check for non-textbox changes\n    unrelated_mods = []\n    # Removed shapes/elements\n    for before, after in ppt_diff.modified_slides:\n        if after.slide_number == slide_number:\n            if after.element_count < before.element_count:\n                unrelated_mods.append(\"Elements removed from slide 11.\")\n    # Added/removed/modified charts -- check via python-pptx\n    from pptx import Presentation\n    prs_before = Presentation(original_ppt_path)\n    prs_after = Presentation(modified_ppt_path)\n    slide_b = prs_before.slides[slide_number-1]\n    slide_a = prs_after.slides[slide_number-1]\n    def count_charts(slide):\n        return sum(1 for shape in slide.shapes if shape.has_chart)\n    if count_charts(slide_b) != count_charts(slide_a):\n        unrelated_mods.append(\"Chart count changed on slide 11.\")\n    # Check for major formatting change (not required by task)\n    if slide_b.background.fill.type != slide_a.background.fill.type:\n        unrelated_mods.append(\"Background fill changed on slide 11.\")\n    if unrelated_mods:\n        return (\"; \".join(unrelated_mods), 0.0)\n    else:\n        return (\"No unrelated modifications to slide 11.\", 1.0)\n"
+        }
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Verify that only slide 11 has been modified, and no other slides have been added or removed.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    # Only slide 5 (slide_number=5) should be altered\n    problematic_mods = []\n    for (old, new) in ppt_diff.modified_slides:\n        if old.slide_number != 11:\n            # Check if nontrivial changes happened\n            major = False\n            # Check notes, title, number of elements (as proxy)\n            if old.title != new.title or (old.notes or \"\") != (new.notes or \"\") or old.element_count != new.element_count:\n                major = True\n            if major:\n                problematic_mods.append(old.slide_number)\n    # Check for added/removed slides\n    added = [s.slide_number for s in ppt_diff.added_slides if s.slide_number != 11]\n    removed = [s.slide_number for s in ppt_diff.removed_slides if s.slide_number != 11]\n    if problematic_mods or added or removed:\n        return f\"Slides other than 11 changed: modified={problematic_mods}, added={added}, removed={removed}.\", 0.0\n    return \"No extraneous changes to other slides.\", 1.0\n"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "task": "Slide 11: Add a text box explaining that this chart shows cumulative rainfall over the storm period"
+  }
+}

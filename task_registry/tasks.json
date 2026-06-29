@@ -1,0 +1,842 @@
+{
+  "3-007": {
+    "goal": "On slide 3, Add a fourth vCPU circle (vCPU4) next to the existing three circles using a different color and also add vCPU4 to the time-sharing diagram",
+    "rubric_path": "task_registry/rubrics/3-007.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-002": {
+    "goal": "Change the lecture number from 'Lecture 3' to 'Lecture 1' in the presentation title.",
+    "rubric_path": "task_registry/rubrics/3-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-003": {
+    "goal": "Add a new bullet point after 'Dual Mode' that says 'File System' on slide 2.",
+    "rubric_path": "task_registry/rubrics/3-003.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-017": {
+    "goal": "On slide 14, add a text box below the processor image with the caption 'Intel Skylake Die Layout'",
+    "rubric_path": "task_registry/rubrics/3-017.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-030": {
+    "goal": "On slide 33, add a code example showing a simple fork() call below the bullet points",
+    "rubric_path": "task_registry/rubrics/3-030.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-006": {
+    "goal": "Change the vCPU1 color from magenta to green on slide 3",
+    "rubric_path": "task_registry/rubrics/3-006.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-009": {
+    "goal": "Change the color tone of the figure on slide 4 to blue by adding a shape on top of the figure and increasing it's transparency",
+    "rubric_path": "task_registry/rubrics/3-009.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-042": {
+    "goal": "Change the circular bullets on the final slide to numbered list items.",
+    "rubric_path": "task_registry/rubrics/3-042.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-020": {
+    "goal": "On slide 8, change the red border around the OS box to blue",
+    "rubric_path": "task_registry/rubrics/3-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "3-021": {
+    "goal": "On slide 8, add a new process box 'Proc 3' in purple color next to the existing processes.",
+    "rubric_path": "task_registry/rubrics/3-021.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/3.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-017": {
+    "goal": "On slide 11, change the yellow font color text to add blue highlighting",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-017.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-001": {
+    "goal": "Change the presentation title font size to 48pt",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-020": {
+    "goal": "On slide 12, make the fourth and fifth items in the numbered list look consistent with the first three.",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-015": {
+    "goal": "Add appropriate emojis icons next to each social class type on slide 8",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-015.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-010": {
+    "goal": "Add a new slide after slide 4 with the title 'Traditional Weapons'.",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-010.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-022": {
+    "goal": "On slide 9, resize the text in the diagram so that 'Nobles' fits in the pyramid.",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-022.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-004": {
+    "goal": "Replace the background image of the slide 2 to with a lighter one",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-002": {
+    "goal": "Edit the subtitle text box below the main title so that it says: \"Philippine History: An Educational Overview\"",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-005": {
+    "goal": "Combine slides 2 and 3 into a single slide with table for male and female clothing. Include the images from both slides. Don't delete the original slides yet; just insert this as a new slide after slide 3.",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-005.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "4._Pre-Colonial_Filipino_Culture-014": {
+    "goal": "On slide 8, change the numbered list to use Roman numerals (I, II, III, IV)",
+    "rubric_path": "task_registry/rubrics/4._Pre-Colonial_Filipino_Culture-014.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/4._Pre-Colonial_Filipino_Culture.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-001": {
+    "goal": "Change the title of the presentation from 'Texts and Human Experiences The Common Modules' to 'Literature and Human Experiences The Common Modules'",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-045": {
+    "goal": "On slide 38, Add the word 'mysterious' to the negative section of the word bank",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-045.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-051": {
+    "goal": "Convert all the bullet points into a numbered list format on slide 19",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-051.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-064": {
+    "goal": "Add a hyperlink on the word 'HSC' on slide 19 that links to slide 1",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-064.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-022": {
+    "goal": "Create a callout box with no fill around the entire second checkbox item on slide 5",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-022.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-038": {
+    "goal": "Convert the entire checklist on slide 8 into a two-column layout to save space",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-038.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-003": {
+    "goal": "Change the font size of the main title 'Texts and Human Experiences' on the first slide to make it larger",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-003.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-004": {
+    "goal": "Change the background color of the slide 1 to light blue",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-008": {
+    "goal": "Create a text box on slide 2 with the phrase 'Important Note' and position it in the bottom right corner of the slide",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "HSC Careers and Expo FINAL COM MOD-072": {
+    "goal": "Create a table with two columns and convert the checklist into table format on slide 8",
+    "rubric_path": "task_registry/rubrics/HSC Careers and Expo FINAL COM MOD-072.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/HSC Careers and Expo FINAL COM MOD.pptx"
+  },
+  "Accounting Equation-001": {
+    "goal": "Change the title color of 'Accounting Equation' from blue to red on slide 1",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-003": {
+    "goal": "Add a new bullet point 'Capital' after 'Expenses' on slide 5",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-003.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-004": {
+    "goal": "Replace the word 'Liability' with 'Debt' throughout the slides",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-008": {
+    "goal": "On slide 6. Change the slide layout to 'Two Content' and split the Assets and Liabilities sections into two separate content areas",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-012": {
+    "goal": "Add a footer to every slide with the text 'Fundamental Accounting Concepts', and ensure that the footer is center-aligned",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-012.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-014": {
+    "goal": "Add a new slide after slide 6 with the title 'Summary of Accounting Terms'",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-014.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-015": {
+    "goal": "Insert a SmartArt graphic on slide 3 to represent the accounting equation (Assets = Capital + Liabilities) using a SmartArt suitable for an equation",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-015.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-025": {
+    "goal": "Add slide numbering at the bottom right corner of all slides",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-025.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-042": {
+    "goal": "Insert a black calculator icon next to the equation on slide 3",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-042.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Accounting Equation-045": {
+    "goal": "On slide 3, Create a flowchart showing the logic: Left Hand Side → Right Hand Side → Balance using rounder rectangles and line arrows",
+    "rubric_path": "task_registry/rubrics/Accounting Equation-045.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
+  },
+  "Aircraft_surface-001": {
+    "goal": "On slide 1, Change the title 'AIRCRAFT SURFACE' to 'AIRCRAFT FUNDAMENTALS'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-002": {
+    "goal": "On slide 1, Add a new text box below the author name that says 'An Introduction to Flight Dynamics'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-003": {
+    "goal": "On slide 2, Change the bullet point 'Lateral Axis' to 'Lateral (Side-to-Side) Axis'.",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-003.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-004": {
+    "goal": "On slide 2, Add a new bullet point at the end of the list that says 'All three axes intersect at the aircraft's center of gravity'. Resize the image to avoid overlap.",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-006": {
+    "goal": "On slide 4, Change the title from 'Longitudinal Axis (2 of 3)' to 'Longitudinal Axis - Roll Movement (2 of 3)'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-006.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-007": {
+    "goal": "On slide 3, Add a new text box below the image that says 'Ailerons control the roll movement of the aircraft'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-007.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-009": {
+    "goal": "On slide 5, Add the text box 'Roll Movement Demonstration' below the main title",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-009.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-011": {
+    "goal": "On slide 7, Add a new text box that says 'Elevators control the pitch attitude of the aircraft' positioned below the aircraft diagram. Resize the image to avoid overlap.",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-011.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-013": {
+    "goal": "On slide 8, Replace the 'Click to add text' placeholder with 'Elevator movement controls aircraft pitch attitude'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-013.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Aircraft_surface-016": {
+    "goal": "On slide 11, Replace the 'Click to add text' placeholder with 'Left rudder causes left yaw, right rudder causes right yaw'",
+    "rubric_path": "task_registry/rubrics/Aircraft_surface-016.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Aircraft_surface.pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-022": {
+    "goal": "Resize the images on slide 5 to make the main chart larger and more prominent on the slide",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-022.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-024": {
+    "goal": "Add a bullet point 'Aquifer contamination' under the Groundwater section on slide 7",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-024.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-039": {
+    "goal": "Add a title 'Storm Event Analysis' above the objective text on slide 11",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-039.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-040": {
+    "goal": "Add a text box on slide 11 explaining that this chart shows cumulative rainfall over the storm period",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-040.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-042": {
+    "goal": "Make the objective text italic on slide 11",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-042.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Obesity-002": {
+    "goal": "Change the background color of the title slide to light blue by creating a rectangular shape with transparency, overlaying it on the slide and sending it to the back.",
+    "rubric_path": "task_registry/rubrics/Obesity-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-004": {
+    "goal": "Add a bullet point list with three items: 'Obesity definition', 'Global statistics', and 'Impact on health' as a new slide between 1 and 2, titled \"Agenda\"",
+    "rubric_path": "task_registry/rubrics/Obesity-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-009": {
+    "goal": "On slide 2, break the paragraph into two bullet points: 'Obesity is defined as excess body fat' and 'Because body fat is difficult to measure directly, obesity is often measured by body mass index (BMI)', and indent the second bullet point",
+    "rubric_path": "task_registry/rubrics/Obesity-009.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-010": {
+    "goal": "Add a text box with BMI calculation formula 'BMI = (Weight in kg)/(Height in m)^2​' positioned at the bottom right of slide 2",
+    "rubric_path": "task_registry/rubrics/Obesity-010.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-011": {
+    "goal": "Convert the first bullet in the content placeholder for Slide 9 into three: *. The association may be stronger for obese adolescents than younger children *. Obese children are also more likely to have increased risk of heart disease *. Obese children are also more likely to develop asthma, then change only the first bullet point to a numbered list item '1' on slide 9.",
+    "rubric_path": "task_registry/rubrics/Obesity-011.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-013": {
+    "goal": "Add a second bullet point to slide 6: 'Determining healthy weight for children requires precise measurement tools' and underline it",
+    "rubric_path": "task_registry/rubrics/Obesity-013.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-014": {
+    "goal": "Bold the text '85th and 94th percentiles' and '95th percentile'",
+    "rubric_path": "task_registry/rubrics/Obesity-014.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-015": {
+    "goal": "Insert a small table on slide 3 showing BMI ranges categorized by male and female and for ages (2-5, 6-11, 12-19, 20+) using <,> and – to denote ranges on slide 3",
+    "rubric_path": "task_registry/rubrics/Obesity-015.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-017": {
+    "goal": "Convert the paragraph on slide 5 into two bullet points: 'Early Life: A child's risk of becoming obese may begin before birth' and 'Pregnant women who use tobacco, gain excessive weight, or have diabetes increase their children's obesity risk'",
+    "rubric_path": "task_registry/rubrics/Obesity-017.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "Obesity-020": {
+    "goal": "Change slide 8 to a two-column comparison layout with 'Adults' on the left and 'Children' on the right, moving appropriate bullet points to each column",
+    "rubric_path": "task_registry/rubrics/Obesity-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Obesity.pptx"
+  },
+  "pediatic glasses when to prescribe1-005": {
+    "goal": "Add a new team member to the first slide with the name 'Dr. Sarah Johnson' and role 'Pediatric Ophthalmologist'",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-005.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-006": {
+    "goal": "Change the section heading from 'Myopia' to 'Nearsightedness (Myopia)' on slide 18",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-006.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-019": {
+    "goal": "Apply a different design theme to the entire presentation while maintaining the current color scheme of greenish backgrounds",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-019.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-024": {
+    "goal": "Change all text on slide 27 to be center-aligned, including the page number.",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-024.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-031": {
+    "goal": "Sort the table data on slide 10 in alphabetically by isometropia type",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-031.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-032": {
+    "goal": "Add a chart based on the table data showing age distribution on slide 13",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-032.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-033": {
+    "goal": "Delete the current images on slide 5 and replace it with a text box containing 'Image Placeholder - Eye Examination 1' and 'Image Placeholder - Eye Examination 2'",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-033.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-034": {
+    "goal": "Apply animation effects: make the text content appear with 'Fly In' animation from the left on the references slide",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-034.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-035": {
+    "goal": "Change the slide layout to \"Three Content\" and apply it to slide 14, rearranging content into a three-column comparison format, adding a new column that calls out the difference between unilateral and bilateral",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-035.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "pediatic glasses when to prescribe1-037": {
+    "goal": "Add a text box to slide 1 with the text \"More Information\", and then add a hyperlink on the text 'More Information' that links to slide 34",
+    "rubric_path": "task_registry/rubrics/pediatic glasses when to prescribe1-037.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/pediatic glasses when to prescribe1.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-020": {
+    "goal": "Change the font color of 'Conclusion:' on slide 23 from white to yellow",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-025": {
+    "goal": "Rotate the architectural diagram image 45 degrees clockwise on slide 6",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-025.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-026": {
+    "goal": "Add a text box explaining 'These drawings show standardized proportional relationships' on slide 7",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-026.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-001": {
+    "goal": "Change the title text to 'French Architect: Jean-Nicolas-Louis Durand' on the first slide",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-008": {
+    "goal": "Resize the historical document image on slide 4 to be 20% smaller while maintaining aspect ratio",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-009": {
+    "goal": "Change all bullet points on slide 5 to numbered list format",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-009.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-012": {
+    "goal": "Add a border around the architectural diagram image on sllide 6",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-012.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-015": {
+    "goal": "Crop the architectural diagram image on slide 8 to show only the top two rows of buildings",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-015.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-029": {
+    "goal": "Change the French title text color from white to gold on slide 4",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-029.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Jean-Nicolas-Louis Durand-028": {
+    "goal": "Create a new slide after slide 8 with the title 'Building Analysis Methods'",
+    "rubric_path": "task_registry/rubrics/Jean-Nicolas-Louis Durand-028.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Jean-Nicolas-Louis Durand.pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-002": {
+    "goal": "Add a text box with the text 'Updated Presentation' in the top-right corner of the title slide",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-008": {
+    "goal": "On slide 2, Move the chart/image and caption to the left side of the slide and resize the text content to fit the right side",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-011": {
+    "goal": "On slide 3, Add a text box with the text 'Data shows increasing trend since 1980' below the chart",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-011.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-019": {
+    "goal": "On slide 5, Remove the '43 year horizon' red annotation from the chart",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-019.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-020": {
+    "goal": "On slide 5, Move the Miami-Dade report document image to the left side of the slide and move the chart image to the right side",
+    "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
+  },
+  "application+layer+slide-001": {
+    "goal": "Slide 1: Change the title text 'Application Layer' to 'Network Application Layer' and make it bold",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-007": {
+    "goal": "Change the font size of the question 'Q: does IP address of host suffice for identifying the process?' on slide 7 to be smaller (less than 18pt)",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-007.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-010": {
+    "goal": "Add a bullet point explaining 'Objects include CSS files, JavaScript files, images, videos' at an appropriate place on slide 10",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-010.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-011": {
+    "goal": "On slide 11, replace the existing diagram with a simpler flowchart showing 'Browser → HTTP Request → Web Server → HTTP Response → Browser'",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-011.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-014": {
+    "goal": "Change the background color of slide 3 to light blue",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-014.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-015": {
+    "goal": "On slide 4, create a simple table with two columns: 'Application' and 'Architecture Type' and insert Skype and Instant messaging",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-015.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-018": {
+    "goal": "Add a subtitle 'Port Numbers and Process Identification' below the main title in slide 7",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-018.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-019": {
+    "goal": "On slide 8, replace the IP address and Port number bullet points with a simple diagram showing IP address (128.119.245.12) connected to Port 80",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-019.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-021": {
+    "goal": "Replace the URL example with 'https://university.edu/courses/networking.html' and update the URL labels breakdown accordingly",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-021.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "application+layer+slide-024": {
+    "goal": "Remove the blue box on the right side along with its contents and replace it with a simple bullet point 'Stateless protocols are simpler to implement' on slide 12",
+    "rubric_path": "task_registry/rubrics/application+layer+slide-024.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/application+layer+slide.pptx"
+  },
+  "Worms-002": {
+    "goal": "In the title slide, add a subtitle 'A Comprehensive Study' below the main title",
+    "rubric_path": "task_registry/rubrics/Worms-002.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-003": {
+    "goal": "In slide 2, format the last three bullets which detail the types of worms as a numbered list",
+    "rubric_path": "task_registry/rubrics/Worms-003.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-004": {
+    "goal": "Change the font size of the title in the second slide to 36pt",
+    "rubric_path": "task_registry/rubrics/Worms-004.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-007": {
+    "goal": "Add a text box in Slide 4 explaining what 'prostomium' means and position it above the word  'prostomium' on the diagram",
+    "rubric_path": "task_registry/rubrics/Worms-007.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-008": {
+    "goal": "Change the background color of Slide 4 to light blue",
+    "rubric_path": "task_registry/rubrics/Worms-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-019": {
+    "goal": "Add a bullet point with a fact about worm reproduction in slide 5",
+    "rubric_path": "task_registry/rubrics/Worms-019.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-024": {
+    "goal": "Vertically center-align both images on slide 3",
+    "rubric_path": "task_registry/rubrics/Worms-024.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-042": {
+    "goal": "Add slide numbers to all slides except the title slide",
+    "rubric_path": "task_registry/rubrics/Worms-042.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-050": {
+    "goal": "Rotate the diagram on slide 4 clockwise 90 degrees",
+    "rubric_path": "task_registry/rubrics/Worms-050.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Worms-060": {
+    "goal": "Add a slide after slide 2 with a table comparing characteristics of all three worm types",
+    "rubric_path": "task_registry/rubrics/Worms-060.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Worms.pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-001": {
+    "goal": "Change the title text from 'REVISITING CLASSICAL SOCIAL EXPERIMENTS' to 'EXPLORING CLASSICAL SOCIAL EXPERIMENTS'",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-001.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-008": {
+    "goal": "Add a subtitle below the main title on slide 1 that says 'A Comprehensive Review'",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-008.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-011": {
+    "goal": "In slide 5, add a new bullet point at the end which says: 'Published findings in 1898'",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-011.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-016": {
+    "goal": "Create slide after slide 3 with a table listing each experiment from slide 3 with columns for Researcher, Year, and Key Finding",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-016.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-018": {
+    "goal": "Add icons or symbols inside each of the three circles in slide 2 which illustrate the respective text",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-018.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-020": {
+    "goal": "Center align the title text on slide 4",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-020.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-021": {
+    "goal": "Add a slide transition effect of 'Fade' to slide 2",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-021.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Easy" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-023": {
+    "goal": "Insert a new slide after slide 4 with the title 'Milgram's Obedience Study'",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-023.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-027": {
+    "goal": "Add a text box with 'These are the key elements' positioned below the circles and text in slide 2",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-027.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Medium" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  },
+  "Revisiting Classical  Social Experiments [Autosaved]-033": {
+    "goal": "Create hyperlinks from each experiment name in slide 3 to corresponding Wikipedia pages about either the experiment or the researcher(s)",
+    "rubric_path": "task_registry/rubrics/Revisiting Classical  Social Experiments [Autosaved]-033.json",
+    "tags": ["powerpoint"],
+    "misc": { "difficulty": "Hard" },
+    "file_path": "data/files/PowerPoint/Revisiting Classical  Social Experiments [Autosaved].pptx"
+  }
+}

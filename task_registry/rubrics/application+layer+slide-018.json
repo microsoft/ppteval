@@ -1,0 +1,63 @@
+{
+  "root": {
+    "name": "Add subtitle 'Port Numbers and Process Identification' to Slide 7",
+    "description": "Evaluates whether the agent correctly added the subtitle below the main title on slide 7 as specified.",
+    "is_critical": true,
+    "metadata": {},
+    "children": [
+      {
+        "name": "Subtitle Text Correctness",
+        "description": "Checks if the new subtitle text 'Port Numbers and Process Identification' is present on slide 7.",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    import re\n    prs = Presentation(modified_ppt_path)\n    subtitle_found = False\n    slide_idx = None\n    for idx, slide in enumerate(prs.slides):\n        if idx == 6:  # Slide 7 (0-based)\n            slide_idx = slide\n            for shape in slide.shapes:\n                if shape.has_text_frame:\n                    text = shape.text_frame.text.strip()\n                    if re.sub(r'\\s+', ' ', text).strip().lower() == 'port numbers and process identification':\n                        subtitle_found = True\n                        break\n    if not slide_idx:\n        return (\"Slide 7 not found in presentation.\", 0.0)\n    if subtitle_found:\n        return (\"Subtitle is present on slide 7.\", 1.0)\n    else:\n        return (\"Subtitle 'Port Numbers and Process Identification' not found on slide 7.\", 0.0)\n"
+        },
+        "score": 0.0,
+        "reason": "Subtitle 'Port Numbers and Process Identification' not found on slide 7."
+      },
+      {
+        "name": "Subtitle Placement",
+        "description": "Checks that the subtitle is visually below the main title on slide 7 (not overlapping or above).",
+        "is_critical": true,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    import re\n    slide = None\n    for idx, s in enumerate(prs.slides):\n        if idx == 6:\n            slide = s\n            break\n    if not slide:\n        return (\"Slide 7 not found.\", 0.0)\n    title_shape = None\n    subtitle_shape = None\n    # Find main title and subtitle shapes\n    for shape in slide.shapes:\n        if shape.has_text_frame:\n            text = re.sub(r'\\s+', ' ', shape.text_frame.text.strip()).strip().lower()\n            if not title_shape and ('title' in shape.name.lower() or shape.text_frame.vertical_anchor == 1 or text == 'addressing processes'):\n                title_shape = shape\n            if text == 'port numbers and process identification':\n                subtitle_shape = shape\n    if not subtitle_shape:\n        return (\"Subtitle shape not found.\", 0.0)\n    if not title_shape:\n        # Try to heuristically pick the likely title\n        titles = [sh for sh in slide.shapes if sh.has_text_frame and sh.text_frame.text.strip() and sh.text_frame.vertical_anchor == 1]\n        if titles:\n            title_shape = titles[0]\n        else:\n            # fallback to topmost text box\n            title_shape = min([sh for sh in slide.shapes if sh.has_text_frame], key=lambda sh: sh.top, default=None)\n    if not title_shape:\n        return (\"Unable to identify main title shape.\", 0.0)\n    # Check vertical placement (subtitle's top should be below title's bottom)\n    if subtitle_shape.top > (title_shape.top + title_shape.height//2):\n        return (\"Subtitle is visually below the main title.\", 1.0)\n    else:\n        return (\"Subtitle is not visually below the main title.\", 0.0)\n"
+        },
+        "score": 0.0,
+        "reason": "Subtitle shape not found."
+      },
+      {
+        "name": "No Unwanted Changes",
+        "description": "Checks that there are no extraneous changes to slide 7 except the intended subtitle addition.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    if len(original_ppt_screenshots) <= 6 or len(modified_ppt_screenshots) <= 6:\n        return (\n            f\"Slide 7 screenshot unavailable (original has {len(original_ppt_screenshots)} slides, modified has {len(modified_ppt_screenshots)}); skipping visual comparison.\",\n            0.0,\n        )\n    orig_img = original_ppt_screenshots[6].image_path\n    mod_img = modified_ppt_screenshots[6].image_path\n\n    prompt = (\n        \"Compare these two images of the same PowerPoint slide. Besides the fact that the second slide has a subtitle with content 'Port Numbers and Process Identification' added to it, there should be no difference between the slide images. \"\n        \"Besides the presence of the added subtitle, are there *any* visible changes to the slide's content, layout, or appearance (such as text, images, shapes, or formatting)? \"\n        \"If there are no visible differences besides the subtitle, answer NO. Otherwise, answer YES and briefly describe the differences. Take your time, analyze the slides, and compare them carefully.\"\n    )\n\n    vlm_resp = vlm_call(prompt, [orig_img, mod_img], temperature=0.0, max_tokens=128).strip().lower()\n    if vlm_resp.startswith('yes'):\n        return (f'Extraneous differences found between slides: {vlm_resp}', 0.0)\n\n    return ('No differences found', 1.0)\n"
+        },
+        "score": 1.0,
+        "reason": "No differences found"
+      },
+      {
+        "name": "No Extraneous Changes to Other Slides",
+        "description": "Checks that there are no extraneous changes other slides.",
+        "is_critical": false,
+        "metadata": {},
+        "scorer": {
+          "type": "function",
+          "function_code": "def compute_score() -> tuple[str, float]:\n    if len(ppt_diff.modified_slides) > 1:\n        return 'Undesired slide modifications', 0.0\n    \n    if len(ppt_diff.modified_slides) == 1 and ppt_diff.modified_slides[0][0].slide_number != 7:\n        return 'Undesired slide modifications', 0.0\n    if len(ppt_diff.added_slides) > 0:\n        return 'Undesired slide additions', 0.0\n    \n    if len(ppt_diff.removed_slides) > 0:\n        return 'Undesired slide removals', 0.0\n    \n    if len(ppt_diff.modified_animations) > 0 or len(ppt_diff.modified_transitions) > 0:\n        return 'Undesired animation/transition additions', 0.0\n        \n        \n    if len(ppt_diff.added_animations) > 0 or len(ppt_diff.added_transitions) > 0:\n        return 'Undesired animation/transition additions', 0.0\n\n    if len(ppt_diff.removed_animations) > 0 or len(ppt_diff.removed_transitions) > 0:\n        return 'Undesired animation/transition removals', 0.0\n    \n    return 'No extraneous changes.', 1.0\n"
+        },
+        "score": 1.0,
+        "reason": "No extraneous changes."
+      }
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a failing score because the agent completely failed to add the required subtitle to slide 7. Both critical requirements were not met: the subtitle text \"Port Numbers and Process Identification\" was not found anywhere on the slide, and consequently there was no subtitle shape to evaluate for proper placement below the main title. While the agent avoided making unwanted changes to the presentation, the core task of adding the specified subtitle was not accomplished at all."
+  },
+  "metadata": {
+    "task": "Slide 7: Add a subtitle 'Port Numbers and Process Identification' below the main title"
+  }
+}

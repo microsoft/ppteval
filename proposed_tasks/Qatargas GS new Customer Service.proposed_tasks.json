@@ -1,0 +1,468 @@
+{
+  "file": "PowerPoint/Qatargas GS new Customer Service.pptx",
+  "num_tasks": 42,
+  "tasks": [
+    {
+      "task_id": "Qatargas GS new Customer Service-001",
+      "goal": "Change the presenter name from 'Gregg Howman' to 'Sarah Johnson'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-002",
+      "goal": "Change the title font color to blue",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-003",
+      "goal": "Add a fourth bullet point: 'To develop effective communication skills with customers'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-004",
+      "goal": "Change all bullet points to numbered list format",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-005",
+      "goal": "Add your name as a text box in the bottom left corner of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-006",
+      "goal": "Replace the Qatargas logo with a text placeholder that says '[COMPANY LOGO]'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-007",
+      "goal": "Change all the dollar sign symbols (§) to star symbols (*)",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-008",
+      "goal": "Make the question mark illustration smaller by 50%",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-009",
+      "goal": "Rearrange the bullet points in alphabetical order by their first word",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-010",
+      "goal": "Change the red-highlighted '68%' text to bold and underlined format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-011",
+      "goal": "Add a new bullet point at the end: '0% leave because they were overcharged'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-012",
+      "goal": "Change the background color of the slide to light blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-013",
+      "goal": "Create a consistent color scheme across the first three slides using the same accent colors",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1,2,3"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-014",
+      "goal": "Convert the checkbox list to a numbered list format",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-015",
+      "goal": "Change the text color of 'Motivation To Serve' to red",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:8"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-016",
+      "goal": "Replace all the excuse statements with positive alternatives",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-017",
+      "goal": "Change the green circle symbols (∂) to bullet points",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-018",
+      "goal": "Add a sixth item: '... To be respected.'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-019",
+      "goal": "Rearrange the 10 techniques in order of importance (most important first)",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-020",
+      "goal": "Change the background color of all technique boxes to light yellow",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-021",
+      "goal": "Merge slides 7 and 8 into a single slide with all competencies",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7,8"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-022",
+      "goal": "Add a footer with the current date",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:9"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-023",
+      "goal": "Add a new bullet point: 'They promise to provide 24/7 support and do so'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:12"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-024",
+      "goal": "Change the word 'quickly' to 'promptly' in the second bullet point",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:13"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-025",
+      "goal": "Create a new slide after this one with a summary of the top 5 key takeaways from the presentation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-026",
+      "goal": "Change the security training officer title to 'Customer Service Manager'",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-027",
+      "goal": "Add a slide number in the bottom right corner of every slide",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-028",
+      "goal": "Convert the technique boxes into a table format with two columns",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-029",
+      "goal": "Add percentages that add up to 100% for all the statistics",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:6"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-030",
+      "goal": "Add a 'Thank You' heading at the top of the slide",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-031",
+      "goal": "Change the background gradient from burgundy to blue",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:2"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-032",
+      "goal": "Apply a consistent footer across all slides with the company name and date",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:1-23"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-033",
+      "goal": "Change the first checkbox bullet point text size to 14pt",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:5"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-034",
+      "goal": "Replace the cartoon character with a professional business person image",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:3"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-035",
+      "goal": "Create a new slide before this one with an agenda overview of the presentation",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:4"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-036",
+      "goal": "Make the 'Communication' item bold and italic",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:7"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-037",
+      "goal": "Center-align all the bullet point text",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:10"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-038",
+      "goal": "Change the slide title color to match the company branding color",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:11"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-039",
+      "goal": "Create smooth slide transitions between these slides",
+      "grader": null,
+      "tags": [
+        "HARD",
+        "SLIDE:6-11"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-040",
+      "goal": "Add a subtitle: 'Training Session - March 2024'",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-041",
+      "goal": "Change the bullet points to numbered format",
+      "grader": null,
+      "tags": [
+        "EASY",
+        "SLIDE:23"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    },
+    {
+      "task_id": "Qatargas GS new Customer Service-042",
+      "goal": "Ensure all slide titles use the same font and size",
+      "grader": null,
+      "tags": [
+        "MEDIUM",
+        "SLIDE:1-23"
+      ],
+      "file_path": "PowerPoint/Qatargas GS new Customer Service.pptx",
+      "misc": {}
+    }
+  ]
+}
