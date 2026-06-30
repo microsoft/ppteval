@@ -52,4 +52,8 @@ permalink: /task-explorer/
   </div>
 </div>
 
-<script src="{{ site.baseurl }}/assets/js/task-explorer.js"></script>
+<script>
+  window.__TASKS_URL__ = {{ '/task_registry/tasks.json' | relative_url | jsonify }};
+  window.__BASEURL__ = {{ site.baseurl | jsonify }};
+</script>
+<script src="{{ '/assets/js/task-explorer.js' | relative_url }}?v={{ site.asset_version }}"></script>

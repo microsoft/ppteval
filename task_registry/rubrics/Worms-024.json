@@ -14,13 +14,14 @@
           {
             "name": "Number of images on slide 3 is unchanged",
             "description": "Ensures that the number of images on slide 3 remains the same after modification, so that alignment actions are performed on the correct images.",
-            "is_critical": true,
+            "is_critical": false,
             "metadata": {},
             "scorer": {
               "type": "function",
-              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    # Slide numbers are 1-based in python-pptx\n    try:\n        orig_slide = orig.slides[2]\n        mod_slide = mod.slides[2]\n    except IndexError:\n        return \"Slide 3 missing in one of the files.\", 0.0\n    orig_imgs = get_image_shapes(orig_slide)\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(orig_imgs) != len(mod_imgs):\n        return f\"Number of images changed from {len(orig_imgs)} to {len(mod_imgs)}.\", 0.0\n    if len(orig_imgs) < 2:\n        return f\"Expected at least 2 images on slide 3, found {len(orig_imgs)}.\", 0.0\n    return \"Image count unchanged.\", 1.0\n"
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n    orig = Presentation(original_ppt_path)\n    mod = Presentation(modified_ppt_path)\n    # Slide numbers are 0-based in python-pptx\n    try:\n        orig_slide = orig.slides[2]\n        mod_slide = mod.slides[2]\n    except IndexError:\n        return \"Slide 3 missing in one of the files.\", 0.0\n    orig_imgs = get_image_shapes(orig_slide)\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(orig_imgs) != len(mod_imgs):\n        return f\"Number of images changed from {len(orig_imgs)} to {len(mod_imgs)}.\", 0.0\n    if len(orig_imgs) < 2:\n        return f\"Expected at least 2 images on slide 3, found {len(orig_imgs)}.\", 0.0\n    return \"Image count unchanged.\", 1.0\n"
             },
-            "score": 1.0
+            "score": 1.0,
+            "reason": "Image count unchanged."
           },
           {
             "name": "Both images are vertically center-aligned on slide 3",
@@ -29,23 +30,26 @@
             "metadata": {},
             "scorer": {
               "type": "function",
-              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    # Margin of error: 2% of slide height\n    CENTER_MARGIN = 0.02\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n\n    mod = Presentation(modified_ppt_path)\n    try:\n        mod_slide = mod.slides[2]\n    except IndexError:\n        return \"Slide 3 missing in modified file.\", 0.0\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(mod_imgs) < 2:\n        return f\"Expected at least 2 images, found {len(mod_imgs)}.\", 0.0\n    # Get slide height in EMU (English Metric Units)\n    slide_height = mod.slide_height\n    center_y = slide_height / 2\n    centered_count = 0\n    for img in mod_imgs:\n        img_center = img.top + img.height / 2\n        rel_center = abs(img_center - center_y) / slide_height\n        if rel_center <= CENTER_MARGIN:\n            centered_count += 1\n    if centered_count == len(mod_imgs):\n        return \"Both images are vertically center-aligned.\", 1.0\n    elif centered_count == 1:\n        return \"One image is vertically center-aligned.\", 0.5\n    return \"Neither image is vertically center-aligned.\", 0.0\n"
+              "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    # Margin of error: 2% of slide height\n    CENTER_MARGIN = 0.02\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n\n    mod = Presentation(modified_ppt_path)\n    try:\n        mod_slide = mod.slides[2]\n    except IndexError:\n        return \"Slide 3 missing in modified file.\", 0.0\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(mod_imgs) < 2:\n        return f\"Expected at least 2 images, found {len(mod_imgs)}.\", 0.0\n    # Get slide width in EMU (English Metric Units)\n    center_x = mod.slide_width / 2\n    \n    centered_count = 0\n    for img in mod_imgs:\n        img_center = img.left + img.width / 2    \n        rel_center = abs(img_center - center_x) / mod.slide_width\n        if rel_center <= CENTER_MARGIN:\n            centered_count += 1\n    if centered_count == len(mod_imgs):\n        return \"Both images are vertically center-aligned.\", 1.0\n    elif centered_count == 1:\n        return \"One image is vertically center-aligned.\", 0.5\n    return \"Neither image is vertically center-aligned.\", 0.0\n"
             },
-            "score": 1.0
+            "score": 0.0,
+            "reason": "Neither image is vertically center-aligned."
           },
           {
             "name": "Both images are not overlapping on slide 3",
             "description": "Checks that both images are not overlapping.",
-            "is_critical": true,
+            "is_critical": false,
             "metadata": {},
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    # Margin of error: 2% of slide height\n    CENTER_MARGIN = 0.02\n    def get_image_shapes(slide):\n        images = []\n        for shape in slide.shapes:\n            if shape.is_placeholder and shape.placeholder_format.type == 7:\n                images.append(shape)\n\n            if shape.shape_type == 13:  # Picture\n                images.append(shape)\n        return images\n\n    mod = Presentation(modified_ppt_path)\n    try:\n        mod_slide = mod.slides[2]\n    except IndexError:\n        return \"Slide 3 missing in modified file.\", 0.0\n    mod_imgs = get_image_shapes(mod_slide)\n    if len(mod_imgs) < 2:\n        return f\"Expected at least 2 images, found {len(mod_imgs)}.\", 0.0\n    # Get slide height in EMU (English Metric Units)\n    img1, img2 = mod_imgs[0], mod_imgs[1]\n    # Get bounding boxes\n    left1, top1, right1, bottom1 = img1.left, img1.top, img1.left + img1.width, img1.top + img1.height\n    left2, top2, right2, bottom2 = img2.left, img2.top, img2.left + img2.width, img2.top + img2.height\n    # Calculate overlap area\n    overlap_h = max(0, min(right1, right2) - max(left1, left2))\n    overlap_v = max(0, min(bottom1, bottom2) - max(top1, top2))\n    overlap_area = overlap_h * overlap_v\n    area1 = img1.width * img1.height\n    area2 = img2.width * img2.height\n    margin_area1 = CENTER_MARGIN * area1\n    margin_area2 = CENTER_MARGIN * area2\n    # If overlap area is more than 2% of either image's area, score is zero\n    if overlap_area > margin_area1 or overlap_area > margin_area2:\n        return \"Images are overlapping more than 2%.\", 0.0\n    return \"Images are not overlapping more than 2%.\", 1.0\n"
             },
-            "score": 1.0
+            "score": 1.0,
+            "reason": "Images are not overlapping more than 2%."
           }
         ],
-        "score": 1.0
+        "score": 0.0,
+        "reason": "The criterion received a score of 0.00 because the critical requirement for vertical center-alignment was not met - neither of the images on slide 3 is properly centered vertically on the slide. While the images maintain their original count and don't overlap significantly, the fundamental alignment task failed completely. Since vertical center-alignment is marked as critical to this criterion's success, the failure to achieve proper positioning results in an overall failing score despite the other aspects being handled correctly."
       },
       {
         "name": "No extraneous changes to slide 3",
@@ -56,10 +60,12 @@
           "type": "function",
           "function_code": "def compute_score() -> tuple[str, float]:\n    # Check for added/removed/modified elements on slide 3, except for vertical position of images\n    added = 0\n    removed = 0\n    modified = 0\n    slide_num = 3\n    slide_id = None\n    for s in ppt_diff.added_slides:\n        if s.slide_number == slide_num:\n            return \"Slide 3 was added in modified PPT, unexpected.\", 0.0\n    for s in ppt_diff.removed_slides:\n        if s.slide_number == slide_num:\n            return \"Slide 3 was removed in modified PPT, unexpected.\", 0.0\n    # Check for element-level changes via screenshots as a fallback\n    # For now, only penalize for non-image element changes recorded in ppt_diff\n    # Could be more sophisticated with object-level diff\n    # Accept any image movement, but flag other shape/text additions/removals\n    # We can't get element-wise diffs directly, so only flag if ppt_diff says slide modified\n    for orig, mod in ppt_diff.modified_slides:\n        if orig.slide_number == slide_num:\n            # Allow if changes only to images (not text, not shapes, not notes)\n            if orig.element_count != mod.element_count:\n                return f\"Element count on slide 3 changed from {orig.element_count} to {mod.element_count}.\", 0.0\n    # If reached here, assume no extraneous changes\n    return \"No extraneous changes detected on slide 3.\", 1.0\n"
         },
-        "score": 1.0
+        "score": 1.0,
+        "reason": "No extraneous changes detected on slide 3."
       }
     ],
-    "score": 1.0
+    "score": 0.0,
+    "reason": "The criterion failed because neither of the two images on slide 3 achieved the required vertical center-alignment, which was marked as critical for success. While the task was executed without introducing any unwanted changes to the slide, the core objective of properly positioning both images in the vertical center of the slide canvas was not accomplished. Since vertical center-alignment was the primary and critical requirement, the complete failure to achieve this fundamental positioning task resulted in an overall failing score despite other aspects being handled correctly."
   },
   "metadata": {
     "task": "Vertically center-align both images on slide 3"

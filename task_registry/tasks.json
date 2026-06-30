@@ -252,7 +252,7 @@
     "file_path": "data/files/PowerPoint/Accounting Equation.pptx"
   },
   "Accounting Equation-015": {
-    "goal": "Insert a SmartArt graphic on slide 3 to represent the accounting equation (Assets = Capital + Liabilities) using a balance",
+    "goal": "Insert a SmartArt graphic on slide 3 to represent the accounting equation (Assets = Capital + Liabilities) using a SmartArt suitable for an equation",
     "rubric_path": "task_registry/rubrics/Accounting Equation-015.json",
     "tags": ["powerpoint"],
     "misc": { "difficulty": "Hard" },
@@ -378,7 +378,7 @@
     "file_path": "data/files/PowerPoint/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final).pptx"
   },
   "Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-042": {
-    "goal": "Make the objective text italic on slide 42",
+    "goal": "Make the objective text italic on slide 11",
     "rubric_path": "task_registry/rubrics/Drummond_Troilo-Unseen Aspects of Sea Level Rise (final)-042.json",
     "tags": ["powerpoint"],
     "misc": { "difficulty": "Easy" },
@@ -413,7 +413,7 @@
     "file_path": "data/files/PowerPoint/Obesity.pptx"
   },
   "Obesity-011": {
-    "goal": "Convert the first bullet in the content placeholder for Slide 9 into three: *. The association may be stronger for obese adolescents than younger children *. Obese children are also more likely to have increased risk of heart disease *. Obese children are also more likely to develop asthma, then Change only the first bullet point to a numbered list item '1' on slide 10.",
+    "goal": "Convert the first bullet in the content placeholder for Slide 9 into three: *. The association may be stronger for obese adolescents than younger children *. Obese children are also more likely to have increased risk of heart disease *. Obese children are also more likely to develop asthma, then change only the first bullet point to a numbered list item '1' on slide 9.",
     "rubric_path": "task_registry/rubrics/Obesity-011.json",
     "tags": ["powerpoint"],
     "misc": { "difficulty": "Medium" },

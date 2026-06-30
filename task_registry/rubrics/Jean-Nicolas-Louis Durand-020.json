@@ -14,12 +14,14 @@
           {
             "name": "Text 'Conclusion:' is present on slide 23",
             "description": "Verifies that the text 'Conclusion:' still exists on slide 23 after the modification.",
-            "is_critical": true,
+            "is_critical": false,
             "metadata": {},
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    from pptx import Presentation\n    prs = Presentation(modified_ppt_path)\n    slide = None\n    for s_idx, s in enumerate(prs.slides, 1):\n        if s_idx == 23:\n            slide = s\n            break\n    if slide is None:\n        return (\"Slide 23 does not exist in the modified presentation.\", 0.0)\n    found = False\n    for shape in slide.shapes:\n        if not shape.has_text_frame:\n            continue\n        for paragraph in shape.text_frame.paragraphs:\n            if 'Conclusion:' in paragraph.text:\n                found = True\n                break\n        if found:\n            break\n    if found:\n        return (\"'Conclusion:' text is present on slide 23.\", 1.0)\n    else:\n        return (\"'Conclusion:' text is missing from slide 23.\", 0.0)\n"
-            }
+            },
+            "score": 1.0,
+            "reason": "'Conclusion:' text is present on slide 23."
           },
           {
             "name": "Font color of 'Conclusion:' on slide 23 is yellow",
@@ -29,9 +31,13 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    # Find slide 5 screenshot\n    img = None\n    for ss in modified_ppt_screenshots:\n        if ss.slide_number == 23:\n            img = ss.image_path\n            break\n    if not img:\n        return \"No screenshot of slide 23 found.\", 0.0\n    # Use VLM to check if the text 'Conclusion' is yellow\n    prompt = \"Is the text 'Conclusion' yellow? Reply 'yes' or 'no'.\"\n    result = vlm_call(prompt, [img], temperature=0.0, max_tokens=10)\n    if 'yes' in result.lower():\n        return \"The text 'Conclusion' is yellow.\", 1.0\n    return f\"VLM response: {result}\", 0.0\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "VLM response: no"
           }
-        ]
+        ],
+        "score": 0.0,
+        "reason": "The criterion received a score of zero because the font color of \"Conclusion:\" on slide 23 was not changed to yellow as required. While the text \"Conclusion:\" is present on the slide, the critical requirement to change its font color to yellow was not met. Since the font color modification is marked as a critical sub-criterion, failing to complete this essential formatting change resulted in the overall criterion not being satisfied."
       },
       {
         "name": "No extraneous changes were made",
@@ -47,7 +53,9 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    if (\n        ppt_diff.added_animations or ppt_diff.removed_animations or ppt_diff.modified_animations or\n        ppt_diff.added_transitions or ppt_diff.removed_transitions or ppt_diff.modified_transitions\n    ):\n        return (\"Animations or transitions were modified.\", 0.0)\n    return (\"No animations or transitions were changed.\", 1.0)\n"
-            }
+            },
+            "score": 1.0,
+            "reason": "No animations or transitions were changed."
           },
           {
             "name": "No unrelated slides were added or removed",
@@ -57,7 +65,9 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    unrelated_added = [s for s in ppt_diff.added_slides if s.slide_number != 23]\n    unrelated_removed = [s for s in ppt_diff.removed_slides if s.slide_number != 23]\n    if unrelated_added or unrelated_removed:\n        return (\"Unrelated slides were added or removed.\", 0.0)\n    return (\"No unrelated slides were added or removed.\", 1.0)\n"
-            }
+            },
+            "score": 1.0,
+            "reason": "No unrelated slides were added or removed."
           },
           {
             "name": "No unrelated content was changed on slide 23",
@@ -67,11 +77,17 @@
             "scorer": {
               "type": "function",
               "function_code": "def compute_score() -> tuple[str, float]:\n    # We'll use VLM to compare screenshots of slide 23 before and after, except for the 'Conclusion:' text region.\n    # Try to avoid VLM, but for general content change detection, it's the best option.\n    orig = next((s for s in original_ppt_screenshots if s.slide_number == 23), None)\n    mod = next((s for s in modified_ppt_screenshots if s.slide_number == 23), None)\n    if not orig or not mod:\n        return (\"Missing slide 23 screenshots for visual comparison.\", 0.0)\n    prompt = (\n        \"Compare these two images of slide 23 in a PowerPoint presentation. The only acceptable difference \"\n        \"should be that the text 'Conclusion:' changes from white to yellow. If you see any other differences, \"\n        \"explain what they are. If the only difference is as described, say 'Only intended change'.\"\n    )\n    result = vlm_call(prompt, [orig.image_path, mod.image_path], temperature=0.0, max_tokens=128)\n    if 'only intended change' in result.lower():\n        return (\"No unrelated content was changed on slide 23.\", 1.0)\n    return (f\"Detected unrelated changes on slide 23: {result}\", 0.0)\n"
-            }
+            },
+            "score": 0.0,
+            "reason": "Detected unrelated changes on slide 23: Looking at both images carefully, I can see that the text \"Conclusion:\" appears to be white in both images. I do not observe the expected change from white to yellow text. The images appear to be identical - both show the same slide with \"Conclusion:\" in white text on the left side and the same green text boxes with bullet points about Durand on the right side.\n\nThe intended change (white to yellow text for \"Conclusion:\") does not appear to have been implemented in these images."
           }
-        ]
+        ],
+        "score": 0.6666666666666666,
+        "reason": "The criterion received a score of 0.67 because while no unrelated animations, transitions, or slides were modified, there were unrelated changes detected on slide 23 itself. The evaluator found that the intended font color change from white to yellow for \"Conclusion:\" was not properly implemented, and the slide appeared identical to the original with no visible changes. Since all sub-criteria were non-critical, the score represents the average performance across the three areas, with the failure to properly execute the font color change without making other unrelated modifications being the primary issue."
       }
-    ]
+    ],
+    "score": 0.0,
+    "reason": "The criterion received a score of zero because the agent failed to complete the primary task of changing the font color of \"Conclusion:\" from white to yellow on slide 23. While the text \"Conclusion:\" was present on the slide, no visible color change was implemented, leaving the formatting identical to the original. Since this font color modification was marked as a critical requirement, the failure to execute this essential change resulted in the overall criterion not being satisfied, despite the agent avoiding most unrelated modifications to other parts of the presentation."
   },
   "metadata": {
     "task": "Change the font color of 'Conclusion:' on slide 23 from white to yellow"

@@ -2,8 +2,11 @@
 <html lang="en">
 {% include head.html %}
 <body>
-  <!-- Top banner (header) removed per user request -->
-  <main class="page-content no-header" aria-label="Content">
+  {% unless page.url == '/' %}
+    {% include header.html %}
+  {% endunless %}
+
+  <main class="page-content{% if page.url == '/' %} no-header{% endif %}" aria-label="Content">
     <div class="wrapper">
       {{ content }}
     </div>
@@ -16,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
   
   <!-- JavaScript -->
-  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.asset_version }}"></script>
   
   <!-- Analytics -->
   {% if site.google_analytics %}

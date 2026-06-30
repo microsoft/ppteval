@@ -4,9 +4,8 @@
    * Fixes: Rubric modal previously appeared empty because children were collapsed and fetch path could 404.
    * Changes: Expand rubric tree by default, improve fetch base path resolution, add console diagnostics, and focus management for accessibility.
    */
-  const TASKS_URL = (window.__TASKS_URL__) || (document.location.origin + (document.querySelector('html').getAttribute('data-baseurl')||'') + '/task_registry/tasks.json');
-  // Fallback simpler relative path
-  const RELATIVE_URL = '/task_registry/tasks.json';
+  const TASKS_URL = window.__TASKS_URL__ || '/task_registry/tasks.json';
+  const BASE_URL = window.__BASEURL__ || '';
 
   const tasksListEl = document.getElementById('tasks-list');
   const statsEl = document.getElementById('task-stats');
@@ -25,9 +24,8 @@
   let TASKS = {};
 
   async function loadTasks(){
-    let url = RELATIVE_URL; // use relative for GH Pages
     try {
-      const res = await fetch(url);
+      const res = await fetch(TASKS_URL);
       if(!res.ok) throw new Error('Failed to fetch tasks.json');
       TASKS = await res.json();
       render();
@@ -109,9 +107,8 @@
 
   function resolveRubricUrl(rubricPath){
     // Support sites served under a baseurl (even if baseurl currently empty)
-    const base = document.querySelector('html').getAttribute('data-baseurl') || '';
     // Ensure no double slashes
-    return `${base}/${rubricPath}`.replace(/\/+/, '/');
+    return `${BASE_URL}/${rubricPath}`.replace(/\/+/g, '/');
   }
 
   async function openRubric(rubricPath, taskId){

@@ -9,9 +9,9 @@
       </div>
 
       <!-- Navigation -->
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Primary navigation">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
+        <label for="nav-trigger" aria-label="Toggle navigation" aria-controls="site-navigation-links">
           <span class="menu-icon">
             <svg viewBox="0 0 18 15" width="18px" height="15px">
               <path d="m18,1.484c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.819,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.819,0,1.484,0.665,1.484,1.484zm0,6.016c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.819,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.819,0,1.484,0.665,1.484,1.484zm0,6.016c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.819,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.819,0,1.484,0.665,1.484,1.484z"/>
@@ -19,10 +19,12 @@
           </span>
         </label>
 
-        <div class="trigger">
-          {% for item in site.navigation %}
-            <a class="page-link" href="{{ item.url }}">{{ item.title }}</a>
-          {% endfor %}
+        <div class="trigger" id="site-navigation-links">
+          <a class="page-link" href="{{ '/' | relative_url }}">Home</a>
+          <a class="page-link" href="{{ '/task-explorer/' | relative_url }}">Task Explorer</a>
+          <a class="page-link" href="{{ '/leaderboard/' | relative_url }}">Leaderboard</a>
+          <a class="page-link" href="{{ site.social_links.paper }}" target="_blank" rel="noopener noreferrer">Paper</a>
+          <a class="page-link" href="{{ site.social_links.code }}" target="_blank" rel="noopener noreferrer">Code</a>
         </div>
       </nav>
     </div>

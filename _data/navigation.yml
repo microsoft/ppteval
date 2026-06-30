@@ -15,8 +15,4 @@ main:
   - title: "Leaderboard"
     url: "/leaderboard/"
     icon: "trophy"
-  - title: "FAQ"
-    url: "/faq/"
-    icon: "question-circle"
-
 # Removed quick_links section; consolidated into main for simplicity

@@ -1,6 +1,7 @@
 # Site settings
 title: "PPT-Eval"
 description: "A Benchmark for Computer-Use Agents on PowerPoint Tasks"
+asset_version: "20260629.4"
 # For a GitHub Pages project site under https://microsoft.github.io/PPTEval
 # baseurl must be the repository name prefixed with a slash. The site.url should be the org/user root only.
 # This was previously misconfigured (baseurl empty and url pointing to the project path), causing asset URLs
@@ -71,8 +72,6 @@ navigation:
     url: "#leaderboard"
   - title: "Evaluation"
     url: "#evaluation"
-  - title: "FAQ"
-    url: "#faq"
   - title: "Citation"
     url: "#bibtex"
   - title: "License"
@@ -80,7 +79,7 @@ navigation:
 
 # Social links
 social_links:
-  paper: "#"
+  paper: "https://openreview.net/pdf?id=GmeK95WQQ4"
   code: "https://github.com/microsoft/PPTEval"
   data: "#"
   documentation: "#"

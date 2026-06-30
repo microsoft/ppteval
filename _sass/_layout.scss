@@ -7,12 +7,13 @@
 
 // Header
 .site-header {
-  background-color: var(--background-color);
+  background-color: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(60, 35, 25, 0.06);
   
   .header-content {
     display: flex;
@@ -24,62 +25,89 @@
   .site-title {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
-    color: var(--text-color);
+    color: #c23a1c;
     text-decoration: none;
   }
 }
 
 // Navigation
 .site-nav {
+  position: relative;
+
   .nav-trigger {
     display: none;
+  }
+
+  label,
+  .menu-icon {
+    display: none;
+  }
+
+  .trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
   }
   
   .page-link {
     color: var(--text-color);
-    margin-left: var(--spacing-lg);
     font-weight: var(--font-weight-medium);
-    transition: color var(--transition-fast);
+    text-decoration: none;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
     
     &:hover {
-      color: var(--primary-color);
+      color: #c23a1c;
       text-decoration: none;
     }
   }
   
   @media (max-width: 768px) {
-    position: absolute;
-    top: 100%;
-    right: var(--spacing-md);
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    text-align: right;
+    label {
+      display: block;
+      cursor: pointer;
+    }
     
     .nav-trigger ~ .trigger {
-      clear: both;
       display: none;
     }
     
     .nav-trigger:checked ~ .trigger {
-      display: block;
-      padding: var(--spacing-md);
+      display: flex;
+    }
+
+    .trigger {
+      position: absolute;
+      top: calc(100% + var(--spacing-sm));
+      right: 0;
+      min-width: 210px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: var(--spacing-sm);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: #ffffff;
+      box-shadow: 0 10px 28px rgba(60, 35, 25, 0.14);
     }
     
     .page-link {
       display: block;
-      padding: var(--spacing-sm) 0;
-      margin-left: 0;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+
+      &:hover {
+        background: #fff3ed;
+      }
     }
     
     .menu-icon {
-      display: block;
-      float: right;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 36px;
-      height: 26px;
-      line-height: 0;
-      padding-top: 10px;
-      text-align: center;
+      height: 36px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
       
       > svg {
         width: 18px;
@@ -133,6 +161,11 @@
       grid-template-columns: 1fr;
       gap: var(--spacing-xl);
     }
+  }
+
+  .footer-content-simple {
+    grid-template-columns: 1fr;
+    margin-bottom: var(--spacing-lg);
   }
   
   .footer-info {

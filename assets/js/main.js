@@ -3,8 +3,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all interactive features
     initSmoothScrolling();
-    initTableFiltering();
-    initFAQAccordion();
     initBackToTop();
     initProgressAnimations();
 });
@@ -34,80 +32,6 @@ function initSmoothScrolling() {
             }
         });
     });
-}
-
-// Table filtering functionality
-// Legacy filtering removed; only sorting remains now.
-function initTableFiltering() {
-    const table = document.getElementById('benchmark-table');
-    if (!table) return;
-    // Expose a minimal sort function (overridden later for difficulty row handling)
-    window.sortTable = function() {
-        const tbody = table.querySelector('tbody');
-        const modelRows = Array.from(tbody.querySelectorAll('tr.model-row'));
-        modelRows.sort((a, b) => {
-            const aRate = parseFloat(a.querySelector('.success-rate').textContent);
-            const bRate = parseFloat(b.querySelector('.success-rate').textContent);
-            return bRate - aRate;
-        });
-        modelRows.forEach(row => {
-            tbody.appendChild(row);
-            const slug = row.getAttribute('data-slug');
-            const difficultyRows = Array.from(document.querySelectorAll(`tr.difficulty-row[data-parent="${slug}"]`));
-            difficultyRows.forEach(dr => tbody.appendChild(dr));
-        });
-    };
-}
-
-function updateResultCount() {
-    const table = document.getElementById('benchmark-table');
-    if (!table) return;
-    
-    const visibleRows = table.querySelectorAll('tbody tr[style=""], tbody tr:not([style])');
-    const totalRows = table.querySelectorAll('tbody tr').length;
-    
-    // Update or create result count display
-    let countDisplay = document.querySelector('.result-count');
-    if (!countDisplay) {
-        countDisplay = document.createElement('div');
-        countDisplay.className = 'result-count';
-        table.parentNode.insertBefore(countDisplay, table);
-    }
-    
-    countDisplay.textContent = `Showing ${visibleRows.length} of ${totalRows} results`;
-}
-
-// FAQ accordion functionality
-function initFAQAccordion() {
-    window.toggleFAQ = function(element) {
-        const faqItem = element.parentElement;
-        const answer = faqItem.querySelector('.faq-answer');
-        const icon = element.querySelector('.faq-icon');
-        
-        // Close other open FAQs
-        const allFAQs = document.querySelectorAll('.faq-item');
-        allFAQs.forEach(item => {
-            if (item !== faqItem) {
-                const otherAnswer = item.querySelector('.faq-answer');
-                const otherQuestion = item.querySelector('.faq-question');
-                const otherIcon = item.querySelector('.faq-icon');
-                
-                otherAnswer.classList.remove('active');
-                otherQuestion.classList.remove('active');
-            }
-        });
-        
-        // Toggle current FAQ
-        const isActive = answer.classList.contains('active');
-        
-        if (isActive) {
-            answer.classList.remove('active');
-            element.classList.remove('active');
-        } else {
-            answer.classList.add('active');
-            element.classList.add('active');
-        }
-    };
 }
 
 // Back to top button
@@ -348,27 +272,6 @@ style.textContent = `
         font-size: var(--font-size-sm);
     }
 
-    /* Benchmark difficulty rows */
-    .expand-btn { background: none; border: none; cursor: pointer; font-size: 14px; line-height: 1; padding: 4px 6px; color: var(--text-color); border-radius: 4px; }
-    .expand-btn:hover { background: rgba(0,0,0,0.05); }
-    .expand-btn:focus { outline: 2px solid var(--primary-color); outline-offset: 2px; }
-    .expand-cell { text-align: center; }
-    .difficulty-row { display: none; background: #fcfcfc; }
-    .difficulty-row td { font-size: var(--font-size-sm); border-bottom: 1px solid #eee; }
-    .difficulty-label { font-weight: 600; padding-left: 1.2rem; display: flex; align-items: center; gap: 0.55rem; line-height: 1.25; }
-    .diff-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 9px; box-shadow: 0 0 0 2px #fff; }
-    .diff-dot.easy { background:#4caf50; }
-    .diff-dot.medium { background:#ff9800; }
-    .diff-dot.hard { background:#f44336; }
-    .indent { width: 28px; }
-    .model-row td { border-bottom: 1px solid #ddd; }
-    .model-row.open + .difficulty-row { /* first difficulty row after open model */ }
-    .model-row.open .expand-btn { font-weight: 600; }
-    .model-row.open .expand-btn::after { }
-    .difficulty-row.easy .difficulty-label::before { background: #4caf50; }
-    .difficulty-row.medium .difficulty-label::before { background: #ff9800; }
-    .difficulty-row.hard .difficulty-label::before { background: #f44336; }
-    .difficulty-row.show { display: table-row; animation: fadeInUp 0.3s ease; }
 `;
 document.head.appendChild(style);
 
@@ -379,73 +282,98 @@ function toggleDetails(button) {
     const slug = modelRow.getAttribute('data-slug');
     const rows = document.querySelectorAll(`tr.difficulty-row[data-parent="${slug}"]`);
     const expanded = button.getAttribute('aria-expanded') === 'true';
+    const modelName = modelRow.querySelector('.model-name')?.textContent.trim() || 'model';
 
     if (expanded) {
-        rows.forEach(r => r.classList.remove('show'));
+        rows.forEach(row => {
+            row.classList.remove('show');
+            row.setAttribute('aria-hidden', 'true');
+        });
         button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-label', `Show difficulty breakdown for ${modelName}`);
         button.textContent = '▸';
         modelRow.classList.remove('open');
     } else {
-        rows.forEach(r => r.classList.add('show'));
+        rows.forEach(row => {
+            row.classList.add('show');
+            row.setAttribute('aria-hidden', 'false');
+        });
         button.setAttribute('aria-expanded', 'true');
+        button.setAttribute('aria-label', `Hide difficulty breakdown for ${modelName}`);
         button.textContent = '▾';
         modelRow.classList.add('open');
     }
 }
 window.toggleDetails = toggleDetails;
 
-// New multi-criteria sorting
-function applySort() {
-    const table = document.getElementById('benchmark-table');
-    if (!table) return;
-    const tbody = table.querySelector('tbody');
+function initLeaderboardSorting() {
+    const table = document.getElementById('leaderboard-table');
+    if (!table || table.dataset.sortingInitialized === 'true') return;
+    table.dataset.sortingInitialized = 'true';
+
+    const sortButton = document.getElementById('sort-leaderboard');
     const tierSelect = document.getElementById('sort-tier');
     const metricSelect = document.getElementById('sort-metric');
+    const applySort = () => sortLeaderboard(table, tierSelect, metricSelect);
 
-    const tier = tierSelect ? tierSelect.value : 'overall';
-    const metric = metricSelect ? metricSelect.value : 'avg_score';
+    if (sortButton) sortButton.addEventListener('click', applySort);
+    if (tierSelect) tierSelect.addEventListener('change', applySort);
+    if (metricSelect) metricSelect.addEventListener('change', applySort);
 
-    // Determine attribute key
-    let attrKey;
-    if (tier === 'overall') {
-        if (metric === 'success_rate') attrKey = 'data-success-rate';
-        else if (metric === 'avg_score') attrKey = 'data-avg-score';
-        else if (metric === 'avg_steps') attrKey = 'data-avg-steps';
-    } else {
-        if (metric === 'success_rate') attrKey = `data-${tier}-success`;
-        else if (metric === 'avg_score') attrKey = `data-${tier}-score`;
-        else if (metric === 'avg_steps') attrKey = `data-${tier}-steps`;
-    }
-
-    const modelRows = Array.from(tbody.querySelectorAll('tr.model-row'));
-
-    const ascending = metric === 'avg_steps';
-
-    modelRows.sort((a, b) => {
-        const aVal = parseFloat(a.getAttribute(attrKey));
-        const bVal = parseFloat(b.getAttribute(attrKey));
-        if (isNaN(aVal) && isNaN(bVal)) return 0;
-        if (isNaN(aVal)) return 1;
-        if (isNaN(bVal)) return -1;
-        return ascending ? aVal - bVal : bVal - aVal;
-    });
-
-    // Reattach rows with their difficulty children
-    modelRows.forEach(row => {
-        tbody.appendChild(row);
-        const slug = row.getAttribute('data-slug');
-        const diffRows = Array.from(document.querySelectorAll(`tr.difficulty-row[data-parent="${slug}"]`));
-        diffRows.forEach(dr => tbody.appendChild(dr));
-    });
-}
-window.applySort = applySort;
-
-// Default initial sort (Overall Avg Score desc)
-document.addEventListener('DOMContentLoaded', () => {
-    // Ensure selects reflect default
-    const tierSelect = document.getElementById('sort-tier');
-    const metricSelect = document.getElementById('sort-metric');
-    if (tierSelect) tierSelect.value = 'overall';
-    if (metricSelect) metricSelect.value = 'avg_score';
+    window.applySort = applySort;
     applySort();
-});
+}
+
+function sortLeaderboard(table, tierSelect, metricSelect) {
+    const tbody = table.querySelector('tbody');
+    const tier = tierSelect ? tierSelect.value : 'overall';
+    const metric = metricSelect ? metricSelect.value : 'success_rate';
+    const suffixByMetric = {
+        success_rate: 'success',
+        avg_score: 'score',
+        avg_steps: 'steps'
+    };
+    const overallAttributeByMetric = {
+        success_rate: 'data-success-rate',
+        avg_score: 'data-avg-score',
+        avg_steps: 'data-avg-steps'
+    };
+    const attrKey = tier === 'overall'
+        ? overallAttributeByMetric[metric]
+        : `data-${tier}-${suffixByMetric[metric]}`;
+    const ascending = metric === 'avg_steps';
+    const modelRows = Array.from(tbody.querySelectorAll('tr.model-row'))
+        .map((row, originalIndex) => ({ row, originalIndex }));
+
+    modelRows.sort((aEntry, bEntry) => {
+        const aVal = Number.parseFloat(aEntry.row.getAttribute(attrKey));
+        const bVal = Number.parseFloat(bEntry.row.getAttribute(attrKey));
+        const aMissing = Number.isNaN(aVal);
+        const bMissing = Number.isNaN(bVal);
+
+        if (aMissing !== bMissing) return aMissing ? 1 : -1;
+        if (aMissing && bMissing) return aEntry.originalIndex - bEntry.originalIndex;
+
+        const difference = ascending ? aVal - bVal : bVal - aVal;
+        return difference || aEntry.originalIndex - bEntry.originalIndex;
+    });
+
+    const sortedGroups = document.createDocumentFragment();
+    modelRows.forEach(({ row }) => {
+        const slug = row.getAttribute('data-slug');
+        const difficultyRows = Array.from(
+            tbody.querySelectorAll(`tr.difficulty-row[data-parent="${slug}"]`)
+        );
+        sortedGroups.appendChild(row);
+        difficultyRows.forEach(difficultyRow => sortedGroups.appendChild(difficultyRow));
+    });
+    tbody.appendChild(sortedGroups);
+}
+
+// Initialize immediately when possible, listen for DOM readiness when needed,
+// and retry on the next task for pages that load this script after that event.
+initLeaderboardSorting();
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLeaderboardSorting, { once: true });
+}
+setTimeout(initLeaderboardSorting, 0);

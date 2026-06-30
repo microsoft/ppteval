@@ -31,6 +31,26 @@ results:
         avg_score: 88
         avg_steps: null
 
+  - model: "GPT-5.5 (Medium)"
+    provider: "OpenAI"
+    success_rate: 63
+    avg_score: 78
+    avg_steps: "13.70"
+    max_steps: 30
+    difficulty:
+      easy:
+        success_rate: 76
+        avg_score: 87
+        avg_steps: 9.83
+      medium:
+        success_rate: 62
+        avg_score: 75
+        avg_steps: 13.77
+      hard:
+        success_rate: 41
+        avg_score: 67
+        avg_steps: 20.13
+
   - model: "API Baseline (Claude-4.5-Opus)"
     provider: "Anthropic"
     success_rate: 62
@@ -50,6 +70,26 @@ results:
         success_rate: 30
         avg_score: 61
         avg_steps: null
+
+  - model: "Claude-Opus-4.8 (High)"
+    provider: "Anthropic"
+    success_rate: 62
+    avg_score: 78
+    avg_steps: 14.13
+    max_steps: 30
+    difficulty:
+      easy:
+        success_rate: 74
+        avg_score: 84
+        avg_steps: "9.30"
+      medium:
+        success_rate: 62
+        avg_score: 76
+        avg_steps: 14.13
+      hard:
+        success_rate: 41
+        avg_score: 67
+        avg_steps: 22.33
 
   - model: "Claude-4.5-Opus"
     provider: "Anthropic"
@@ -114,82 +154,82 @@ results:
   - model: "OpenCUA-32B"
     provider: "OpenCUA"
     success_rate: 28
-    avg_score: 45
-    avg_steps: 15.89
+    avg_score: 42
+    avg_steps: 16.27
     max_steps: 30
     difficulty:
       easy:
-        success_rate: 35
-        avg_score: 51
-        avg_steps: 13.98
-      medium:
-        success_rate: 33
+        success_rate: 40
         avg_score: 50
-        avg_steps: 13.67
+        avg_steps: 13.37
+      medium:
+        success_rate: 25
+        avg_score: 43
+        avg_steps: 14.89
       hard:
-        success_rate: 10
-        avg_score: 29
-        avg_steps: 22.03
+        success_rate: 11
+        avg_score: 28
+        avg_steps: 23.02
 
   - model: "OpenCUA-7B"
     provider: "OpenCUA"
-    success_rate: 25
-    avg_score: 34
-    avg_steps: 19.86
+    success_rate: 24
+    avg_score: 36
+    avg_steps: 19.22
     max_steps: 30
     difficulty:
       easy:
-        success_rate: 31
-        avg_score: 33
-        avg_steps: 17.53
+        success_rate: 36
+        avg_score: 43
+        avg_steps: 15.93
       medium:
-        success_rate: 26
-        avg_score: 39
-        avg_steps: 20.05
+        success_rate: 22
+        avg_score: 38
+        avg_steps: 19.47
       hard:
-        success_rate: 13
-        avg_score: 29
-        avg_steps: 23.57
+        success_rate: 7
+        avg_score: 22
+        avg_steps: 24.48
 
   - model: "Qwen3-VL-8B"
     provider: "Alibaba"
-    success_rate: 14
-    avg_score: 25
-    avg_steps: 21.23
+    success_rate: 16
+    avg_score: 27
+    avg_steps: 22.58
     max_steps: 30
     difficulty:
       easy:
-        success_rate: 20
-        avg_score: 32
-        avg_steps: 17.92
+        success_rate: 25
+        avg_score: 33
+        avg_steps: 19.37
       medium:
-        success_rate: 15
-        avg_score: 22
-        avg_steps: 22.03
+        success_rate: 14
+        avg_score: 25
+        avg_steps: 22.68
       hard:
         success_rate: 3
-        avg_score: 19
-        avg_steps: 25.83
+        avg_score: 18
+        avg_steps: 27.94
 
   - model: "Qwen3-VL-32B"
     provider: "Alibaba"
-    success_rate: 13
-    avg_score: 20
-    avg_steps: 23.82
+    success_rate: 14
+    avg_score: 23
+    avg_steps: 23.24
     max_steps: 30
     difficulty:
       easy:
-        success_rate: 20
-        avg_score: 27
-        avg_steps: 23.20
+        success_rate: 18
+        avg_score: 24
+        avg_steps: 22.06
       medium:
-        success_rate: 10
-        avg_score: 14
-        avg_steps: 22.49
+        success_rate: 12
+        avg_score: 21
+        avg_steps: 22.41
       hard:
-        success_rate: 7
-        avg_score: 17
-        avg_steps: 26.60
+        success_rate: 11
+        avg_score: 22
+        avg_steps: 26.32
 
 statistics:
   total_tasks: 120
