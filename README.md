@@ -37,7 +37,7 @@ ANTHROPIC_BASE_URL="..."
 
 ## Hydrating PowerPoint data
 
-To populate your OneDrive account with the needed benchmark PPT files, use the follwowing script.
+To populate your OneDrive account with the needed benchmark PPT files, use the following script.
 
 `hydrate_data.py` is a single script that
 
@@ -128,7 +128,7 @@ endpoints are required.
 ## Citation
 
 ```bibtex
-@inproceedings{gandhi2026ppteval,
+@inproceedings{ppteval2026,
   title = {PPT-Eval: A Benchmark for Computer-Use Agents on PowerPoint Tasks},
   author = {Gandhi, Apurva and Suryanarayanan, Vishwas and Anwar, Raja Hasnain and Shaik, Firoz and Desai, Shubhang and Nguyen, Thong Q. and Raza, Muhammad Taqi and Chowdhary, Vishal and Neubig, Graham},
   booktitle = {Forty-third International Conference on Machine Learning},
