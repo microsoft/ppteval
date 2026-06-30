@@ -84,8 +84,6 @@ python -m ppteval.run_benchmark --agent-config ppteval/configs/cua.yaml --task-i
 python -m ppteval.run_benchmark --agent-config ppteval/configs/claude-4-sonnet.yaml --concurrent 3 --max-steps 30 
 ```
 
-Release-supported model presets live under `ppteval/configs/`, including `cua.yaml`, `uitars.yaml`, `uitars70b.yaml`, `claude-4-sonnet.yaml`, `claude-4-opus.yaml`, `claude-opus-4-5.yaml`, `claude-opus-4-7.yaml`, `qwen3vl-8b.yaml`, `qwen3vl-32b.yaml`, `opencua-7b.yaml`, `opencua-32b.yaml`, and `opencua-72b.yaml`.
-
 ## Benchmarking CLI-Based Agents
 
 We have also added support for benchmarking models with the Claude Code CLI:
