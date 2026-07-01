@@ -2,7 +2,7 @@
 
 A benchmark to evaluate Computer-Use Agents on PowerPoint tasks.
 
-[Website](https://microsoft.github.io/ppteval/) | [Paper PDF](https://openreview.net/pdf?id=GmeK95WQQ4)
+[Website](https://microsoft.github.io/ppteval/) | [Paper PDF](https://arxiv.org/pdf/2606.31154)
 
 ## Installation
 
