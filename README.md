@@ -133,7 +133,8 @@ endpoints are required.
   author = {Gandhi, Apurva and Suryanarayanan, Vishwas and Anwar, Raja Hasnain and Shaik, Firoz and Desai, Shubhang and Nguyen, Thong Q. and Raza, Muhammad Taqi and Chowdhary, Vishal and Neubig, Graham},
   booktitle = {Forty-third International Conference on Machine Learning},
   year = {2026},
-  url = {https://openreview.net/pdf?id=GmeK95WQQ4}
+  series    = {Proceedings of Machine Learning Research},
+  publisher = {PMLR}
 }
 ```
 
