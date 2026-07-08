@@ -12,7 +12,6 @@ from ppteval.agents.claude_task_proposer import ClaudeTaskProposer
 from ppteval.agents.uitars_agent import UITARSAgent
 from ppteval.agents.uitars_vllm_agent import UITARSVLLMAgent
 from ppteval.agents.qwen3vl_agent import Qwen3VLAgent
-from ppteval.agents.qwen3vlosworld_agent import Qwen3VLOSWorldAgent
 from ppteval.agents.opencua_agent import OpenCUAAgent
 from ppteval.agents.cli import (
     CLIAgent,
@@ -30,7 +29,6 @@ __all__ = [
     "UITARSAgent",
     "UITARSVLLMAgent",
     "Qwen3VLAgent",
-    "Qwen3VLOSWorldAgent",
     "OpenCUAAgent",
     "CLIAgent",
     "CLITelemetry",
