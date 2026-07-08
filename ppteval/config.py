@@ -544,16 +544,6 @@ class Qwen3VLConfig:
             yaml.safe_dump(data, f, default_flow_style=False)
 
 
-@dataclass
-class Qwen3VLOSWorldConfig(Qwen3VLConfig):
-    """Qwen3-VL OSWorld-style experimental agent configuration."""
-    agent_type: Literal["qwen3vlosworld"] = "qwen3vlosworld"
-
-    def __post_init__(self) -> None:
-        """Build DisplaySize from nested config data."""
-        _validate_agent_type(self.agent_type, "qwen3vlosworld")
-        self.display_size = _load_display_size(self.display_size)
-
 
 @dataclass
 class OpenCUAConfig:

@@ -42,7 +42,6 @@ from ppteval import (
     UITARSAgent,
     UITARSVLLMAgent,
     Qwen3VLAgent,
-    Qwen3VLOSWorldAgent,
     OpenCUAAgent,
     ClaudeCodeAgent,
     CopilotCLIAgent,
@@ -60,7 +59,6 @@ from ppteval.config import (
     UITARSConfig,
     UITARSVLLMConfig,
     Qwen3VLConfig,
-    Qwen3VLOSWorldConfig,
     OpenCUAConfig,
     CLIAgentConfig,
 )
@@ -75,7 +73,6 @@ AGENT_TYPES = {
     "uitars-vllm": (UITARSVLLMConfig, UITARSVLLMAgent),
     "claude": (ClaudeConfig, ClaudeAgent),
     "qwen3vl": (Qwen3VLConfig, Qwen3VLAgent),
-    "qwen3vlosworld": (Qwen3VLOSWorldConfig, Qwen3VLOSWorldAgent),
     "opencua": (OpenCUAConfig, OpenCUAAgent),
     "cli": (CLIAgentConfig, None),  # agent class is selected by cli_name
 }
